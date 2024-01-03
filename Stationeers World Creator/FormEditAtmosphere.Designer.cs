@@ -39,6 +39,7 @@
             ClientSize = new Size(429, 336);
             FormBorderStyle = FormBorderStyle.SizableToolWindow;
             Name = "FormEditAtmosphere";
+            StartPosition = FormStartPosition.CenterParent;
             Text = "FormEditAtmosphere";
             Load += FormEditAtmosphere_Load;
             ResumeLayout(false);

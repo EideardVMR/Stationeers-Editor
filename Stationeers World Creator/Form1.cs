@@ -2,6 +2,7 @@ using System.Diagnostics;
 using System.Net;
 using System.Reflection;
 using System.Text.Json;
+using System.Windows.Forms;
 using System.Xml;
 
 namespace Stationeers_World_Creator
@@ -28,6 +29,33 @@ namespace Stationeers_World_Creator
             textBox_stationeers_path.Text = settings.stationeers_path;
 
             toolStripStatusLabel1.Text = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            ScanForUpdate();
+        }
+
+        private void ScanForUpdate()
+        {
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(@"https://api.stationeers.eideard.de/update/");
+            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+            string content = new StreamReader(response.GetResponseStream()).ReadToEnd();
+
+            APIResponse resp = JsonSerializer.Deserialize<APIResponse>(content);
+
+
+            if (resp != null)
+            {
+                Version newVersion = new Version(resp.data[0].currentVersion);
+
+                if(Assembly.GetExecutingAssembly().GetName().Version < newVersion)
+                {
+                    DialogResult dr = MessageBox.Show("Es ist eine neue Version vorhanden (" + newVersion.ToString() + ").\nSoll ich dich zur Downloadseite leiten?", "Update", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk);
+                    if(dr == DialogResult.Yes)
+                    {
+                        System.Diagnostics.Process.Start("explorer", "https://stationeers.eideard.de/StationeersEditor");
+                    }
+
+                    toolStripStatusLabel1.Text = "Neue Version verfügbar!!!";
+                }
+            }
         }
 
         #region Online Requests
@@ -95,6 +123,8 @@ namespace Stationeers_World_Creator
         //############################################################################################################################################################
         private void LoadCollections()
         {
+            modconfig.Load(textBox_stationeers_path.Text + "\\modconfig.xml");
+
             WorldCollection collection = new WorldCollection(true, textBox_stationeers_path.Text);
             if (collection.LoadCollection())
             {
@@ -127,14 +157,12 @@ namespace Stationeers_World_Creator
             foreach (string mod in mods)
             {
                 collection = new WorldCollection(false, mod);
+                collection.modconfig = modconfig;
                 if (collection.LoadCollection())
                 {
                     worldCollections.Add(collection);
                 }
             }
-
-            modconfig.Load(textBox_stationeers_path.Text + "\\modconfig.xml");
-            collection.modconfig = modconfig;
 
             ListCollections();
             ListWorlds();
@@ -261,6 +289,7 @@ namespace Stationeers_World_Creator
             {
                 if (newcollection.CreateCollection())
                 {
+                    newcollection.modconfig = modconfig;
                     worldCollections.Add(newcollection);
                 }
                 else
@@ -484,7 +513,7 @@ namespace Stationeers_World_Creator
 
         private void toolStripStatusLabel1_Click(object sender, EventArgs e)
         {
-
+            ScanForUpdate();
         }
 
         #endregion

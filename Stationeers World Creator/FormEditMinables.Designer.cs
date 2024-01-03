@@ -39,6 +39,7 @@
             ClientSize = new Size(684, 470);
             FormBorderStyle = FormBorderStyle.FixedToolWindow;
             Name = "FormEditMinables";
+            StartPosition = FormStartPosition.CenterParent;
             Text = "FormEditMinables";
             Load += FormEditMinables_Load;
             ResumeLayout(false);

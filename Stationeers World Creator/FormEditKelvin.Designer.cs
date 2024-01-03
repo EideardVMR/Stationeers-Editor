@@ -39,6 +39,7 @@
             ClientSize = new Size(800, 450);
             FormBorderStyle = FormBorderStyle.FixedToolWindow;
             Name = "FormEditKelvin";
+            StartPosition = FormStartPosition.CenterParent;
             Text = "FormEditKelvin";
             Load += FormEditKelvin_Load;
             ResumeLayout(false);

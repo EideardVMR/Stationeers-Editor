@@ -18,10 +18,94 @@ namespace Stationeers_World_Creator
         public XmlNode lang_ger_desc_node;
         public XmlNode lang_eng_desc_node;
 
+        public static TerrainPreset MarsPreset;
+        public static TerrainPreset EuropaPreset;
+        public static TerrainPreset VulcanPreset;
+        public static TerrainPreset VenusPreset;
+        public static TerrainPreset FlatPreset;
+        public static TerrainPreset MountainsPreset;
+        public static TerrainPreset IslandsPreset;
+
         public World(WorldCollection collection, XmlNode n)
         {
             this.collection = collection;
             this.node = n;
+
+            MarsPreset = new TerrainPreset("Mars");
+            MarsPreset.AddParameter("true", "0.1", "2.0");
+            MarsPreset.AddParameter("true", "0.01", "5.0", "4");
+            MarsPreset.AddParameter("false", "0.1", "1.0", "4");
+
+            EuropaPreset = new TerrainPreset("Europa");
+            EuropaPreset.AddParameter("true", "0.01", "3", "4");
+            EuropaPreset.AddParameter("true", "0.01", "5", "4");
+            EuropaPreset.AddParameter("true", "0.01", "2", "4");
+            EuropaPreset.AddParameter("true", "0.1", "2", "4");
+            EuropaPreset.AddParameter("true", "0.3", "1.5", "4");
+            EuropaPreset.AddParameter("false", "0.1", "1", "4");
+            EuropaPreset.AddParameter("true", "0.01", "2.5", "3");
+            EuropaPreset.AddParameter("true", "0.05", "3.5", "4");
+
+            VulcanPreset = new TerrainPreset("Vulcan");
+            VulcanPreset.AddParameter("false", "0.1", "30", "-10");
+            VulcanPreset.AddParameter("true", "0.01", "3", "4");
+            VulcanPreset.AddParameter("true", "0.01", "5", "4");
+            VulcanPreset.AddParameter("true", "0.01", "2", "4");
+            VulcanPreset.AddParameter("true", "0.1", "2", "4");
+            VulcanPreset.AddParameter("true", "0.3", "1.5", "4");
+            VulcanPreset.AddParameter("false", "0.1", "1", "4");
+
+            VenusPreset = new TerrainPreset("Venus");
+            VenusPreset.AddParameter("true", "0.017", "3", "4");
+            VenusPreset.AddParameter("true", "0.01", "3.5", "4");
+            VenusPreset.AddParameter("true", "0.01", "4.5", "4");
+            VenusPreset.AddParameter("true", "0.09", "1", "1");
+            VenusPreset.AddParameter("true", "0.01", "3.5", "2");
+            VenusPreset.AddParameter("true", "0.05", "2.5", "4");
+            VenusPreset.AddParameter("true", "0.07", "1", "1");
+
+            FlatPreset = new TerrainPreset("Flatland");
+            FlatPreset.AddParameter("true", "0", "0");
+
+            MountainsPreset = new TerrainPreset("Mountains");
+            MountainsPreset.AddParameter("true", "0.1", "2.0");
+            MountainsPreset.AddParameter("true", "0.01", "5.0", "4");
+            MountainsPreset.AddParameter("true", "0.1", "1.0", "4");
+
+            IslandsPreset = new TerrainPreset("Islands");
+            IslandsPreset.AddParameter("true", "0.01", "-2.0");
+            IslandsPreset.AddParameter("true", "0.005", "-5.0", "4");
+            IslandsPreset.AddParameter("true", "0.05", "-3.0", "4");
+            IslandsPreset.AddParameter("true", "0.01", "5.0", "4");
+
+        }
+
+        public string GameMode
+        {
+            get
+            {
+                XmlNode n = node.SelectSingleNode(".//GameMode");
+                if(n == null)
+                {
+                    n = node.OwnerDocument.CreateElement("GameMode");
+                    node.AppendChild(n);
+                    n.InnerText = "Survival";
+                }
+
+                return n.InnerText;
+            }
+            set
+            {
+                XmlNode n = node.SelectSingleNode(".//GameMode");
+                if (n == null)
+                {
+                    n = node.OwnerDocument.CreateElement("GameMode");
+                    node.AppendChild(n);
+                    n.InnerText = "Survival";
+                }
+
+                n.InnerText = value;
+            }
         }
 
         public string Id
@@ -324,6 +408,10 @@ namespace Stationeers_World_Creator
             set
             {
                 XmlNode n = node.SelectSingleNode(".//StartingCondition");
+                if(n == null) {
+                    n = node.OwnerDocument.CreateElement("StartingCondition");
+                    node.AppendChild(n);    
+                }
                 n.InnerText = value;
             }
         }
@@ -538,6 +626,160 @@ namespace Stationeers_World_Creator
             XmlNode weatherevent = node.OwnerDocument.CreateElement("WeatherEvent");
             node.AppendChild(weatherevent);
             return true;
+        }
+
+        public bool RemoveWeather()
+        {
+            XmlNode n = node.SelectSingleNode(".//WeatherEvent");
+            if (n == null) { return true; }
+
+            node.RemoveChild(n);
+            return true;
+        }
+
+        public string CustomTerrain
+        {
+            get
+            {
+                XmlNode n = node.SelectSingleNode(".//CustomTerrainParameters");
+                if(n == null) { return "None"; }
+                XmlNodeList paras = n.SelectNodes(".//Parameter");
+
+                TerrainPreset tps = new TerrainPreset("FoundPS");
+                foreach(XmlNode param in paras)
+                {
+                    XmlNode td = param.SelectSingleNode(".//TwoDimensions");
+                    XmlNode fq = param.SelectSingleNode(".//Frequency");
+                    XmlNode ampl = param.SelectSingleNode(".//Amplitude"); 
+                    XmlNode size = param.SelectSingleNode(".//Size");
+
+                    if (size != null)
+                    {
+                        tps.AddParameter(td.InnerText, fq.InnerText, ampl.InnerText, size.InnerText);
+                    }
+                    else
+                    {
+                        tps.AddParameter(td.InnerText, fq.InnerText, ampl.InnerText);
+                    }
+                }
+
+                if(tps.Compare(MarsPreset))
+                {
+                    return MarsPreset.Name;
+                }
+
+                if (tps.Compare(EuropaPreset))
+                {
+                    return EuropaPreset.Name;
+                }
+
+                if (tps.Compare(VulcanPreset))
+                {
+                    return VulcanPreset.Name;
+                }
+
+                if (tps.Compare(VenusPreset))
+                {
+                    return VenusPreset.Name;
+                }
+
+                if (tps.Compare(MountainsPreset))
+                {
+                    return MountainsPreset.Name;
+                }
+
+                if (tps.Compare(IslandsPreset))
+                {
+                    return IslandsPreset.Name;
+                }
+
+                if (tps.Compare(FlatPreset))
+                {
+                    return FlatPreset.Name;
+                }
+
+                return "FullCustom";
+            }
+            set
+            {
+                if(value == "None")
+                {
+                    XmlNode no = node.SelectSingleNode(".//CustomTerrainParameters");
+                    if (no != null)
+                    {
+                        node.RemoveChild(no);
+                    }
+                    return;
+                }
+
+                TerrainPreset tps = null;
+                if(value == MarsPreset.Name) {
+                    tps = MarsPreset;
+                } 
+                else if (value == EuropaPreset.Name)
+                {
+                    tps = EuropaPreset;
+                }
+                else if (value == VulcanPreset.Name)
+                {
+                    tps = VulcanPreset;
+                }
+                else if (value == VenusPreset.Name)
+                {
+                    tps = VenusPreset;
+                }
+                else if (value == MountainsPreset.Name)
+                {
+                    tps = MountainsPreset;
+                }
+                else if (value == IslandsPreset.Name)
+                {
+                    tps = IslandsPreset;
+                }
+                else if (value == FlatPreset.Name)
+                {
+                    tps = FlatPreset;
+                }
+                else
+                {
+                    return;
+                }
+
+                XmlNode n = node.SelectSingleNode(".//CustomTerrainParameters");
+                if (n != null)
+                {
+                    node.RemoveChild(n);
+                }
+
+                XmlNode CustomTerrainParameters = node.OwnerDocument.CreateElement("CustomTerrainParameters");
+
+                foreach (TerrainParameter tp in tps.TerrainPresetList)
+                {
+                    XmlNode Parameter = node.OwnerDocument.CreateElement("Parameter");
+                    CustomTerrainParameters.AppendChild(Parameter);
+
+                    XmlNode TwoDimensions = node.OwnerDocument.CreateElement("TwoDimensions");
+                    TwoDimensions.InnerText = tp.TwoDimensions;
+                    Parameter.AppendChild(TwoDimensions);
+
+                    XmlNode Frequency = node.OwnerDocument.CreateElement("Frequency");
+                    Frequency.InnerText = tp.Frequency;
+                    Parameter.AppendChild(Frequency);
+
+                    XmlNode Amplitude = node.OwnerDocument.CreateElement("Amplitude");
+                    Amplitude.InnerText = tp.Amplitude;
+                    Parameter.AppendChild(Amplitude);
+
+                    if(tp.Size != null && tp.Size != "" && tp.Size != String.Empty) { 
+                        XmlNode Size = node.OwnerDocument.CreateElement("Size");
+                        Size.InnerText = tp.Size;
+                        Parameter.AppendChild(Size);
+                    }
+                }
+
+                node.AppendChild(CustomTerrainParameters);
+
+            }
         }
 
         // Todo: <CelestialBodies> in World.xml <Axis Value="180" /> in 360° Steps je 1 Tag

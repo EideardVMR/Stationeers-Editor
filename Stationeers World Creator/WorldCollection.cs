@@ -577,12 +577,16 @@ namespace Stationeers_World_Creator
             xml_worldssetting.SelectSingleNode("//WorldSettings").AppendChild(newWorldNode);
             Worlds.Add(newWorld);
 
+            newWorld.DescriptionGer += "\n\nErstellt mit Stationeers Editor (https://stationeers.eideard.de/StationeersEditor)";
+            newWorld.DescriptionEng += "\n\nCreated with Stationeers Editor (https://stationeers.eideard.de/StationeersEditor)";
+
             return true;
         }
 
         public static void correktAllSpaceIDs( World world )
         {
             XmlNode spacemap = world.node.SelectSingleNode(".//SpaceMap");
+            if(spacemap == null) { return; }
             spacemap.Attributes["Id"].Value += world.Id;
 
 
@@ -599,10 +603,22 @@ namespace Stationeers_World_Creator
 
             foreach (XmlNode spacenode in spacenodes)
             {
+                spacenode.Attributes["Id"].Value += world.Id;
+
                 XmlNodeList nodecons = spacenode.SelectNodes(".//Connection");
                 foreach (XmlNode con in nodecons)
                 {
                     con.Attributes["Id"].Value += world.Id;
+                }
+
+                XmlNodeList discovers = spacenode.SelectNodes(".//Discover");
+                foreach(XmlNode discover in discovers)
+                {
+                    XmlNodeList sites = discover.SelectNodes(".//Site");
+                    foreach(XmlNode site in sites)
+                    {
+                        site.Attributes["Id"].Value += world.Id;
+                    }
                 }
             }
 

@@ -73,6 +73,7 @@ namespace Stationeers_World_Creator
                 List<Kelvinframe> frames = new List<Kelvinframe>();
 
                 XmlNodeList nl = node.SelectNodes(".//keys//Keyframe");
+                if(nl == null) { return new List<Kelvinframe>(); }
                 foreach(XmlNode n in nl)
                 {
                     frames.Add(new Kelvinframe(n));

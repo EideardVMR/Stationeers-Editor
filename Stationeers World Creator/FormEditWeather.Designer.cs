@@ -60,6 +60,7 @@
             button_WeatherDustStorm = new Button();
             label11 = new Label();
             colorDialog1 = new ColorDialog();
+            button_delete = new Button();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)numericUpDown_start_max).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDown_start_min).BeginInit();
@@ -404,6 +405,18 @@
             label11.TabIndex = 1;
             label11.Text = "Diese Einstellung legt fest, wie der Sturm aussehen soll\r\n";
             // 
+            // button_delete
+            // 
+            button_delete.BackColor = Color.IndianRed;
+            button_delete.FlatStyle = FlatStyle.Flat;
+            button_delete.Location = new Point(330, 389);
+            button_delete.Name = "button_delete";
+            button_delete.Size = new Size(115, 44);
+            button_delete.TabIndex = 18;
+            button_delete.Text = "Wetter abschalten";
+            button_delete.UseVisualStyleBackColor = false;
+            button_delete.Click += button_delete_Click;
+            // 
             // FormEditWeather
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -411,6 +424,7 @@
             AutoSize = true;
             AutoSizeMode = AutoSizeMode.GrowAndShrink;
             ClientSize = new Size(649, 450);
+            Controls.Add(button_delete);
             Controls.Add(button_save);
             Controls.Add(button_Color);
             Controls.Add(button_kelvin);
@@ -421,6 +435,7 @@
             Controls.Add(groupBox1);
             FormBorderStyle = FormBorderStyle.SizableToolWindow;
             Name = "FormEditWeather";
+            StartPosition = FormStartPosition.CenterParent;
             Text = "FormEditWeather";
             Load += FormEditWeather_Load;
             groupBox1.ResumeLayout(false);
@@ -472,5 +487,6 @@
         private Button button_WeatherDustStorm;
         private Button button_WeatherVenusStorm;
         private ColorDialog colorDialog1;
+        private Button button_delete;
     }
 }

@@ -59,6 +59,7 @@
             columnHeader5 = new ColumnHeader();
             columnHeader6 = new ColumnHeader();
             columnHeader7 = new ColumnHeader();
+            columnHeader3 = new ColumnHeader();
             contextMenuStrip_collection = new ContextMenuStrip(components);
             collectionToolStripMenuItem = new ToolStripMenuItem();
             toolStripSeparator2 = new ToolStripSeparator();
@@ -67,7 +68,6 @@
             kollektionLöschenToolStripMenuItem = new ToolStripMenuItem();
             kollektionAktivierenToolStripMenuItem = new ToolStripMenuItem();
             kollektionDeaktivierenToolStripMenuItem = new ToolStripMenuItem();
-            columnHeader3 = new ColumnHeader();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             groupBox1.SuspendLayout();
@@ -205,7 +205,7 @@
             groupBox3.Controls.Add(listView_worlds);
             groupBox3.Location = new Point(12, 463);
             groupBox3.Name = "groupBox3";
-            groupBox3.Size = new Size(785, 356);
+            groupBox3.Size = new Size(785, 381);
             groupBox3.TabIndex = 20;
             groupBox3.TabStop = false;
             groupBox3.Text = "Meine Welten";
@@ -219,7 +219,7 @@
             listView_worlds.FullRowSelect = true;
             listView_worlds.Location = new Point(7, 22);
             listView_worlds.Name = "listView_worlds";
-            listView_worlds.Size = new Size(772, 328);
+            listView_worlds.Size = new Size(772, 353);
             listView_worlds.TabIndex = 0;
             listView_worlds.UseCompatibleStateImageBehavior = false;
             listView_worlds.View = View.Details;
@@ -280,7 +280,7 @@
             button_save.BackColor = SystemColors.ActiveCaption;
             button_save.Enabled = false;
             button_save.FlatStyle = FlatStyle.Flat;
-            button_save.Location = new Point(803, 761);
+            button_save.Location = new Point(803, 786);
             button_save.Name = "button_save";
             button_save.Size = new Size(163, 58);
             button_save.TabIndex = 2;
@@ -291,7 +291,7 @@
             // statusStrip1
             // 
             statusStrip1.Items.AddRange(new ToolStripItem[] { toolStripStatusLabel1 });
-            statusStrip1.Location = new Point(0, 822);
+            statusStrip1.Location = new Point(0, 847);
             statusStrip1.Name = "statusStrip1";
             statusStrip1.Size = new Size(978, 22);
             statusStrip1.TabIndex = 21;
@@ -349,6 +349,10 @@
             // 
             columnHeader7.Text = "Welten";
             // 
+            // columnHeader3
+            // 
+            columnHeader3.Text = "Status";
+            // 
             // contextMenuStrip_collection
             // 
             contextMenuStrip_collection.Items.AddRange(new ToolStripItem[] { collectionToolStripMenuItem, toolStripSeparator2, kollektionErstellenToolStripMenuItem, kollektionBearbeitenToolStripMenuItem, kollektionLöschenToolStripMenuItem, kollektionAktivierenToolStripMenuItem, kollektionDeaktivierenToolStripMenuItem });
@@ -403,15 +407,11 @@
             kollektionDeaktivierenToolStripMenuItem.Text = "Kollektion deaktivieren";
             kollektionDeaktivierenToolStripMenuItem.Click += kollektionDeaktivierenToolStripMenuItem_Click;
             // 
-            // columnHeader3
-            // 
-            columnHeader3.Text = "Status";
-            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(978, 844);
+            ClientSize = new Size(978, 869);
             Controls.Add(label_check_lang);
             Controls.Add(groupBox2);
             Controls.Add(label_check_lang_header);
@@ -426,6 +426,7 @@
             Icon = (Icon)resources.GetObject("$this.Icon");
             MinimumSize = new Size(0, 701);
             Name = "Form1";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Stationeers Editor";
             Load += Form1_Load;
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();

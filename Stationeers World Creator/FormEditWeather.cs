@@ -43,10 +43,11 @@ namespace Stationeers_World_Creator
 
             button_Color.BackColor = Color.FromArgb(weatherEvent.FogColor.a, weatherEvent.FogColor.r, weatherEvent.FogColor.g, weatherEvent.FogColor.b);
 
-            if(button_Color.BackColor.GetBrightness() > 0.5)
+            if (button_Color.BackColor.GetBrightness() > 0.5)
             {
                 button_Color.ForeColor = Color.Black;
-            } else
+            }
+            else
             {
                 button_Color.ForeColor = Color.White;
             }
@@ -116,7 +117,7 @@ namespace Stationeers_World_Creator
         private void button_Color_Click(object sender, EventArgs e)
         {
             DialogResult dr = colorDialog1.ShowDialog();
-            if(dr == DialogResult.OK)
+            if (dr == DialogResult.OK)
             {
                 weatherEvent.FogColor.a = colorDialog1.Color.A;
                 weatherEvent.FogColor.r = colorDialog1.Color.R;
@@ -155,6 +156,15 @@ namespace Stationeers_World_Creator
         {
             this.DialogResult = DialogResult.OK;
             this.Close();
+        }
+
+        private void button_delete_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Wetter wirklich entfernen?","Wetter entfernen",MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                this.DialogResult = DialogResult.Abort;
+                this.Close();
+            }
         }
     }
 }

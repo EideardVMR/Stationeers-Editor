@@ -56,6 +56,7 @@ namespace Stationeers_World_Creator
             comboBox_minable_list.FormattingEnabled = true;
             comboBox_minable_list.Items.AddRange(new object[] { "Oxygen", "CarbonDioxide", "Pollutant", "Volatiles", "Hydrogen", "Nitrogen", "NitrousOxide"});
             comboBox_minable_list.Name = "comboBox_minable_list";
+            comboBox_minable_list.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBox_minable_list.Size = new Size(170, 23);
             comboBox_minable_list.TabIndex = 1;
             // Erst am Ende hinzufügen zu Groupbox.
@@ -138,10 +139,6 @@ namespace Stationeers_World_Creator
                 numericUpDown1.Size = new Size(100, 23);
                 numericUpDown1.Value = (decimal)a.Quantity;
                 numericUpDown1.TabIndex = 2;
-                numericUpDown1.MouseWheel += (object s, MouseEventArgs e) =>
-                {
-                    ((HandledMouseEventArgs)e).Handled = true;
-                };
                 numericUpDown1.ValueChanged += (object s, EventArgs e) =>
                 {
                     a.Quantity = (int)((NumericUpDown)s).Value;
@@ -176,6 +173,7 @@ namespace Stationeers_World_Creator
 
                 startY += 26;
             }
+            comboBox_minable_list.Text = comboBox_minable_list.Items[0].ToString();
 
             button_add_minable.Location = new Point(195, startY);
             comboBox_minable_list.Location = new Point(19, startY);

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Stationeers_World_Creator
 {
-    public class Worlds
+    public class WorldsDEPRACTED
     {
         public string WorldID { get; set; }
         public string NewID { get; set; }

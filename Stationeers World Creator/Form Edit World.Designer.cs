@@ -47,11 +47,15 @@
             textBox_name_eng = new TextBox();
             label4 = new Label();
             groupBox3 = new GroupBox();
+            comboBox_terrain = new ComboBox();
+            label13 = new Label();
             comboBox_startingcondition = new ComboBox();
             label9 = new Label();
             label8 = new Label();
             numericUpDown_gravity = new NumericUpDown();
+            label_creative = new Label();
             label10 = new Label();
+            checkBox_gamemode = new CheckBox();
             checkBox_freeze_time = new CheckBox();
             numericUpDown_timescale = new NumericUpDown();
             button_edit_minables = new Button();
@@ -60,6 +64,11 @@
             button_atmosphere = new Button();
             button_kelvin = new Button();
             button_weather = new Button();
+            label11 = new Label();
+            label12 = new Label();
+            label_temp = new Label();
+            label_press = new Label();
+            label_error = new Label();
             ((System.ComponentModel.ISupportInitialize)numericUpDown_bedrock).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDown_lava).BeginInit();
             groupBox1.SuspendLayout();
@@ -87,7 +96,7 @@
             // 
             // label2
             // 
-            label2.Location = new Point(6, 22);
+            label2.Location = new Point(6, 47);
             label2.Name = "label2";
             label2.Size = new Size(131, 23);
             label2.TabIndex = 3;
@@ -96,7 +105,7 @@
             // 
             // label3
             // 
-            label3.Location = new Point(6, 51);
+            label3.Location = new Point(6, 76);
             label3.Name = "label3";
             label3.Size = new Size(131, 23);
             label3.TabIndex = 5;
@@ -105,7 +114,7 @@
             // 
             // numericUpDown_bedrock
             // 
-            numericUpDown_bedrock.Location = new Point(143, 22);
+            numericUpDown_bedrock.Location = new Point(143, 47);
             numericUpDown_bedrock.Maximum = new decimal(new int[] { 0, 0, 0, 0 });
             numericUpDown_bedrock.Minimum = new decimal(new int[] { 100, 0, 0, int.MinValue });
             numericUpDown_bedrock.Name = "numericUpDown_bedrock";
@@ -114,7 +123,7 @@
             // 
             // numericUpDown_lava
             // 
-            numericUpDown_lava.Location = new Point(195, 51);
+            numericUpDown_lava.Location = new Point(195, 76);
             numericUpDown_lava.Maximum = new decimal(new int[] { 0, 0, 0, 0 });
             numericUpDown_lava.Minimum = new decimal(new int[] { 100, 0, 0, int.MinValue });
             numericUpDown_lava.Name = "numericUpDown_lava";
@@ -124,7 +133,7 @@
             // checkBox_lava
             // 
             checkBox_lava.AutoSize = true;
-            checkBox_lava.Location = new Point(143, 55);
+            checkBox_lava.Location = new Point(143, 80);
             checkBox_lava.Name = "checkBox_lava";
             checkBox_lava.Size = new Size(46, 19);
             checkBox_lava.TabIndex = 8;
@@ -229,13 +238,17 @@
             // 
             // groupBox3
             // 
+            groupBox3.Controls.Add(comboBox_terrain);
+            groupBox3.Controls.Add(label13);
             groupBox3.Controls.Add(comboBox_startingcondition);
             groupBox3.Controls.Add(label9);
             groupBox3.Controls.Add(label8);
             groupBox3.Controls.Add(label2);
             groupBox3.Controls.Add(numericUpDown_gravity);
             groupBox3.Controls.Add(numericUpDown_bedrock);
+            groupBox3.Controls.Add(label_creative);
             groupBox3.Controls.Add(label10);
+            groupBox3.Controls.Add(checkBox_gamemode);
             groupBox3.Controls.Add(label3);
             groupBox3.Controls.Add(checkBox_freeze_time);
             groupBox3.Controls.Add(checkBox_lava);
@@ -248,19 +261,38 @@
             groupBox3.TabStop = false;
             groupBox3.Text = "Welteinstellungen";
             // 
+            // comboBox_terrain
+            // 
+            comboBox_terrain.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBox_terrain.FormattingEnabled = true;
+            comboBox_terrain.Items.AddRange(new object[] { "None", "Mars", "Europa", "Vulcan", "Venus", "Mountains", "Islands", "Flatland" });
+            comboBox_terrain.Location = new Point(143, 191);
+            comboBox_terrain.Name = "comboBox_terrain";
+            comboBox_terrain.Size = new Size(201, 23);
+            comboBox_terrain.TabIndex = 9;
+            // 
+            // label13
+            // 
+            label13.Location = new Point(6, 191);
+            label13.Name = "label13";
+            label13.Size = new Size(131, 23);
+            label13.TabIndex = 3;
+            label13.Text = "Terrain";
+            label13.TextAlign = ContentAlignment.MiddleLeft;
+            // 
             // comboBox_startingcondition
             // 
+            comboBox_startingcondition.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBox_startingcondition.FormattingEnabled = true;
             comboBox_startingcondition.Items.AddRange(new object[] { "Standard", "Nichts", "Etwas mehr als nichts", "Vulcan", "Venus" });
-            comboBox_startingcondition.Location = new Point(143, 109);
+            comboBox_startingcondition.Location = new Point(143, 134);
             comboBox_startingcondition.Name = "comboBox_startingcondition";
             comboBox_startingcondition.Size = new Size(201, 23);
             comboBox_startingcondition.TabIndex = 9;
-            comboBox_startingcondition.Text = "Standard";
             // 
             // label9
             // 
-            label9.Location = new Point(6, 109);
+            label9.Location = new Point(6, 134);
             label9.Name = "label9";
             label9.Size = new Size(131, 23);
             label9.TabIndex = 3;
@@ -269,7 +301,7 @@
             // 
             // label8
             // 
-            label8.Location = new Point(6, 80);
+            label8.Location = new Point(6, 105);
             label8.Name = "label8";
             label8.Size = new Size(131, 23);
             label8.TabIndex = 3;
@@ -279,26 +311,45 @@
             // numericUpDown_gravity
             // 
             numericUpDown_gravity.DecimalPlaces = 2;
-            numericUpDown_gravity.Location = new Point(143, 80);
+            numericUpDown_gravity.Location = new Point(143, 105);
             numericUpDown_gravity.Maximum = new decimal(new int[] { 0, 0, 0, 0 });
             numericUpDown_gravity.Minimum = new decimal(new int[] { 10, 0, 0, int.MinValue });
             numericUpDown_gravity.Name = "numericUpDown_gravity";
             numericUpDown_gravity.Size = new Size(201, 23);
             numericUpDown_gravity.TabIndex = 6;
             // 
+            // label_creative
+            // 
+            label_creative.Location = new Point(6, 19);
+            label_creative.Name = "label_creative";
+            label_creative.Size = new Size(131, 23);
+            label_creative.TabIndex = 5;
+            label_creative.Text = "Creativemode";
+            label_creative.TextAlign = ContentAlignment.MiddleLeft;
+            // 
             // label10
             // 
-            label10.Location = new Point(6, 137);
+            label10.Location = new Point(6, 162);
             label10.Name = "label10";
             label10.Size = new Size(131, 23);
             label10.TabIndex = 5;
             label10.Text = "Tag/Nacht Zyklus";
             label10.TextAlign = ContentAlignment.MiddleLeft;
             // 
+            // checkBox_gamemode
+            // 
+            checkBox_gamemode.AutoSize = true;
+            checkBox_gamemode.Location = new Point(143, 22);
+            checkBox_gamemode.Name = "checkBox_gamemode";
+            checkBox_gamemode.Size = new Size(46, 19);
+            checkBox_gamemode.TabIndex = 8;
+            checkBox_gamemode.Text = "Aus";
+            checkBox_gamemode.UseVisualStyleBackColor = true;
+            // 
             // checkBox_freeze_time
             // 
             checkBox_freeze_time.AutoSize = true;
-            checkBox_freeze_time.Location = new Point(143, 140);
+            checkBox_freeze_time.Location = new Point(143, 165);
             checkBox_freeze_time.Name = "checkBox_freeze_time";
             checkBox_freeze_time.Size = new Size(46, 19);
             checkBox_freeze_time.TabIndex = 8;
@@ -309,7 +360,7 @@
             // 
             numericUpDown_timescale.DecimalPlaces = 6;
             numericUpDown_timescale.Increment = new decimal(new int[] { 1, 0, 0, 262144 });
-            numericUpDown_timescale.Location = new Point(217, 137);
+            numericUpDown_timescale.Location = new Point(217, 162);
             numericUpDown_timescale.Maximum = new decimal(new int[] { 10, 0, 0, 0 });
             numericUpDown_timescale.Name = "numericUpDown_timescale";
             numericUpDown_timescale.Size = new Size(127, 23);
@@ -343,7 +394,7 @@
             // 
             button_save.BackColor = Color.ForestGreen;
             button_save.FlatStyle = FlatStyle.Flat;
-            button_save.Location = new Point(615, 473);
+            button_save.Location = new Point(617, 584);
             button_save.Name = "button_save";
             button_save.Size = new Size(107, 44);
             button_save.TabIndex = 17;
@@ -387,6 +438,54 @@
             button_weather.UseVisualStyleBackColor = false;
             button_weather.Click += button_weather_Click;
             // 
+            // label11
+            // 
+            label11.Location = new Point(15, 473);
+            label11.Name = "label11";
+            label11.Size = new Size(100, 32);
+            label11.TabIndex = 18;
+            label11.Text = "Temperaturen:";
+            label11.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // label12
+            // 
+            label12.Location = new Point(15, 527);
+            label12.Name = "label12";
+            label12.Size = new Size(100, 32);
+            label12.TabIndex = 18;
+            label12.Text = "Drücke:";
+            label12.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // label_temp
+            // 
+            label_temp.Location = new Point(121, 473);
+            label_temp.Name = "label_temp";
+            label_temp.Size = new Size(244, 32);
+            label_temp.TabIndex = 18;
+            label_temp.Text = "Vakuum\r\nVakuum";
+            label_temp.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // label_press
+            // 
+            label_press.Location = new Point(121, 527);
+            label_press.Name = "label_press";
+            label_press.Size = new Size(244, 32);
+            label_press.TabIndex = 18;
+            label_press.Text = "Vakuum\r\nVakuum";
+            label_press.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // label_error
+            // 
+            label_error.AutoSize = true;
+            label_error.BackColor = SystemColors.Control;
+            label_error.ForeColor = Color.Red;
+            label_error.Location = new Point(15, 571);
+            label_error.MaximumSize = new Size(596, 100000);
+            label_error.MinimumSize = new Size(596, 57);
+            label_error.Name = "label_error";
+            label_error.Size = new Size(596, 57);
+            label_error.TabIndex = 19;
+            // 
             // Form_Edit_World
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -394,7 +493,12 @@
             AutoScroll = true;
             AutoSize = true;
             AutoSizeMode = AutoSizeMode.GrowAndShrink;
-            ClientSize = new Size(734, 528);
+            ClientSize = new Size(734, 642);
+            Controls.Add(label_error);
+            Controls.Add(label_press);
+            Controls.Add(label12);
+            Controls.Add(label_temp);
+            Controls.Add(label11);
             Controls.Add(button_save);
             Controls.Add(button_weather);
             Controls.Add(button_kelvin);
@@ -406,6 +510,7 @@
             Controls.Add(groupBox1);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "Form_Edit_World";
+            StartPosition = FormStartPosition.CenterParent;
             Text = "Welt bearbeiten";
             Load += Form_Edit_World_Load;
             ((System.ComponentModel.ISupportInitialize)numericUpDown_bedrock).EndInit();
@@ -419,6 +524,7 @@
             ((System.ComponentModel.ISupportInitialize)numericUpDown_gravity).EndInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDown_timescale).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -454,5 +560,14 @@
         private Button button_atmosphere;
         private Button button_kelvin;
         private Button button_weather;
+        private Label label11;
+        private Label label12;
+        private Label label_temp;
+        private Label label_press;
+        private Label label_error;
+        private Label label_creative;
+        private CheckBox checkBox_gamemode;
+        private ComboBox comboBox_terrain;
+        private Label label13;
     }
 }

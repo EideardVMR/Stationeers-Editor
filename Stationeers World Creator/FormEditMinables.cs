@@ -37,14 +37,24 @@ namespace Stationeers_World_Creator
 
             ComboBox comboBox_minable_list = new ComboBox();
             comboBox_minable_list.FormattingEnabled = true;
-            comboBox_minable_list.Items.AddRange(new object[] { "Iron", "Gold", "Coal", "Copper", "Uranium", "Silver", "Nickel", "Lead", "Silicon", "Cobalt", "Ice", "Oxite", "Volatiles", "Nitrice" });
+            if (deepminable)
+            {
+                comboBox_minable_list.Items.AddRange(new object[] { "Iron", "Gold", "Coal", "Copper", "Uranium", "Silver", "Nickel", "Lead", "Silicon", "Cobalt"});
+            } 
+            else 
+            {
+                comboBox_minable_list.Items.AddRange(new object[] { "Iron", "Gold", "Coal", "Copper", "Uranium", "Silver", "Nickel", "Lead", "Silicon", "Cobalt", "Ice", "Oxite", "Volatiles", "Nitrice" });
+            }
             comboBox_minable_list.Name = "comboBox_minable_list";
             comboBox_minable_list.Size = new Size(170, 23);
+            comboBox_minable_list.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBox_minable_list.TabIndex = 1;
             // Erst am Ende hinzufügen zu Groupbox.
 
             Button button_add_minable = new Button();
             button_add_minable.Name = "button_add_minable";
+            button_add_minable.FlatStyle = FlatStyle.Flat;
+
             button_add_minable.Size = new Size(152, 23);
             button_add_minable.TabIndex = 14;
             button_add_minable.Text = "Hinzufügen";
@@ -140,10 +150,6 @@ namespace Stationeers_World_Creator
                 numericUpDown1.Size = new Size(100, 23);
                 numericUpDown1.Value = (decimal)m.Rarity;
                 numericUpDown1.TabIndex = 2;
-                numericUpDown1.MouseWheel += (object s, MouseEventArgs e) =>
-                {
-                    ((HandledMouseEventArgs)e).Handled = true;
-                };
                 numericUpDown1.ValueChanged += (object s, EventArgs e) =>
                 {
                     m.Rarity = (int)((NumericUpDown)s).Value;
@@ -159,10 +165,6 @@ namespace Stationeers_World_Creator
                 numericUpDown2.ValueChanged += (object s, EventArgs e) =>
                 {
                     numericUpDown3.Minimum = numericUpDown2.Value;
-                };
-                numericUpDown2.MouseWheel += (object s, MouseEventArgs e) =>
-                {
-                    ((HandledMouseEventArgs)e).Handled = true;
                 };
                 numericUpDown2.ValueChanged += (object s, EventArgs e) =>
                 {
@@ -189,10 +191,6 @@ namespace Stationeers_World_Creator
                 {
                     numericUpDown2.Maximum = numericUpDown3.Value;
                 };
-                numericUpDown3.MouseWheel += (object s, MouseEventArgs e) =>
-                {
-                    ((HandledMouseEventArgs)e).Handled = true;
-                };
                 numericUpDown3.ValueChanged += (object s, EventArgs e) =>
                 {
                     m.MaxDropQuantity = (int)((NumericUpDown)s).Value;
@@ -208,10 +206,6 @@ namespace Stationeers_World_Creator
                 numericUpDown4.ValueChanged += (object s, EventArgs e) =>
                 {
                     numericUpDown5.Minimum = numericUpDown4.Value;
-                };
-                numericUpDown4.MouseWheel += (object s, MouseEventArgs e) =>
-                {
-                    ((HandledMouseEventArgs)e).Handled = true;
                 };
                 numericUpDown4.ValueChanged += (object s, EventArgs e) =>
                 {
@@ -236,10 +230,6 @@ namespace Stationeers_World_Creator
                 numericUpDown5.ValueChanged += (object s, EventArgs e) =>
                 {
                     numericUpDown4.Maximum = numericUpDown5.Value;
-                };
-                numericUpDown5.MouseWheel += (object s, MouseEventArgs e) =>
-                {
-                    ((HandledMouseEventArgs)e).Handled = true;
                 };
                 numericUpDown5.ValueChanged += (object s, EventArgs e) =>
                 {
@@ -268,6 +258,7 @@ namespace Stationeers_World_Creator
 
                 startY += 26;
             }
+            comboBox_minable_list.Text = comboBox_minable_list.Items[0].ToString();
 
             button_add_minable.Location = new Point(195, startY);
             comboBox_minable_list.Location = new Point(19, startY);

@@ -159,6 +159,7 @@
             Controls.Add(label1);
             FormBorderStyle = FormBorderStyle.SizableToolWindow;
             Name = "FormNewCollection";
+            StartPosition = FormStartPosition.CenterParent;
             Text = "Kollektion erstellen/bearbeiten";
             Load += FormNewCollection_Load;
             ResumeLayout(false);

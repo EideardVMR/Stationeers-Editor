@@ -17,6 +17,7 @@ namespace Stationeers_World_Creator
         Kelvin kelvin = null;
 
         List<Label> labels = new List<Label>();
+        List<Label> labels2 = new List<Label>();
 
         public FormEditKelvin(Kelvin kelvin)
         {
@@ -36,35 +37,57 @@ namespace Stationeers_World_Creator
 
         void Recalc( string name )
         {
-            foreach (Label label in labels)
+            if (name.Split("_")[0] == "time")
             {
-                if(label.Name != "local_" + name) { continue; }
-
-                foreach(Control ctl in this.Controls)
+                foreach (Label label in labels)
                 {
-                    if(ctl.Name == name)
+                    if (label.Name != "local_" + name) { continue; }
+
+                    foreach (Control ctl in this.Controls)
                     {
-                        decimal time = ((NumericUpDown)ctl).Value;
-
-                        time = time * 24;
-
-                        decimal h = Math.Floor(time);
-                        decimal m = time - h;
-                        m = m * 60;
-                        m = Math.Round(m, 0);
-
-                        h += 6;
-                        if(h > 24)
+                        if (ctl.Name == name)
                         {
-                            h -= 24;
+                            decimal time = ((NumericUpDown)ctl).Value;
+
+                            time = time * 24;
+
+                            decimal h = Math.Floor(time);
+                            decimal m = time - h;
+                            m = m * 60;
+                            m = Math.Round(m, 0);
+
+                            h += 6;
+                            if (h > 24)
+                            {
+                                h -= 24;
+                            }
+
+                            label.Text = h.ToString().PadLeft(2, '0') + ":" + m.ToString().PadLeft(2, '0');
+
+                            if (h == 6) { label.Text += "(Sonnenaufgang)"; }
+                            if (h == 12) { label.Text += "(Mittagsonne)"; }
+                            if (h == 18) { label.Text += "(Sonnenuntergang)"; }
+                            if (h == 24) { label.Text += "(Mitternacht)"; }
                         }
+                    }
+                }
+            }
 
-                        label.Text = h.ToString().PadLeft(2,'0') + ":" + m.ToString().PadLeft(2,'0');
+            if (name.Split("_")[0] == "kelvin")
+            {
+                foreach (Label label in labels2)
+                {
+                    if (label.Name != "local_" + name) { continue; }
 
-                        if (h == 6) { label.Text += "(Sonnenaufgang)"; }
-                        if (h == 12) { label.Text += "(Mittagsonne)"; }
-                        if (h == 18) { label.Text += "(Sonnenuntergang)"; }
-                        if (h == 24) { label.Text += "(Mitternacht)"; }
+                    foreach (Control ctl in this.Controls)
+                    {
+                        if (ctl.Name == name)
+                        {
+                            decimal kelvin = ((NumericUpDown)ctl).Value;
+                            decimal celsius = kelvin - 273;
+
+                            label.Text = "K (" + celsius + "°C)";
+                        }
                     }
                 }
             }
@@ -120,7 +143,7 @@ namespace Stationeers_World_Creator
 
             Label header3 = new Label();
             header3.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            header3.Location = new Point(360, 19);
+            header3.Location = new Point(440, 19);
             header3.Name = "label10";
             header3.Size = new Size(200, 23);
             header3.TabIndex = 0;
@@ -138,6 +161,7 @@ namespace Stationeers_World_Creator
                 NumericUpDown label_orename = new NumericUpDown();
                 NumericUpDown numericUpDown1 = new NumericUpDown();
                 Label label_anteil = new Label();
+                Label label_value = new Label();
                 Button button1 = new Button();
 
                 label_orename.Location = new Point(19, startY);
@@ -149,10 +173,6 @@ namespace Stationeers_World_Creator
                 label_orename.Increment = (decimal)0.01;
                 label_orename.DecimalPlaces = 2;
                 label_orename.Value = frame.time;
-                label_orename.MouseWheel += (object s, MouseEventArgs e) =>
-                {
-                    ((HandledMouseEventArgs)e).Handled = true;
-                };
                 label_orename.ValueChanged += (object s, EventArgs e) =>
                 {
                     frame.time = (int)((NumericUpDown)s).Value;
@@ -161,36 +181,33 @@ namespace Stationeers_World_Creator
                 this.Controls.Add(label_orename);
 
                 numericUpDown1.Location = new Point(195, startY);
-                numericUpDown1.Name = "numericUpDown1";
+                numericUpDown1.Name = "kelvin_" + i;
                 numericUpDown1.Minimum = 0;
                 numericUpDown1.Maximum = 4000;
                 numericUpDown1.DecimalPlaces = 0;
                 numericUpDown1.Size = new Size(100, 23);
                 numericUpDown1.Value = frame.value;
                 numericUpDown1.TabIndex = 2;
-                numericUpDown1.MouseWheel += (object s, MouseEventArgs e) =>
-                {
-                    ((HandledMouseEventArgs)e).Handled = true;
-                };
                 numericUpDown1.ValueChanged += (object s, EventArgs e) =>
                 {
                     frame.value = (int)((NumericUpDown)s).Value;
+                    Recalc(((NumericUpDown)s).Name);
                 };
                 this.Controls.Add(numericUpDown1);
 
-                label_anteil.Location = new Point(360, startY);
-                label_anteil.Size = new Size(200, 23);
-                label_anteil.TabIndex = 1;
-                label_anteil.Name = "local_time_" + i;
-                label_anteil.Text = "06:00";
-                this.Controls.Add(label_anteil);
-                labels.Add(label_anteil);
+                label_value.Location = new Point(295, startY);
+                label_value.Size = new Size(100, 23);
+                label_value.TabIndex = 1;
+                label_value.Name = "local_kelvin_" + i;
+                label_value.Text = "K";
+                this.Controls.Add(label_value);
+                labels2.Add(label_value);
 
                 button1.BackColor = Color.Red;
                 button1.FlatStyle = FlatStyle.Flat;
                 button1.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
                 button1.ForeColor = Color.White;
-                button1.Location = new Point(311, startY);
+                button1.Location = new Point(391, startY);
                 button1.Name = "button1";
                 button1.Size = new Size(38, 23);
                 button1.TabIndex = 15;
@@ -203,7 +220,16 @@ namespace Stationeers_World_Creator
                 };
                 this.Controls.Add(button1);
 
+                label_anteil.Location = new Point(440, startY);
+                label_anteil.Size = new Size(200, 23);
+                label_anteil.TabIndex = 1;
+                label_anteil.Name = "local_time_" + i;
+                label_anteil.Text = "06:00";
+                this.Controls.Add(label_anteil);
+                labels.Add(label_anteil);
+
                 Recalc("time_" + i);
+                Recalc("kelvin_" + i);
 
                 startY += 26;
                 i++;
