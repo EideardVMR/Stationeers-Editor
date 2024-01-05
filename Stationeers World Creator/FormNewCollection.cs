@@ -46,7 +46,28 @@ namespace Stationeers_World_Creator
 
         private void textBox_name_TextChanged(object sender, EventArgs e)
         {
-            collection.Name = textBox_name.Text;    
+            if (!collection.IsCreated)
+            {
+                string tmp = textBox_name.Text;
+                Regex regex = new Regex("[^a-zA-Z]"); // Alle Zeichen außer Buchstaben entfernen
+                tmp = regex.Replace(tmp, "");
+
+                if (Directory.Exists(Form1.MyGames + "mods\\" + tmp))
+                {
+                    label1.ForeColor = Color.Red;
+                    label1.Text = "Name der Kollektion - existiert bereits";
+                    button_save.Enabled = false;
+                    return;
+                } else
+                {
+                    label1.ForeColor = SystemColors.ControlText;
+                    label1.Text = "Name der Kollektion";
+                    button_save.Enabled = true;
+                }
+
+            }
+
+            collection.Name = textBox_name.Text;
         }
 
         private void textBox_author_TextChanged(object sender, EventArgs e)

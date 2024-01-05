@@ -54,7 +54,7 @@ namespace Stationeers_World_Creator
 
             ComboBox comboBox_minable_list = new ComboBox();
             comboBox_minable_list.FormattingEnabled = true;
-            comboBox_minable_list.Items.AddRange(new object[] { "Oxygen", "CarbonDioxide", "Pollutant", "Volatiles", "Hydrogen", "Nitrogen", "NitrousOxide"});
+            comboBox_minable_list.Items.AddRange(new object[] { "Oxygen", "CarbonDioxide", "Pollutant", "Volatiles", "Water", "Nitrogen", "NitrousOxide"});
             comboBox_minable_list.Name = "comboBox_minable_list";
             comboBox_minable_list.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBox_minable_list.Size = new Size(170, 23);

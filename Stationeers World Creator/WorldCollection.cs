@@ -263,6 +263,13 @@ namespace Stationeers_World_Creator
 
         }
 
+        public bool IsCreated
+        {
+            get {
+                return collection_path != null;
+            }
+        }
+
         public bool CreateCollection()
         {
             if(collection_path == null)
