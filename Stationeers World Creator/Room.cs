@@ -10,50 +10,6 @@ using System.Xml;
 
 namespace Stationeers_World_Creator
 {
-    public class Point3D
-    {
-        public double X { get; set; }
-        public double Y { get; set; }
-        public double Z { get; set; }
-
-        public Point3D(double x, double y, double z)
-        {
-            X = x;
-            Y = y;
-            Z = z;
-        }
-
-        public Point3D(XmlNode node)
-        {
-            XmlNode nx = node.SelectSingleNode(".//x");
-            XmlNode ny = node.SelectSingleNode(".//y");
-            XmlNode nz = node.SelectSingleNode(".//z");
-
-            X = double.Parse(nx.InnerText.Replace(".",","));
-            Y = double.Parse(ny.InnerText.Replace(".", ",")); 
-            Z = double.Parse(nz.InnerText.Replace(".", ","));
-        }
-
-        public bool Equals(Point3D p2)
-        {
-            return this.X == p2.X && this.Y == p2.Y && this.Z == p2.Z;
-        }
-
-        public Point3D Multiply(double multiplier)
-        {
-            Point3D p = new Point3D(X, Y, Z);
-            p.X *= multiplier;
-            p.Y *= multiplier;
-            p.Z *= multiplier;
-            return p;
-        }
-
-        public override string ToString()
-        {
-            return X.ToString() + "," + Y.ToString() + "," + Z.ToString();
-        }
-    }
-
     public class Room : IComparable<Room>
     {
 
@@ -215,7 +171,7 @@ namespace Stationeers_World_Creator
 
                 foreach(SavegameAtmosphere atmo in _atmoNodes)
                 {
-                    _volumen = atmo.Volumen;
+                    _volumen += atmo.Volumen;
                 }
 
                 return _volumen;
@@ -238,6 +194,13 @@ namespace Stationeers_World_Creator
                 return temperatures.Average();
 
             }
+            set
+            {
+                foreach (SavegameAtmosphere atmo in _atmoNodes)
+                {
+                    atmo.Temperature = value;
+                }
+            }
         }
 
         public double Pressure
@@ -255,6 +218,83 @@ namespace Stationeers_World_Creator
 
                 return pressures.Average();
 
+            }
+            set
+            {
+                value = Math.Round(value, 2);
+
+                double stepsize = 0;
+                if (Pressure != 0)
+                {
+                    stepsize = GasMole - ((value * Volumen) / (Settings.GASCONSTANT * Temperature));
+                } else
+                {
+                    stepsize = ((value * Volumen) / (Settings.GASCONSTANT * Temperature));
+                }
+
+                GasMole += stepsize;
+
+                int lastUsedInc = stepsize < 0 ? 1 : 0;
+                stepsize = Math.Abs(stepsize);
+
+                while (true)
+                {
+                    if(Pressure == value)
+                    {
+                        break;
+                    }
+
+                    if(Pressure > value)
+                    {
+                        if(stepsize > GasMole) { stepsize = GasMole - 0.01; }
+
+                        GasMole -= stepsize;
+                        if(lastUsedInc == 1)
+                        {
+                            stepsize /= 2;
+                        }
+                        lastUsedInc = 0;
+                    }
+
+                    if (Pressure < value)
+                    {
+                        GasMole += stepsize;
+                        if (lastUsedInc == 0)
+                        {
+                            stepsize /= 2;
+                        }
+                        lastUsedInc = 1;
+                    }
+
+                }
+
+            }
+        }
+
+        public void RemoveGas()
+        {
+            
+            foreach(SavegameAtmosphere atmo in _atmoNodes)
+            {
+                atmo.RemoveGas();
+            }
+            
+            _molsgas = 0;
+
+            _nitrogen = 0;
+            _nitrousOxide = 0;
+            _oxygen = 0;
+            _pollutant = 0;
+            _steam = 0;
+            _volatiles = 0;
+            _carbonDioxide = 0;
+        }
+
+        public void setTempPress(double temp, double press)
+        {
+            foreach (SavegameAtmosphere atmo in _atmoNodes)
+            {
+                atmo.setTempPress(temp, press);
             }
         }
 
@@ -276,7 +316,7 @@ namespace Stationeers_World_Creator
 
                 foreach (SavegameAtmosphere atmo in _atmoNodes)
                 {
-                    _oxygen = atmo.Oxygen;
+                    _oxygen += atmo.Oxygen;
                 }
 
                 return _oxygen;
@@ -288,6 +328,13 @@ namespace Stationeers_World_Creator
                 {
                     atmo.Oxygen = tmp;
                 }
+
+                _oxygen = 0;
+                foreach (SavegameAtmosphere atmo in _atmoNodes)
+                {
+                    _oxygen += atmo.Oxygen;
+                }
+
             }
         }
 
@@ -301,7 +348,7 @@ namespace Stationeers_World_Creator
 
                 foreach (SavegameAtmosphere atmo in _atmoNodes)
                 {
-                    _nitrogen = atmo.Nitrogen;
+                    _nitrogen += atmo.Nitrogen;
                 }
 
                 return _nitrogen;
@@ -312,6 +359,12 @@ namespace Stationeers_World_Creator
                 foreach (SavegameAtmosphere atmo in _atmoNodes)
                 {
                     atmo.Nitrogen = tmp;
+                }
+
+                _nitrogen = 0;
+                foreach (SavegameAtmosphere atmo in _atmoNodes)
+                {
+                    _nitrogen += atmo.Nitrogen;
                 }
             }
         }
@@ -326,7 +379,7 @@ namespace Stationeers_World_Creator
 
                 foreach (SavegameAtmosphere atmo in _atmoNodes)
                 {
-                    _carbonDioxide = atmo.CarbonDioxide;
+                    _carbonDioxide += atmo.CarbonDioxide;
                 }
 
                 return _carbonDioxide;
@@ -337,6 +390,12 @@ namespace Stationeers_World_Creator
                 foreach (SavegameAtmosphere atmo in _atmoNodes)
                 {
                     atmo.CarbonDioxide = tmp;
+                }
+
+                _carbonDioxide = 0;
+                foreach (SavegameAtmosphere atmo in _atmoNodes)
+                {
+                    _carbonDioxide += atmo.CarbonDioxide;
                 }
             }
         }
@@ -351,7 +410,7 @@ namespace Stationeers_World_Creator
 
                 foreach (SavegameAtmosphere atmo in _atmoNodes)
                 {
-                    _volatiles = atmo.Volatiles;
+                    _volatiles += atmo.Volatiles;
                 }
 
                 return _volatiles;
@@ -362,6 +421,12 @@ namespace Stationeers_World_Creator
                 foreach (SavegameAtmosphere atmo in _atmoNodes)
                 {
                     atmo.Volatiles = tmp;
+                }
+
+                _volatiles = 0;
+                foreach (SavegameAtmosphere atmo in _atmoNodes)
+                {
+                    _volatiles += atmo.Volatiles;
                 }
             }
         }
@@ -376,7 +441,7 @@ namespace Stationeers_World_Creator
 
                 foreach (SavegameAtmosphere atmo in _atmoNodes)
                 {
-                    _pollutant = atmo.Pollutant;
+                    _pollutant += atmo.Pollutant;
                 }
 
                 return _pollutant;
@@ -387,6 +452,12 @@ namespace Stationeers_World_Creator
                 foreach (SavegameAtmosphere atmo in _atmoNodes)
                 {
                     atmo.Pollutant = tmp;
+                }
+
+                _pollutant = 0;
+                foreach (SavegameAtmosphere atmo in _atmoNodes)
+                {
+                    _pollutant += atmo.Pollutant;
                 }
             }
         }
@@ -401,7 +472,7 @@ namespace Stationeers_World_Creator
 
                 foreach (SavegameAtmosphere atmo in _atmoNodes)
                 {
-                    _steam = atmo.Steam;
+                    _steam += atmo.Steam;
                 }
 
                 return _steam;
@@ -412,6 +483,12 @@ namespace Stationeers_World_Creator
                 foreach (SavegameAtmosphere atmo in _atmoNodes)
                 {
                     atmo.Steam = tmp;
+                }
+
+                _steam = 0;
+                foreach (SavegameAtmosphere atmo in _atmoNodes)
+                {
+                    _steam += atmo.Steam;
                 }
             }
         }
@@ -426,7 +503,7 @@ namespace Stationeers_World_Creator
 
                 foreach (SavegameAtmosphere atmo in _atmoNodes)
                 {
-                    _nitrousOxide = atmo.NitrousOxide;
+                    _nitrousOxide += atmo.NitrousOxide;
                 }
 
                 return _nitrousOxide;
@@ -438,6 +515,12 @@ namespace Stationeers_World_Creator
                 {
                     atmo.NitrousOxide = tmp;
                 }
+
+                _nitrousOxide = 0;
+                foreach (SavegameAtmosphere atmo in _atmoNodes)
+                {
+                    _nitrousOxide += atmo.NitrousOxide;
+                }
             }
         }
 
@@ -446,6 +529,40 @@ namespace Stationeers_World_Creator
             get
             {
                 return _oxygen + _volatiles + _nitrogen + _carbonDioxide + _pollutant + _steam + _nitrousOxide;
+            }
+            set
+            {
+                if(value < 0)
+                {
+                    return;
+                }
+
+                double currentTemp = Temperature;
+                double currentMols = GasMole;
+                double newMols = value;
+
+                if (currentMols != 0)
+                {
+                    double percOxygen = Oxygen / currentMols;
+                    double percNitrogen = Nitrogen / currentMols;
+                    double percVolatiles = Volatiles / currentMols;
+                    double percNitrousOxide = NitrousOxide / currentMols;
+                    double percSteam = Steam / currentMols;
+                    double percCarbonDioxide = CarbonDioxide / currentMols;
+                    double percPollutant = Pollutant / currentMols;
+
+                    Oxygen = percOxygen * newMols;
+                    Nitrogen = percNitrogen * newMols;
+                    Volatiles = percVolatiles * newMols;
+                    NitrousOxide = percNitrousOxide * newMols;
+                    Steam = percSteam * newMols;
+                    CarbonDioxide = percCarbonDioxide * newMols;
+                    Pollutant = percPollutant * newMols;
+
+                    Temperature = currentTemp;
+
+                }
+
             }
         }
 
@@ -459,10 +576,24 @@ namespace Stationeers_World_Creator
 
                 foreach (SavegameAtmosphere atmo in _atmoNodes)
                 {
-                    _liquidOxygen = atmo.LiquidOxygen;
+                    _liquidOxygen += atmo.LiquidOxygen;
                 }
 
                 return _liquidOxygen;
+            }
+            set
+            {
+                double tmp = value / _atmoNodes.Count;
+                foreach (SavegameAtmosphere atmo in _atmoNodes)
+                {
+                    atmo.LiquidOxygen = tmp;
+                }
+
+                _liquidOxygen = 0;
+                foreach (SavegameAtmosphere atmo in _atmoNodes)
+                {
+                    _liquidOxygen += atmo.LiquidOxygen;
+                }
             }
         }
 
@@ -476,10 +607,24 @@ namespace Stationeers_World_Creator
 
                 foreach (SavegameAtmosphere atmo in _atmoNodes)
                 {
-                    _liquidNitrogen = atmo.LiquidNitrogen;
+                    _liquidNitrogen += atmo.LiquidNitrogen;
                 }
 
                 return _liquidNitrogen;
+            }
+            set
+            {
+                double tmp = value / _atmoNodes.Count;
+                foreach (SavegameAtmosphere atmo in _atmoNodes)
+                {
+                    atmo.LiquidNitrogen = tmp;
+                }
+
+                _liquidNitrogen = 0;
+                foreach (SavegameAtmosphere atmo in _atmoNodes)
+                {
+                    _liquidNitrogen += atmo.LiquidNitrogen;
+                }
             }
         }
 
@@ -493,10 +638,24 @@ namespace Stationeers_World_Creator
 
                 foreach (SavegameAtmosphere atmo in _atmoNodes)
                 {
-                    _liquidCarbonDioxide = atmo.LiquidCarbonDioxide;
+                    _liquidCarbonDioxide += atmo.LiquidCarbonDioxide;
                 }
 
                 return _liquidCarbonDioxide;
+            }
+            set
+            {
+                double tmp = value / _atmoNodes.Count;
+                foreach (SavegameAtmosphere atmo in _atmoNodes)
+                {
+                    atmo.LiquidCarbonDioxide = tmp;
+                }
+
+                _liquidCarbonDioxide = 0;
+                foreach (SavegameAtmosphere atmo in _atmoNodes)
+                {
+                    _liquidCarbonDioxide += atmo.LiquidCarbonDioxide;
+                }
             }
         }
 
@@ -510,10 +669,24 @@ namespace Stationeers_World_Creator
 
                 foreach (SavegameAtmosphere atmo in _atmoNodes)
                 {
-                    _liquidVolatiles = atmo.LiquidVolatiles;
+                    _liquidVolatiles += atmo.LiquidVolatiles;
                 }
 
                 return _liquidVolatiles;
+            }
+            set
+            {
+                double tmp = value / _atmoNodes.Count;
+                foreach (SavegameAtmosphere atmo in _atmoNodes)
+                {
+                    atmo.LiquidVolatiles = tmp;
+                }
+
+                _liquidVolatiles = 0;
+                foreach (SavegameAtmosphere atmo in _atmoNodes)
+                {
+                    _liquidVolatiles += atmo.LiquidVolatiles;
+                }
             }
         }
 
@@ -527,10 +700,24 @@ namespace Stationeers_World_Creator
 
                 foreach (SavegameAtmosphere atmo in _atmoNodes)
                 {
-                    _liquidPollutant = atmo.LiquidPollutant;
+                    _liquidPollutant += atmo.LiquidPollutant;
                 }
 
                 return _liquidPollutant;
+            }
+            set
+            {
+                double tmp = value / _atmoNodes.Count;
+                foreach (SavegameAtmosphere atmo in _atmoNodes)
+                {
+                    atmo.LiquidPollutant = tmp;
+                }
+
+                _liquidPollutant = 0;
+                foreach (SavegameAtmosphere atmo in _atmoNodes)
+                {
+                    _liquidPollutant += atmo.LiquidPollutant;
+                }
             }
         }
 
@@ -544,10 +731,24 @@ namespace Stationeers_World_Creator
 
                 foreach (SavegameAtmosphere atmo in _atmoNodes)
                 {
-                    _water = atmo.Water;
+                    _water += atmo.Water;
                 }
 
                 return _water;
+            }
+            set
+            {
+                double tmp = value / _atmoNodes.Count;
+                foreach (SavegameAtmosphere atmo in _atmoNodes)
+                {
+                    atmo.Water = tmp;
+                }
+
+                _water = 0;
+                foreach (SavegameAtmosphere atmo in _atmoNodes)
+                {
+                    _water += atmo.Water;
+                }
             }
         }
 
@@ -561,10 +762,24 @@ namespace Stationeers_World_Creator
 
                 foreach (SavegameAtmosphere atmo in _atmoNodes)
                 {
-                    _liquidNitrousOxide = atmo.LiquidNitrousOxide;
+                    _liquidNitrousOxide += atmo.LiquidNitrousOxide;
                 }
 
                 return _liquidNitrousOxide;
+            }
+            set
+            {
+                double tmp = value / _atmoNodes.Count;
+                foreach (SavegameAtmosphere atmo in _atmoNodes)
+                {
+                    atmo.LiquidNitrousOxide = tmp;
+                }
+
+                _liquidNitrousOxide = 0;
+                foreach (SavegameAtmosphere atmo in _atmoNodes)
+                {
+                    _liquidNitrousOxide += atmo.LiquidNitrousOxide;
+                }
             }
         }
 
@@ -580,7 +795,20 @@ namespace Stationeers_World_Creator
         {
             get
             {
-                return LiquidOxygen / 33.3;
+                double litre = 0;
+                foreach (SavegameAtmosphere atmo in _atmoNodes)
+                {
+                    litre += atmo.LiquidOxygenLitre;
+                }
+                return litre;
+            }
+            set
+            {
+                double litre = value / _atmoNodes.Count;
+                foreach (SavegameAtmosphere atmo in _atmoNodes)
+                {
+                    atmo.LiquidOxygenLitre = litre;
+                }
             }
         }
 
@@ -588,7 +816,20 @@ namespace Stationeers_World_Creator
         {
             get
             {
-                return LiquidNitrogen / 28.7;
+                double litre = 0;
+                foreach (SavegameAtmosphere atmo in _atmoNodes)
+                {
+                    litre += atmo.LiquidNitrogenLitre;
+                }
+                return litre;
+            }
+            set
+            {
+                double litre = value / _atmoNodes.Count;
+                foreach (SavegameAtmosphere atmo in _atmoNodes)
+                {
+                    atmo.LiquidNitrogenLitre = litre;
+                }
             }
         }
 
@@ -596,7 +837,20 @@ namespace Stationeers_World_Creator
         {
             get
             {
-                return LiquidCarbonDioxide / 25;
+                double litre = 0;
+                foreach (SavegameAtmosphere atmo in _atmoNodes)
+                {
+                    litre += atmo.LiquidCarbonDioxideLitre;
+                }
+                return litre;
+            }
+            set
+            {
+                double litre = value / _atmoNodes.Count;
+                foreach (SavegameAtmosphere atmo in _atmoNodes)
+                {
+                    atmo.LiquidCarbonDioxideLitre = litre;
+                }
             }
         }
 
@@ -604,7 +858,20 @@ namespace Stationeers_World_Creator
         {
             get
             {
-                return LiquidVolatiles / 25;
+                double litre = 0;
+                foreach (SavegameAtmosphere atmo in _atmoNodes)
+                {
+                    litre += atmo.LiquidVolatilesLitre;
+                }
+                return litre;
+            }
+            set
+            {
+                double litre = value / _atmoNodes.Count;
+                foreach (SavegameAtmosphere atmo in _atmoNodes)
+                {
+                    atmo.LiquidVolatilesLitre = litre;
+                }
             }
         }
 
@@ -612,7 +879,20 @@ namespace Stationeers_World_Creator
         {
             get
             {
-                return LiquidPollutant / 25;
+                double litre = 0;
+                foreach (SavegameAtmosphere atmo in _atmoNodes)
+                {
+                    litre += atmo.LiquidPollutantLitre;
+                }
+                return litre;
+            }
+            set
+            {
+                double litre = value / _atmoNodes.Count;
+                foreach (SavegameAtmosphere atmo in _atmoNodes)
+                {
+                    atmo.LiquidPollutantLitre = litre;
+                }
             }
         }
 
@@ -620,7 +900,20 @@ namespace Stationeers_World_Creator
         {
             get
             {
-                return LiquidPollutant / 38.5;
+                double litre = 0;
+                foreach (SavegameAtmosphere atmo in _atmoNodes)
+                {
+                    litre += atmo.LiquidNitrousOxideLitre;
+                }
+                return litre;
+            }
+            set
+            {
+                double litre = value / _atmoNodes.Count;
+                foreach (SavegameAtmosphere atmo in _atmoNodes)
+                {
+                    atmo.LiquidNitrousOxideLitre = litre;
+                }
             }
         }
 
@@ -628,7 +921,20 @@ namespace Stationeers_World_Creator
         {
             get
             {
-                return Water / 55.6;
+                double litre = 0;
+                foreach (SavegameAtmosphere atmo in _atmoNodes)
+                {
+                    litre += atmo.WaterLitre;
+                }
+                return litre;
+            }
+            set
+            {
+                double litre = value / _atmoNodes.Count;
+                foreach (SavegameAtmosphere atmo in _atmoNodes)
+                {
+                    atmo.WaterLitre = litre;
+                }
             }
         }
 
@@ -636,8 +942,7 @@ namespace Stationeers_World_Creator
         {
             get
             {
-                if((GasMole + LiquidMole) == 0) return 0;
-                return (_oxygen + _liquidOxygen) / (GasMole + LiquidMole);
+                return GasMole == 0 ? 0 : _oxygen / GasMole;
             }
         }
 
@@ -645,8 +950,7 @@ namespace Stationeers_World_Creator
         {
             get
             {
-                if ((GasMole + LiquidMole) == 0) return 0;
-                return (_nitrogen + _liquidNitrogen) / (GasMole + LiquidMole);
+                return GasMole == 0 ? 0 : _nitrogen / GasMole;
             }
         }
 
@@ -654,8 +958,7 @@ namespace Stationeers_World_Creator
         {
             get
             {
-                if ((GasMole + LiquidMole) == 0) return 0;
-                return (_carbonDioxide +_liquidCarbonDioxide) / (GasMole + LiquidMole);
+                return GasMole == 0 ? 0 : _carbonDioxide / GasMole;
             }
         }
 
@@ -663,8 +966,7 @@ namespace Stationeers_World_Creator
         {
             get
             {
-                if ((GasMole + LiquidMole) == 0) return 0;
-                return (_volatiles + _liquidVolatiles) / (GasMole + LiquidMole);
+                return GasMole == 0 ? 0 : _volatiles / GasMole;
             }
         }
 
@@ -672,8 +974,7 @@ namespace Stationeers_World_Creator
         {
             get
             {
-                if ((GasMole + LiquidMole) == 0) return 0;
-                return (_pollutant + _liquidPollutant) / (GasMole + LiquidMole);
+                return GasMole == 0 ? 0 : _pollutant / GasMole;
             }
         }
 
@@ -681,8 +982,7 @@ namespace Stationeers_World_Creator
         {
             get
             {
-                if ((GasMole + LiquidMole) == 0) return 0;
-                return (_water + _steam) / (GasMole + LiquidMole);
+                return LiquidMole == 0 ? 0 : _water / LiquidMole;
             }
         }
 
@@ -690,8 +990,7 @@ namespace Stationeers_World_Creator
         {
             get
             {
-                if ((GasMole + LiquidMole) == 0) return 0;
-                return (_water + _steam) / (GasMole + LiquidMole);
+                return GasMole == 0 ? 0 : _steam / GasMole;
             }
         }
 
@@ -699,8 +998,7 @@ namespace Stationeers_World_Creator
         {
             get
             {
-                if ((GasMole + LiquidMole) == 0) return 0;
-                return (_nitrousOxide + _liquidNitrousOxide) / (GasMole + LiquidMole);
+                return GasMole == 0 ? 0 : _nitrousOxide / GasMole;
             }
         }
     }

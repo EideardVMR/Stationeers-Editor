@@ -44,5 +44,16 @@ namespace Stationeers_World_Creator
                 return new List<Savegame>();
             }
         }
+
+        public void SaveAll()
+        {
+            foreach (Savegame sg in MySavegames)
+            {
+                if (sg.IsChanged)
+                {
+                    sg.Save();
+                }
+            }
+        }
     }
 }

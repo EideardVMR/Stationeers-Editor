@@ -234,6 +234,7 @@ namespace Stationeers_World_Creator
                 lvi.SubItems.Add(save.GameVersion.ToString());
                 lvi.SubItems.Add(save.DaysPast.ToString());
                 lvi.SubItems.Add(save.SavePath.Replace(MyGames, "[..]\\"));
+                lvi.SubItems.Add(save.IsChanged ? "Ja" : "Nein");
 
                 listView_savegames.Items.Add(lvi);
             }
@@ -579,6 +580,8 @@ namespace Stationeers_World_Creator
                 collection.Save();
             }
 
+            savegames.SaveAll();
+
             modconfig.Save(textBox_stationeers_path.Text + "\\modconfig.xml");
         }
 
@@ -589,6 +592,7 @@ namespace Stationeers_World_Creator
                 FormEditSave form = new FormEditSave(savegames.Saves[listView_savegames.SelectedItems[0].Index]);
                 form.Text = "Savegame bearbeiten für " + savegames.Saves[listView_savegames.SelectedItems[0].Index].WorldName;
                 form.ShowDialog();
+                ListSavegames();
             }
         }
     }

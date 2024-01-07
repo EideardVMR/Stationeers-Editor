@@ -76,6 +76,7 @@
             columnHeader9 = new ColumnHeader();
             columnHeader10 = new ColumnHeader();
             columnHeader11 = new ColumnHeader();
+            columnHeader12 = new ColumnHeader();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             groupBox1.SuspendLayout();
@@ -456,7 +457,7 @@
             // listView_savegames
             // 
             listView_savegames.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            listView_savegames.Columns.AddRange(new ColumnHeader[] { columnHeader8, columnHeader9, columnHeader10, columnHeader11 });
+            listView_savegames.Columns.AddRange(new ColumnHeader[] { columnHeader8, columnHeader9, columnHeader10, columnHeader11, columnHeader12 });
             listView_savegames.FullRowSelect = true;
             listView_savegames.Location = new Point(6, 6);
             listView_savegames.Name = "listView_savegames";
@@ -484,6 +485,10 @@
             // 
             columnHeader11.Text = "Pfad";
             columnHeader11.Width = 260;
+            // 
+            // columnHeader12
+            // 
+            columnHeader12.Text = "Geändert";
             // 
             // Form1
             // 
@@ -571,5 +576,6 @@
         private ColumnHeader columnHeader9;
         private ColumnHeader columnHeader10;
         private ColumnHeader columnHeader11;
+        private ColumnHeader columnHeader12;
     }
 }

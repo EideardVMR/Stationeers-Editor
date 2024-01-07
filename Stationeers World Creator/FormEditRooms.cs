@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -38,7 +39,7 @@ namespace Stationeers_World_Creator
                     Math.Round(room.CarbonDioxidePercent * 100, 0) +
                     Math.Round(room.VolatilesPercent * 100, 0) +
                     Math.Round(room.PollutantPercent * 100, 0) +
-                    Math.Round(room.WaterPercent * 100, 0) +
+                    Math.Round(room.SteamPercent * 100, 0) +
                     Math.Round(room.NitrousOxidePercent * 100, 0)
                 );
 
@@ -64,7 +65,7 @@ namespace Stationeers_World_Creator
                     lvi.SubItems.Add(Math.Round(room.CarbonDioxidePercent * 100, 0) + "%");
                     lvi.SubItems.Add(Math.Round(room.VolatilesPercent * 100, 0) + "%");
                     lvi.SubItems.Add(Math.Round(room.PollutantPercent * 100, 0) + "%");
-                    lvi.SubItems.Add(Math.Round(room.WaterPercent * 100, 0) + "%");
+                    lvi.SubItems.Add(Math.Round(room.SteamPercent * 100, 0) + "%");
                     lvi.SubItems.Add(Math.Round(room.NitrousOxidePercent * 100, 0) + "%");
                 }
                 lvi.SubItems.Add(room.Temperature.ToString("N0") + "K ( " + room.TemperatureCelsius.ToString("N0") + "°C)");
@@ -112,11 +113,6 @@ namespace Stationeers_World_Creator
             }
         }
 
-        private void listView1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
         private void listView1_DoubleClick(object sender, EventArgs e)
         {
             if(listView1.SelectedItems.Count > 0)
@@ -124,6 +120,7 @@ namespace Stationeers_World_Creator
                 FormEditRoomAtmosphaere form = new FormEditRoomAtmosphaere(savegame.Rooms[listView1.SelectedItems[0].Index]);
                 form.Text = "Raumatmosphäre bearbeiten";
                 form.ShowDialog();
+                ListRooms();
             }
         }
     }
