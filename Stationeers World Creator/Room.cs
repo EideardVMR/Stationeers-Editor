@@ -38,93 +38,6 @@ namespace Stationeers_World_Creator
         public double items_maximum = 0;
         public double items_completed = 0;
 
-        public void LoadAtmosphere()
-        {
-
-            if(_atmoNodes != null) { return; }
-            _atmoNodes = new List<SavegameAtmosphere>();
-
-            //Debug.WriteLine("---------- LoadAtmosphere " + savegame.Atmospheres.Count);
-
-            foreach (SavegameAtmosphere atmo in savegame.Atmospheres)
-            {
-                if(atmo.ThingReferenceId > 0)
-                {
-                    //Debug.WriteLine(atmo.Position.ToString() + " - " + atmo.Volumen + " -- Is Thingbound");
-                    _unusedNodes.Add(atmo);
-                    continue;
-                }
-
-                if (atmo.NetworkReferenceId > 0)
-                {
-                    _unusedNodes.Add(atmo);
-                    //Debug.WriteLine(atmo.Position.ToString() + " - " + atmo.Volumen + " -- Is Networkbound");
-                    continue;
-                }
-
-                if (atmo.Volumen != 8000)
-                {
-                    _unusedNodes.Add(atmo);
-                    //Debug.WriteLine(atmo.Position.ToString() + " - " + atmo.Volumen + " -- Is Unknown", ErrorBlinkStyle.AlwaysBlink);
-                    continue; 
-                }
-
-                foreach(Point3D point in Grids)
-                {
-                    //Debug.Write(atmo.Position.Multiply(10).ToString() + " - " + point.ToString());
-
-                    if (!atmo.Position.Multiply(10).Equals(point)) {
-                        //Debug.WriteLine(" -- Failed");
-                        continue; }
-
-                    //Debug.WriteLine(" -- OK");
-                    _atmoNodes.Add(atmo);
-
-                    if (_oxygen == -1) { _oxygen = 0; }
-                    if (_nitrogen == -1) { _nitrogen = 0; }
-                    if (_carbonDioxide == -1) { _carbonDioxide = 0; }
-                    if (_volatiles == -1) { _volatiles = 0; }
-                    if (_pollutant == -1) { _pollutant = 0; }
-                    if (_steam == -1) { _steam = 0; }
-                    if (_nitrousOxide == -1) { _nitrousOxide = 0; }
-                    if (_liquidOxygen == -1) { _liquidOxygen = 0; }
-                    if (_liquidNitrogen == -1) { _liquidNitrogen = 0; }
-                    if (_liquidCarbonDioxide == -1) { _liquidCarbonDioxide = 0; }
-                    if (_liquidVolatiles == -1) { _liquidVolatiles = 0; }
-                    if (_liquidPollutant == -1) { _liquidPollutant = 0; }
-                    if (_water == -1) { _water = 0; }
-                    if (_liquidNitrousOxide == -1) { _liquidNitrousOxide = 0; }
-
-                    _oxygen = atmo.Oxygen;
-                    _nitrogen = atmo.Nitrogen;
-                    _carbonDioxide = atmo.CarbonDioxide;
-                    _volatiles = atmo.Volatiles;
-                    _pollutant = atmo.Pollutant;
-                    _steam = atmo.Steam;
-                    _nitrousOxide = atmo.NitrousOxide;
-                    _liquidOxygen = atmo.LiquidOxygen;
-                    _liquidNitrogen = atmo.LiquidNitrogen;
-                    _liquidCarbonDioxide = atmo.LiquidCarbonDioxide;
-                    _liquidVolatiles = atmo.LiquidVolatiles;
-                    _liquidPollutant = atmo.LiquidPollutant;
-                    _water = atmo.Water;
-                    _liquidNitrousOxide = atmo.LiquidNitrousOxide;
-
-                }
-
-            }
-
-        }
-
-        public List<SavegameAtmosphere> Atmospheres
-        {
-            get
-            {
-                if (_atmoNodes == null) { return new List<SavegameAtmosphere>(); }
-                return _atmoNodes;
-            }
-        }
-
         int _id = -1;
         public int Id
         {
@@ -176,6 +89,96 @@ namespace Stationeers_World_Creator
 
                 return _volumen;
             }
+        }
+
+        #region Atmophärendaten
+        public List<SavegameAtmosphere> Atmospheres
+        {
+            get
+            {
+                if (_atmoNodes == null) { return new List<SavegameAtmosphere>(); }
+                return _atmoNodes;
+            }
+        }
+
+        public void LoadAtmosphere()
+        {
+
+            if (_atmoNodes != null) { return; }
+            _atmoNodes = new List<SavegameAtmosphere>();
+
+            //Debug.WriteLine("---------- LoadAtmosphere " + savegame.Atmospheres.Count);
+
+            foreach (SavegameAtmosphere atmo in savegame.Atmospheres)
+            {
+                if (atmo.ThingReferenceId > 0)
+                {
+                    //Debug.WriteLine(atmo.Position.ToString() + " - " + atmo.Volumen + " -- Is Thingbound");
+                    _unusedNodes.Add(atmo);
+                    continue;
+                }
+
+                if (atmo.NetworkReferenceId > 0)
+                {
+                    _unusedNodes.Add(atmo);
+                    //Debug.WriteLine(atmo.Position.ToString() + " - " + atmo.Volumen + " -- Is Networkbound");
+                    continue;
+                }
+
+                if (atmo.Volumen != 8000)
+                {
+                    _unusedNodes.Add(atmo);
+                    //Debug.WriteLine(atmo.Position.ToString() + " - " + atmo.Volumen + " -- Is Unknown", ErrorBlinkStyle.AlwaysBlink);
+                    continue;
+                }
+
+                foreach (Point3D point in Grids)
+                {
+                    //Debug.Write(atmo.Position.Multiply(10).ToString() + " - " + point.ToString());
+
+                    if (!atmo.Position.Multiply(10).Equals(point))
+                    {
+                        //Debug.WriteLine(" -- Failed");
+                        continue;
+                    }
+
+                    //Debug.WriteLine(" -- OK");
+                    _atmoNodes.Add(atmo);
+
+                    if (_oxygen == -1) { _oxygen = 0; }
+                    if (_nitrogen == -1) { _nitrogen = 0; }
+                    if (_carbonDioxide == -1) { _carbonDioxide = 0; }
+                    if (_volatiles == -1) { _volatiles = 0; }
+                    if (_pollutant == -1) { _pollutant = 0; }
+                    if (_steam == -1) { _steam = 0; }
+                    if (_nitrousOxide == -1) { _nitrousOxide = 0; }
+                    if (_liquidOxygen == -1) { _liquidOxygen = 0; }
+                    if (_liquidNitrogen == -1) { _liquidNitrogen = 0; }
+                    if (_liquidCarbonDioxide == -1) { _liquidCarbonDioxide = 0; }
+                    if (_liquidVolatiles == -1) { _liquidVolatiles = 0; }
+                    if (_liquidPollutant == -1) { _liquidPollutant = 0; }
+                    if (_water == -1) { _water = 0; }
+                    if (_liquidNitrousOxide == -1) { _liquidNitrousOxide = 0; }
+
+                    _oxygen = atmo.Oxygen;
+                    _nitrogen = atmo.Nitrogen;
+                    _carbonDioxide = atmo.CarbonDioxide;
+                    _volatiles = atmo.Volatiles;
+                    _pollutant = atmo.Pollutant;
+                    _steam = atmo.Steam;
+                    _nitrousOxide = atmo.NitrousOxide;
+                    _liquidOxygen = atmo.LiquidOxygen;
+                    _liquidNitrogen = atmo.LiquidNitrogen;
+                    _liquidCarbonDioxide = atmo.LiquidCarbonDioxide;
+                    _liquidVolatiles = atmo.LiquidVolatiles;
+                    _liquidPollutant = atmo.LiquidPollutant;
+                    _water = atmo.Water;
+                    _liquidNitrousOxide = atmo.LiquidNitrousOxide;
+
+                }
+
+            }
+
         }
 
         public double Temperature
@@ -288,14 +291,6 @@ namespace Stationeers_World_Creator
             _steam = 0;
             _volatiles = 0;
             _carbonDioxide = 0;
-        }
-
-        public void setTempPress(double temp, double press)
-        {
-            foreach (SavegameAtmosphere atmo in _atmoNodes)
-            {
-                atmo.setTempPress(temp, press);
-            }
         }
 
         public double TemperatureCelsius
@@ -1001,5 +996,6 @@ namespace Stationeers_World_Creator
                 return GasMole == 0 ? 0 : _nitrousOxide / GasMole;
             }
         }
+        #endregion
     }
 }

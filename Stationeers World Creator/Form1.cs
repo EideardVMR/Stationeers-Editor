@@ -12,7 +12,9 @@ namespace Stationeers_World_Creator
         public static string MyGames = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\My Games\\Stationeers\\";
         public static string MyStationeersEditor = MyGames + "Stationeers Editor\\";
         public static Settings settings = new Settings();
-        public List<WorldCollection> worldCollections = new List<WorldCollection>();
+        public static List<string> difficultys = new List<string>();
+        public static List<WorldCollection> worldCollections = new List<WorldCollection>();
+        
         XmlDocument modconfig = new XmlDocument();
         Savegames savegames;
 
@@ -258,6 +260,20 @@ namespace Stationeers_World_Creator
         {
             string tmp = JsonSerializer.Serialize(settings, new JsonSerializerOptions { WriteIndented = true });
             File.WriteAllText(MyStationeersEditor + "settings.json", tmp);
+        }
+
+        void LoadDifficultys()
+        {
+            difficultys.Clear();
+            XmlDocument xmlDocument = new XmlDocument();
+            xmlDocument.Load(textBox_stationeers_path.Text + "\\rocketstation_Data\\StreamingAssets\\Data\\difficultySettings.xml");
+
+            XmlNodeList nl = xmlDocument.SelectNodes("//DifficultySettings//DifficultySetting");
+            foreach(XmlNode n in nl)
+            {
+                difficultys.Add(n.Attributes["Id"].Value);
+            }
+
         }
 
         //############################################################################################################################################################
@@ -539,6 +555,7 @@ namespace Stationeers_World_Creator
                     savegames = new Savegames(MyGames + "saves\\");
                     savegames.LoadSavegames();
                     ListSavegames();
+                    LoadDifficultys();
                 }
             }
             else

@@ -214,6 +214,66 @@ namespace Stationeers_World_Creator
             set { _changed = value; }
         }
 
+        string _worldId = null;
+        public string WorldId
+        {
+            get
+            {
+                if (_worldId != null) { return _worldId; }
+
+                XmlNode n = xml_world.SelectSingleNode(".//WorldSetting");
+                if (n == null) return _worldId = "[Unknown]";
+
+                if (n.Attributes["Id"] == null) { return _worldId = "[Unknown]"; }
+
+                return _worldId = n.Attributes["Id"].Value;
+            }
+        }
+
+        string _difficulty = null;
+        public string Difficulty
+        {
+            get
+            {
+                if (_difficulty != null) { return _difficulty; }
+
+                XmlNode n = xml_world.SelectSingleNode(".//DifficultySetting");
+                if (n == null) return _difficulty = "[Unknown]";
+
+                if (n.Attributes["Id"] == null) { return _difficulty = "[Unknown]"; }
+
+                return _difficulty = n.Attributes["Id"].Value;
+            }
+        }
+
+        string _research = null;
+        public string Research
+        {
+            get
+            {
+                if (_research != null) { return _research; }
+
+                XmlNode n = xml_world.SelectSingleNode(".//ResearchKey");
+                if (n == null) return _research = "[Unknown]";
+
+                return _research = n.InnerText;
+            }
+        }
+
+        int _seed = -1;
+        public int Seed
+        {
+            get
+            {
+                if (_seed != -1) { return _seed; }
+
+                XmlNode n = xml_world.SelectSingleNode(".//WorldSeed");
+                if (n == null) return _seed = -1;
+
+                return _seed = int.Parse(n.InnerText);
+            }
+        }
+
         public void Save()
         {
             if (xml_world != null)

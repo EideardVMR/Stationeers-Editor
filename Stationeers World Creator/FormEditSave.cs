@@ -38,7 +38,28 @@ namespace Stationeers_World_Creator
 
             }
 
+            comboBox_difficulty.Items.Clear();
+            foreach (string diff in Form1.difficultys)
+            {
+                comboBox_difficulty.Items.Add(diff);
+            }
+            comboBox_difficulty.Text = savegame.Difficulty;
+
+            comboBox_world.Items.Clear();
+            foreach(WorldCollection collection in Form1.worldCollections)
+            {
+                foreach(World world in collection.Worlds)
+                {
+                    comboBox_world.Items.Add(world.Id);
+                }
+            }
+
+            comboBox_world.Text = savegame.WorldId;
+
             button_rooms.Text = "Räume (" + savegame.Rooms.Count + ")";
+            textBox_seed.Text = savegame.Seed.ToString();
+            checkBox_research.Checked = savegame.Research == "ResearchOn" ? true : false;
+
 
         }
 
