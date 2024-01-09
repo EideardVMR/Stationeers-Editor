@@ -68,6 +68,19 @@
             kollektionLöschenToolStripMenuItem = new ToolStripMenuItem();
             kollektionAktivierenToolStripMenuItem = new ToolStripMenuItem();
             kollektionDeaktivierenToolStripMenuItem = new ToolStripMenuItem();
+            tabControl1 = new TabControl();
+            tabPage1 = new TabPage();
+            tabPage2 = new TabPage();
+            listView_savegames = new ListView();
+            columnHeader8 = new ColumnHeader();
+            columnHeader9 = new ColumnHeader();
+            columnHeader10 = new ColumnHeader();
+            columnHeader11 = new ColumnHeader();
+            columnHeader12 = new ColumnHeader();
+            contextMenuStrip1 = new ContextMenuStrip(components);
+            savegameNameToolStripMenuItem = new ToolStripMenuItem();
+            toolStripSeparator3 = new ToolStripSeparator();
+            backupsToolStripMenuItem = new ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             groupBox1.SuspendLayout();
@@ -76,6 +89,10 @@
             statusStrip1.SuspendLayout();
             groupBox2.SuspendLayout();
             contextMenuStrip_collection.SuspendLayout();
+            tabControl1.SuspendLayout();
+            tabPage1.SuspendLayout();
+            tabPage2.SuspendLayout();
+            contextMenuStrip1.SuspendLayout();
             SuspendLayout();
             // 
             // pictureBox1
@@ -203,9 +220,9 @@
             // 
             groupBox3.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             groupBox3.Controls.Add(listView_worlds);
-            groupBox3.Location = new Point(12, 463);
+            groupBox3.Location = new Point(6, 209);
             groupBox3.Name = "groupBox3";
-            groupBox3.Size = new Size(785, 381);
+            groupBox3.Size = new Size(765, 341);
             groupBox3.TabIndex = 20;
             groupBox3.TabStop = false;
             groupBox3.Text = "Meine Welten";
@@ -219,7 +236,7 @@
             listView_worlds.FullRowSelect = true;
             listView_worlds.Location = new Point(7, 22);
             listView_worlds.Name = "listView_worlds";
-            listView_worlds.Size = new Size(772, 353);
+            listView_worlds.Size = new Size(752, 313);
             listView_worlds.TabIndex = 0;
             listView_worlds.UseCompatibleStateImageBehavior = false;
             listView_worlds.View = View.Details;
@@ -308,9 +325,9 @@
             // 
             groupBox2.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             groupBox2.Controls.Add(listView_collections);
-            groupBox2.Location = new Point(12, 260);
+            groupBox2.Location = new Point(6, 6);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(785, 197);
+            groupBox2.Size = new Size(765, 197);
             groupBox2.TabIndex = 22;
             groupBox2.TabStop = false;
             groupBox2.Text = "Meine Kollektionen";
@@ -324,7 +341,7 @@
             listView_collections.FullRowSelect = true;
             listView_collections.Location = new Point(6, 22);
             listView_collections.Name = "listView_collections";
-            listView_collections.Size = new Size(773, 169);
+            listView_collections.Size = new Size(753, 169);
             listView_collections.TabIndex = 1;
             listView_collections.UseCompatibleStateImageBehavior = false;
             listView_collections.View = View.Details;
@@ -407,18 +424,113 @@
             kollektionDeaktivierenToolStripMenuItem.Text = "Kollektion deaktivieren";
             kollektionDeaktivierenToolStripMenuItem.Click += kollektionDeaktivierenToolStripMenuItem_Click;
             // 
+            // tabControl1
+            // 
+            tabControl1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            tabControl1.Controls.Add(tabPage1);
+            tabControl1.Controls.Add(tabPage2);
+            tabControl1.Enabled = false;
+            tabControl1.Location = new Point(12, 260);
+            tabControl1.Name = "tabControl1";
+            tabControl1.SelectedIndex = 0;
+            tabControl1.Size = new Size(785, 584);
+            tabControl1.TabIndex = 23;
+            // 
+            // tabPage1
+            // 
+            tabPage1.Controls.Add(groupBox2);
+            tabPage1.Controls.Add(groupBox3);
+            tabPage1.Location = new Point(4, 24);
+            tabPage1.Name = "tabPage1";
+            tabPage1.Padding = new Padding(3);
+            tabPage1.Size = new Size(777, 556);
+            tabPage1.TabIndex = 0;
+            tabPage1.Text = "Welten";
+            tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // tabPage2
+            // 
+            tabPage2.Controls.Add(listView_savegames);
+            tabPage2.Location = new Point(4, 24);
+            tabPage2.Name = "tabPage2";
+            tabPage2.Padding = new Padding(3);
+            tabPage2.Size = new Size(777, 556);
+            tabPage2.TabIndex = 1;
+            tabPage2.Text = "Savegames";
+            tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // listView_savegames
+            // 
+            listView_savegames.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            listView_savegames.Columns.AddRange(new ColumnHeader[] { columnHeader8, columnHeader9, columnHeader10, columnHeader11, columnHeader12 });
+            listView_savegames.ContextMenuStrip = contextMenuStrip1;
+            listView_savegames.FullRowSelect = true;
+            listView_savegames.Location = new Point(6, 6);
+            listView_savegames.Name = "listView_savegames";
+            listView_savegames.Size = new Size(765, 544);
+            listView_savegames.TabIndex = 0;
+            listView_savegames.UseCompatibleStateImageBehavior = false;
+            listView_savegames.View = View.Details;
+            listView_savegames.SelectedIndexChanged += listView_savegames_SelectedIndexChanged;
+            listView_savegames.DoubleClick += listView_savegames_DoubleClick;
+            // 
+            // columnHeader8
+            // 
+            columnHeader8.Text = "Name";
+            columnHeader8.Width = 260;
+            // 
+            // columnHeader9
+            // 
+            columnHeader9.Text = "Version";
+            columnHeader9.Width = 100;
+            // 
+            // columnHeader10
+            // 
+            columnHeader10.Text = "Spieltage";
+            // 
+            // columnHeader11
+            // 
+            columnHeader11.Text = "Pfad";
+            columnHeader11.Width = 260;
+            // 
+            // columnHeader12
+            // 
+            columnHeader12.Text = "Geändert";
+            // 
+            // contextMenuStrip1
+            // 
+            contextMenuStrip1.Items.AddRange(new ToolStripItem[] { savegameNameToolStripMenuItem, toolStripSeparator3, backupsToolStripMenuItem });
+            contextMenuStrip1.Name = "contextMenuStrip1";
+            contextMenuStrip1.Size = new Size(161, 54);
+            // 
+            // savegameNameToolStripMenuItem
+            // 
+            savegameNameToolStripMenuItem.Name = "savegameNameToolStripMenuItem";
+            savegameNameToolStripMenuItem.Size = new Size(160, 22);
+            savegameNameToolStripMenuItem.Text = "SavegameName";
+            // 
+            // toolStripSeparator3
+            // 
+            toolStripSeparator3.Name = "toolStripSeparator3";
+            toolStripSeparator3.Size = new Size(157, 6);
+            // 
+            // backupsToolStripMenuItem
+            // 
+            backupsToolStripMenuItem.Name = "backupsToolStripMenuItem";
+            backupsToolStripMenuItem.Size = new Size(160, 22);
+            backupsToolStripMenuItem.Text = "Backups";
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(978, 869);
+            Controls.Add(tabControl1);
             Controls.Add(label_check_lang);
-            Controls.Add(groupBox2);
             Controls.Add(label_check_lang_header);
             Controls.Add(statusStrip1);
             Controls.Add(label_check_ws);
             Controls.Add(button_save);
-            Controls.Add(groupBox3);
             Controls.Add(label_check_ws_header);
             Controls.Add(groupBox1);
             Controls.Add(pictureBox2);
@@ -439,6 +551,10 @@
             statusStrip1.PerformLayout();
             groupBox2.ResumeLayout(false);
             contextMenuStrip_collection.ResumeLayout(false);
+            tabControl1.ResumeLayout(false);
+            tabPage1.ResumeLayout(false);
+            tabPage2.ResumeLayout(false);
+            contextMenuStrip1.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -483,5 +599,18 @@
         private ToolStripMenuItem kollektionAktivierenToolStripMenuItem;
         private ToolStripMenuItem kollektionDeaktivierenToolStripMenuItem;
         private ColumnHeader columnHeader3;
+        private TabControl tabControl1;
+        private TabPage tabPage1;
+        private TabPage tabPage2;
+        private ListView listView_savegames;
+        private ColumnHeader columnHeader8;
+        private ColumnHeader columnHeader9;
+        private ColumnHeader columnHeader10;
+        private ColumnHeader columnHeader11;
+        private ColumnHeader columnHeader12;
+        private ContextMenuStrip contextMenuStrip1;
+        private ToolStripMenuItem savegameNameToolStripMenuItem;
+        private ToolStripSeparator toolStripSeparator3;
+        private ToolStripMenuItem backupsToolStripMenuItem;
     }
 }
