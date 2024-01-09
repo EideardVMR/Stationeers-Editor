@@ -1,6 +1,6 @@
 ﻿namespace Stationeers_World_Creator
 {
-    partial class FormEditRoomAtmosphaere
+    partial class FormEditTankAtmosphaere
     {
         /// <summary>
         /// Required designer variable.
@@ -117,7 +117,7 @@
             label1.Name = "label1";
             label1.Size = new Size(123, 23);
             label1.TabIndex = 0;
-            label1.Text = "Raum ID:";
+            label1.Text = "Tank ID:";
             label1.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // label2
@@ -127,7 +127,7 @@
             label2.Name = "label2";
             label2.Size = new Size(77, 23);
             label2.TabIndex = 0;
-            label2.Text = "Blöcke:";
+            label2.Text = "Name:";
             label2.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // label3
@@ -525,7 +525,6 @@
             label_blocks.Name = "label_blocks";
             label_blocks.Size = new Size(117, 23);
             label_blocks.TabIndex = 0;
-            label_blocks.Text = "0";
             label_blocks.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // label28
@@ -619,7 +618,7 @@
             groupBox1.Size = new Size(532, 81);
             groupBox1.TabIndex = 20;
             groupBox1.TabStop = false;
-            groupBox1.Text = "Rauminformationen";
+            groupBox1.Text = "Tankinformationen";
             // 
             // groupBox2
             // 
@@ -739,7 +738,7 @@
             button_removegas.UseVisualStyleBackColor = false;
             button_removegas.Click += button_removegas_Click;
             // 
-            // FormEditRoomAtmosphaere
+            // FormEditTankAtmosphaere
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -750,7 +749,7 @@
             Controls.Add(groupBox1);
             Controls.Add(button_save);
             FormBorderStyle = FormBorderStyle.FixedToolWindow;
-            Name = "FormEditRoomAtmosphaere";
+            Name = "FormEditTankAtmosphaere";
             StartPosition = FormStartPosition.CenterParent;
             Text = "FormEditRoomAtmosphaere";
             Load += FormEditRoomAtmosphaere_Load;

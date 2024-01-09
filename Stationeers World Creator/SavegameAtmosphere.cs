@@ -202,9 +202,6 @@ namespace Stationeers_World_Creator
             Pollutant = percPollutant * newMols;
 
 
-
-
-
             double newEnergy = Energy;
             double stepsize = 1000000;
 
@@ -301,6 +298,7 @@ namespace Stationeers_World_Creator
                 n.InnerText = value.ToString().Replace(",", ".");
                 if (_energy != value) { savegame.IsChanged = true; }
                 _energy = value;
+                savegame.IsChanged = true;
             }
         }
 
@@ -311,7 +309,7 @@ namespace Stationeers_World_Creator
             {
                 if (_networkReferenceId != -1) { return _networkReferenceId; }
 
-                XmlNode n = node.SelectSingleNode(".//ThingReferenceId");
+                XmlNode n = node.SelectSingleNode(".//NetworkReferenceId");
                 if (n == null) { return _networkReferenceId = 0; }
                 _networkReferenceId = double.Parse(n.InnerText.Replace(".", ","));
 
@@ -369,6 +367,7 @@ namespace Stationeers_World_Creator
                 n.InnerText = value.ToString().Replace(",", ".");
                 if (_oxygen != value) { savegame.IsChanged = true; }
                 _oxygen = value;
+                savegame.IsChanged = true;
             }
         }
 
@@ -391,6 +390,7 @@ namespace Stationeers_World_Creator
                 n.InnerText = value.ToString().Replace(",", ".");
                 if (_nitrogen != value) { savegame.IsChanged = true; }
                 _nitrogen = value;
+                savegame.IsChanged = true;
             }
         }
 
@@ -413,6 +413,7 @@ namespace Stationeers_World_Creator
                 n.InnerText = value.ToString().Replace(",", ".");
                 if (_carbonDioxide != value) { savegame.IsChanged = true; }
                 _carbonDioxide = value;
+                savegame.IsChanged = true;
             }
         }
 
@@ -435,6 +436,7 @@ namespace Stationeers_World_Creator
                 n.InnerText = value.ToString().Replace(",", ".");
                 if (_volatiles != value) { savegame.IsChanged = true; }
                 _volatiles = value;
+                savegame.IsChanged = true;
             }
         }
 
@@ -457,6 +459,7 @@ namespace Stationeers_World_Creator
                 n.InnerText = value.ToString().Replace(",", ".");
                 if (_pollutant != value) { savegame.IsChanged = true; }
                 _pollutant = value;
+                savegame.IsChanged = true;
             }
         }
 
@@ -478,6 +481,7 @@ namespace Stationeers_World_Creator
                 n.InnerText = value.ToString().Replace(",", ".");
                 if (_steam != value) { savegame.IsChanged = true; }
                 _steam = value;
+                savegame.IsChanged = true;
             }
         }
 
@@ -500,6 +504,7 @@ namespace Stationeers_World_Creator
                 n.InnerText = value.ToString().Replace(",", ".");
                 if (_nitrousOxide != value) { savegame.IsChanged = true; }
                 _nitrousOxide = value;
+                savegame.IsChanged = true;
             }
         }
 
@@ -522,6 +527,7 @@ namespace Stationeers_World_Creator
                 n.InnerText = value.ToString().Replace(",", ".");
                 if (_liquidOxygen != value) { savegame.IsChanged = true; }
                 _liquidOxygen = value;
+                savegame.IsChanged = true;
             }
         }
 
@@ -544,6 +550,7 @@ namespace Stationeers_World_Creator
                 n.InnerText = value.ToString().Replace(",", ".");
                 if (_liquidNitrogen != value) { savegame.IsChanged = true; }
                 _liquidNitrogen = value;
+                savegame.IsChanged = true;
             }
         }
 
@@ -566,6 +573,7 @@ namespace Stationeers_World_Creator
                 n.InnerText = value.ToString().Replace(",", ".");
                 if (_liquidCarbonDioxide != value) { savegame.IsChanged = true; }
                 _liquidCarbonDioxide = value;
+                savegame.IsChanged = true;
             }
         }
 
@@ -588,6 +596,7 @@ namespace Stationeers_World_Creator
                 n.InnerText = value.ToString().Replace(",", ".");
                 if (_liquidVolatiles != value) { savegame.IsChanged = true; }
                 _liquidVolatiles = value;
+                savegame.IsChanged = true;
             }
         }
 
@@ -610,6 +619,7 @@ namespace Stationeers_World_Creator
                 n.InnerText = value.ToString().Replace(",", ".");
                 if (_liquidPollutant != value) { savegame.IsChanged = true; }
                 _liquidPollutant = value;
+                savegame.IsChanged = true;
             }
         }
 
@@ -632,6 +642,7 @@ namespace Stationeers_World_Creator
                 n.InnerText = value.ToString().Replace(",", ".");
                 if (_water != value) { savegame.IsChanged = true; }
                 _water = value;
+                savegame.IsChanged = true;
             }
         }
 
@@ -654,6 +665,7 @@ namespace Stationeers_World_Creator
                 n.InnerText = value.ToString().Replace(",", ".");
                 if (_liquidNitrousOxide != value) { savegame.IsChanged = true; }
                 _liquidNitrousOxide = value;
+                savegame.IsChanged = true;
             }
         }
 

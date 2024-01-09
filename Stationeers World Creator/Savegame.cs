@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Security.Policy;
 using System.Text;
@@ -23,8 +24,8 @@ namespace Stationeers_World_Creator
 
         public int CompareTo(Savegame other)
         {
-            if (this.DateTime < other.DateTime) return 1;
-            if (this.DateTime > other.DateTime) return -1;
+            if (this.Timestamp < other.Timestamp) return 1;
+            if (this.Timestamp > other.Timestamp) return -1;
 
             return 0;
         }
@@ -69,7 +70,7 @@ namespace Stationeers_World_Creator
         }
 
         long _dateTime = -1;
-        public long DateTime
+        public long Timestamp
         {
             get
             {
@@ -108,6 +109,19 @@ namespace Stationeers_World_Creator
                     return _daysPast = - 1;
                 }
                 return _daysPast = int.Parse(n.InnerText);
+            }
+        }
+
+        string _savegamename = null;
+        public string SavegameName
+        {
+            get
+            {
+                if (_savegamename != null) { return _savegamename; }
+
+                string parent = Path.GetDirectoryName(PathToSavegame);
+                return Path.GetFileName(parent);
+                
             }
         }
 
@@ -207,6 +221,144 @@ namespace Stationeers_World_Creator
             }
         }
 
+        List<Thing> _things = null;
+        public List<Thing> Things
+        {
+            get
+            {
+                if(_things != null) { return _things; }
+
+                XmlNodeList nl = xml_world.SelectNodes("//Things//ThingSaveData");
+                if(nl == null) return _things = new List<Thing>();
+                _things = new List<Thing>();
+                foreach (XmlNode n in nl)
+                {
+                    _things.Add(new Thing(this,n));
+                }
+
+                return _things;
+            }
+        }
+
+        List<Network> _network = null;
+        public List<Network> Networks
+        {
+            get
+            {
+                if (_network != null) { return _network; }
+
+                XmlNodeList nl = xml_world.SelectNodes("//PipeNetworks//NetworkId");
+                if (nl == null) return _network = new List<Network>();
+                _network = new List<Network>();
+                foreach (XmlNode n in nl)
+                {
+                    _network.Add(new Network(int.Parse(n.InnerText), this));
+                }
+
+                return _network;
+            }
+        }
+
+        List<Tank> _tanks= null;
+        public List<Tank> Tanks
+        {
+            get
+            {
+                if (_tanks != null) { return _tanks; }
+
+                _tanks = new List<Tank>();
+                List<string> tankHashes = new List<string>();
+                tankHashes.Add("DynamicGasCanisterNitrousOxide");
+                tankHashes.Add("ItemGasCanisterFuel");
+                tankHashes.Add("DynamicGasCanisterVolatiles");
+                tankHashes.Add("StructureTankSmallInsulated");
+                tankHashes.Add("DynamicGasCanisterCarbonDioxide");
+                tankHashes.Add("DynamicGasTankAdvancedWater");
+                tankHashes.Add("DynamicGasCanisterPollutants");
+                tankHashes.Add("ItemLiquidCanisterSmart");
+                tankHashes.Add("ItemGasCanisterPollutants");
+                tankHashes.Add("ItemGasCanisterEmpty");
+                tankHashes.Add("StructureTankSmall");
+                tankHashes.Add("StructureTankBigInsulated");
+                tankHashes.Add("ItemGasCanisterOxygen");
+                tankHashes.Add("DynamicGasCanisterRocketFuel");
+                tankHashes.Add("StructureLiquidTankBig");
+                tankHashes.Add("ItemGasCanisterCarbonDioxide");
+                tankHashes.Add("DynamicLiquidCanisterEmpty");
+                tankHashes.Add("ItemGasCanisterSmart");
+                tankHashes.Add("StructureLiquidTankSmallInsulated");
+                tankHashes.Add("DynamicMKIILiquidCanisterWater");
+                tankHashes.Add("DynamicGasCanisterWater");
+                tankHashes.Add("DynamicGasCanisterAir");
+                tankHashes.Add("ItemGasCanisterNitrousOxide");
+                tankHashes.Add("DynamicMKIILiquidCanisterEmpty");
+                tankHashes.Add("DynamicGasCanisterFuel");
+                tankHashes.Add("DynamicGasCanisterOxygen");
+                tankHashes.Add("ItemLiquidCanisterEmpty");
+                tankHashes.Add("DynamicGasCanisterEmpty");
+                tankHashes.Add("ItemGasCanisterWater");
+                tankHashes.Add("DynamicGasCanisterNitrogen");
+                tankHashes.Add("DynamicGasTankAdvanced");
+                tankHashes.Add("ItemGasCanisterNitrogen");
+                tankHashes.Add("StructureLiquidTankSmall");
+                tankHashes.Add("StructureTankBig");
+                tankHashes.Add("ItemGasCanisterVolatiles");
+                tankHashes.Add("StructureLiquidTankBigInsulated");
+                //tankHashes.Add("Landingpad_GasCylinderTankPiece");
+                tankHashes.Add("StructureCapsuleTankGas");
+                tankHashes.Add("StructureMediumRocketGasFuelTank");
+                tankHashes.Add("StructureMediumRocketLiquidFuelTank");
+                tankHashes.Add("StructureCapsuleTankLiquid");
+                foreach (Thing thing in Things)
+                {
+                    if (tankHashes.Contains(thing.PrefabName))
+                    {
+                        _tanks.Add(new Tank(this, thing));
+                    }
+                }
+
+                return _tanks;
+            }
+        }
+
+        List<Player> _player = null;
+        public List<Player> Player
+        {
+            get
+            {
+                if (_player != null) { return _player; }
+                _player = new List<Player>();
+                foreach (Thing thing in Things)
+                {
+                    if (thing.Type == "HumanSaveData")
+                    {
+                        _player.Add(new Player(this, thing.Id));
+                    }
+                }
+
+                return _player;
+            }
+        }
+
+        List<Rocket> _rockets = null;
+        public List<Rocket> Rockets
+        {
+            get
+            {
+                if (_rockets != null) { return _rockets; }
+
+                XmlNodeList nl = xml_world.SelectNodes("//Rockets//RocketSaveData");
+                if (nl == null) return _rockets = new List<Rocket>();
+                _rockets = new List<Rocket>();
+                foreach (XmlNode n in nl)
+                {
+                    _rockets.Add(new Rocket(this, n));
+                }
+
+                return _rockets;
+            }
+        }
+
         private bool _changed = false;
         public bool IsChanged
         {
@@ -228,6 +380,15 @@ namespace Stationeers_World_Creator
 
                 return _worldId = n.Attributes["Id"].Value;
             }
+            set
+            {
+                XmlNode n = xml_world.SelectSingleNode(".//WorldSetting");
+                if (n == null) return;
+                if (n.Attributes["Id"] == null) { return; }
+                n.Attributes["Id"].Value = value.ToString();
+                _worldId = value;
+                IsChanged = true;
+            }
         }
 
         string _difficulty = null;
@@ -244,6 +405,15 @@ namespace Stationeers_World_Creator
 
                 return _difficulty = n.Attributes["Id"].Value;
             }
+            set
+            {
+                XmlNode n = xml_world.SelectSingleNode(".//DifficultySetting");
+                if (n == null) return;
+                if (n.Attributes["Id"] == null) { return; }
+                n.Attributes["Id"].Value = value.ToString();
+                _difficulty = value;
+                IsChanged = true;
+            }
         }
 
         string _research = null;
@@ -258,8 +428,17 @@ namespace Stationeers_World_Creator
 
                 return _research = n.InnerText;
             }
+            set
+            {
+                XmlNode n = xml_world.SelectSingleNode(".//ResearchKey");
+                if (n == null) return;
+                n.InnerText = value.ToString(); 
+                _research = value;
+                IsChanged = true;
+            }
         }
 
+        bool _seedChanged = false;
         int _seed = -1;
         public int Seed
         {
@@ -272,19 +451,40 @@ namespace Stationeers_World_Creator
 
                 return _seed = int.Parse(n.InnerText);
             }
+            set
+            {
+                XmlNode n = xml_world.SelectSingleNode(".//WorldSeed");
+                if (n == null) return;
+                n.InnerText = value.ToString();
+                if(value != _seed && !_seedChanged) { _seedChanged = true; IsChanged = true; }
+                _seed = value;
+            }
         }
 
         public void Save()
         {
+            string path = Form1.MyStationeersEditor + "Backups\\Saves\\" + SavegameName + "\\";
+
+            Directory.CreateDirectory(path);
+            ZipFile.CreateFromDirectory(PathToSavegame, path + DateTime.Now.ToString("yyyy-MM-dd_HH.mm.ss") + ".zip");
+
             if (xml_world != null)
             {
                 xml_world.Save(PathToSavegame + "world.xml");
+
+                if (_seedChanged)
+                {
+                    _seedChanged = false;
+                    File.Delete(PathToSavegame + "world.bin");
+                }
             }
 
             if (xml_world_meta != null)
             {
                 xml_world_meta.Save(PathToSavegame + "world_meta.xml");
             }
+
+            IsChanged = false;
         }
 
         #endregion

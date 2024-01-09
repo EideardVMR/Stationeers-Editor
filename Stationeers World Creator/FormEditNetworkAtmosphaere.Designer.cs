@@ -1,6 +1,6 @@
 ﻿namespace Stationeers_World_Creator
 {
-    partial class FormEditRoomAtmosphaere
+    partial class FormEditNetworkAtmosphaere
     {
         /// <summary>
         /// Required designer variable.
@@ -117,7 +117,7 @@
             label1.Name = "label1";
             label1.Size = new Size(123, 23);
             label1.TabIndex = 0;
-            label1.Text = "Raum ID:";
+            label1.Text = "Netzwerk ID:";
             label1.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // label2
@@ -129,6 +129,7 @@
             label2.TabIndex = 0;
             label2.Text = "Blöcke:";
             label2.TextAlign = ContentAlignment.MiddleLeft;
+            label2.Visible = false;
             // 
             // label3
             // 
@@ -527,6 +528,7 @@
             label_blocks.TabIndex = 0;
             label_blocks.Text = "0";
             label_blocks.TextAlign = ContentAlignment.MiddleLeft;
+            label_blocks.Visible = false;
             // 
             // label28
             // 
@@ -619,7 +621,7 @@
             groupBox1.Size = new Size(532, 81);
             groupBox1.TabIndex = 20;
             groupBox1.TabStop = false;
-            groupBox1.Text = "Rauminformationen";
+            groupBox1.Text = "Netzwerkinformationen";
             // 
             // groupBox2
             // 
@@ -739,7 +741,7 @@
             button_removegas.UseVisualStyleBackColor = false;
             button_removegas.Click += button_removegas_Click;
             // 
-            // FormEditRoomAtmosphaere
+            // FormEditNetworkAtmosphaere
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -750,7 +752,7 @@
             Controls.Add(groupBox1);
             Controls.Add(button_save);
             FormBorderStyle = FormBorderStyle.FixedToolWindow;
-            Name = "FormEditRoomAtmosphaere";
+            Name = "FormEditNetworkAtmosphaere";
             StartPosition = FormStartPosition.CenterParent;
             Text = "FormEditRoomAtmosphaere";
             Load += FormEditRoomAtmosphaere_Load;

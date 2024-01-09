@@ -115,13 +115,26 @@ namespace Stationeers_World_Creator
 
         private void listView1_DoubleClick(object sender, EventArgs e)
         {
-            if(listView1.SelectedItems.Count > 0)
+            if (listView1.SelectedItems.Count > 0)
             {
                 FormEditRoomAtmosphaere form = new FormEditRoomAtmosphaere(savegame.Rooms[listView1.SelectedItems[0].Index]);
                 form.Text = "Raumatmosphäre bearbeiten";
                 form.ShowDialog();
                 ListRooms();
             }
+        }
+
+        private void FormEditRooms_SizeChanged(object sender, EventArgs e)
+        {
+            foreach (ColumnHeader col in listView1.Columns)
+            {
+                col.Width = 60;
+            }
+
+            listView1.AutoResizeColumn(1, ColumnHeaderAutoResizeStyle.ColumnContent);
+            listView1.AutoResizeColumn(2, ColumnHeaderAutoResizeStyle.ColumnContent);
+            listView1.AutoResizeColumn(10, ColumnHeaderAutoResizeStyle.ColumnContent);
+            listView1.AutoResizeColumn(11, ColumnHeaderAutoResizeStyle.ColumnContent);
         }
     }
 }

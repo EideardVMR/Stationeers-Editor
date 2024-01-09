@@ -110,6 +110,7 @@
             // 
             // label1
             // 
+            label1.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             label1.AutoSize = true;
             label1.ForeColor = Color.Green;
             label1.Location = new Point(12, 631);
@@ -120,6 +121,7 @@
             // 
             // label2
             // 
+            label2.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             label2.AutoSize = true;
             label2.ForeColor = Color.Orange;
             label2.Location = new Point(12, 646);
@@ -130,6 +132,7 @@
             // 
             // label3
             // 
+            label3.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             label3.AutoSize = true;
             label3.ForeColor = Color.Red;
             label3.Location = new Point(12, 661);
@@ -140,6 +143,7 @@
             // 
             // label4
             // 
+            label4.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             label4.AutoSize = true;
             label4.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             label4.ForeColor = SystemColors.ActiveCaptionText;
@@ -159,11 +163,13 @@
             Controls.Add(label4);
             Controls.Add(label1);
             Controls.Add(listView1);
-            FormBorderStyle = FormBorderStyle.FixedToolWindow;
+            FormBorderStyle = FormBorderStyle.SizableToolWindow;
             Name = "FormEditRooms";
             StartPosition = FormStartPosition.CenterParent;
             Text = "FormEditRooms";
             Load += FormEditRooms_Load;
+            ResizeEnd += FormEditRooms_SizeChanged;
+            SizeChanged += FormEditRooms_SizeChanged;
             ResumeLayout(false);
             PerformLayout();
         }

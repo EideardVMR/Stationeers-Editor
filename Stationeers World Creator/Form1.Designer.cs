@@ -77,6 +77,10 @@
             columnHeader10 = new ColumnHeader();
             columnHeader11 = new ColumnHeader();
             columnHeader12 = new ColumnHeader();
+            contextMenuStrip1 = new ContextMenuStrip(components);
+            savegameNameToolStripMenuItem = new ToolStripMenuItem();
+            toolStripSeparator3 = new ToolStripSeparator();
+            backupsToolStripMenuItem = new ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             groupBox1.SuspendLayout();
@@ -88,6 +92,7 @@
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
             tabPage2.SuspendLayout();
+            contextMenuStrip1.SuspendLayout();
             SuspendLayout();
             // 
             // pictureBox1
@@ -458,6 +463,7 @@
             // 
             listView_savegames.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             listView_savegames.Columns.AddRange(new ColumnHeader[] { columnHeader8, columnHeader9, columnHeader10, columnHeader11, columnHeader12 });
+            listView_savegames.ContextMenuStrip = contextMenuStrip1;
             listView_savegames.FullRowSelect = true;
             listView_savegames.Location = new Point(6, 6);
             listView_savegames.Name = "listView_savegames";
@@ -465,6 +471,7 @@
             listView_savegames.TabIndex = 0;
             listView_savegames.UseCompatibleStateImageBehavior = false;
             listView_savegames.View = View.Details;
+            listView_savegames.SelectedIndexChanged += listView_savegames_SelectedIndexChanged;
             listView_savegames.DoubleClick += listView_savegames_DoubleClick;
             // 
             // columnHeader8
@@ -489,6 +496,29 @@
             // columnHeader12
             // 
             columnHeader12.Text = "Geändert";
+            // 
+            // contextMenuStrip1
+            // 
+            contextMenuStrip1.Items.AddRange(new ToolStripItem[] { savegameNameToolStripMenuItem, toolStripSeparator3, backupsToolStripMenuItem });
+            contextMenuStrip1.Name = "contextMenuStrip1";
+            contextMenuStrip1.Size = new Size(161, 54);
+            // 
+            // savegameNameToolStripMenuItem
+            // 
+            savegameNameToolStripMenuItem.Name = "savegameNameToolStripMenuItem";
+            savegameNameToolStripMenuItem.Size = new Size(160, 22);
+            savegameNameToolStripMenuItem.Text = "SavegameName";
+            // 
+            // toolStripSeparator3
+            // 
+            toolStripSeparator3.Name = "toolStripSeparator3";
+            toolStripSeparator3.Size = new Size(157, 6);
+            // 
+            // backupsToolStripMenuItem
+            // 
+            backupsToolStripMenuItem.Name = "backupsToolStripMenuItem";
+            backupsToolStripMenuItem.Size = new Size(160, 22);
+            backupsToolStripMenuItem.Text = "Backups";
             // 
             // Form1
             // 
@@ -524,6 +554,7 @@
             tabControl1.ResumeLayout(false);
             tabPage1.ResumeLayout(false);
             tabPage2.ResumeLayout(false);
+            contextMenuStrip1.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -577,5 +608,9 @@
         private ColumnHeader columnHeader10;
         private ColumnHeader columnHeader11;
         private ColumnHeader columnHeader12;
+        private ContextMenuStrip contextMenuStrip1;
+        private ToolStripMenuItem savegameNameToolStripMenuItem;
+        private ToolStripSeparator toolStripSeparator3;
+        private ToolStripMenuItem backupsToolStripMenuItem;
     }
 }

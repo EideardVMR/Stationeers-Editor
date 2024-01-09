@@ -40,9 +40,10 @@
             textBox_seed = new TextBox();
             label5 = new Label();
             label4 = new Label();
-            button1 = new Button();
-            button2 = new Button();
-            button3 = new Button();
+            button_rockets = new Button();
+            button_networks = new Button();
+            button_things = new Button();
+            button_player = new Button();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             SuspendLayout();
@@ -67,6 +68,7 @@
             comboBox_difficulty.Name = "comboBox_difficulty";
             comboBox_difficulty.Size = new Size(189, 23);
             comboBox_difficulty.TabIndex = 4;
+            comboBox_difficulty.SelectedIndexChanged += comboBox_difficulty_SelectedIndexChanged;
             // 
             // groupBox1
             // 
@@ -92,6 +94,7 @@
             checkBox_research.TabIndex = 6;
             checkBox_research.Text = "Aus";
             checkBox_research.UseVisualStyleBackColor = true;
+            checkBox_research.CheckedChanged += checkBox_research_CheckedChanged;
             // 
             // label3
             // 
@@ -128,6 +131,7 @@
             comboBox_world.Name = "comboBox_world";
             comboBox_world.Size = new Size(189, 23);
             comboBox_world.TabIndex = 4;
+            comboBox_world.SelectedIndexChanged += comboBox_world_SelectedIndexChanged;
             // 
             // groupBox2
             // 
@@ -147,6 +151,7 @@
             textBox_seed.Name = "textBox_seed";
             textBox_seed.Size = new Size(200, 23);
             textBox_seed.TabIndex = 0;
+            textBox_seed.TextChanged += textBox_seed_TextChanged;
             // 
             // label5
             // 
@@ -166,52 +171,65 @@
             label4.Text = "Weltseed";
             label4.TextAlign = ContentAlignment.MiddleLeft;
             // 
-            // button1
+            // button_rockets
             // 
-            button1.BackColor = SystemColors.ActiveCaption;
-            button1.FlatStyle = FlatStyle.Flat;
-            button1.Location = new Point(382, 130);
-            button1.Name = "button1";
-            button1.Size = new Size(182, 58);
-            button1.TabIndex = 3;
-            button1.Text = "Raketen";
-            button1.UseVisualStyleBackColor = false;
-            button1.Click += button_rooms_Click;
+            button_rockets.BackColor = SystemColors.ActiveCaption;
+            button_rockets.FlatStyle = FlatStyle.Flat;
+            button_rockets.Location = new Point(382, 130);
+            button_rockets.Name = "button_rockets";
+            button_rockets.Size = new Size(182, 58);
+            button_rockets.TabIndex = 3;
+            button_rockets.Text = "Raketen";
+            button_rockets.UseVisualStyleBackColor = false;
+            button_rockets.Click += button_rockets_Click;
             // 
-            // button2
+            // button_networks
             // 
-            button2.BackColor = SystemColors.ActiveCaption;
-            button2.FlatStyle = FlatStyle.Flat;
-            button2.Location = new Point(194, 130);
-            button2.Name = "button2";
-            button2.Size = new Size(182, 58);
-            button2.TabIndex = 3;
-            button2.Text = "Gasnetzwerke / Tanks";
-            button2.UseVisualStyleBackColor = false;
-            button2.Click += button_rooms_Click;
+            button_networks.BackColor = SystemColors.ActiveCaption;
+            button_networks.FlatStyle = FlatStyle.Flat;
+            button_networks.Location = new Point(194, 130);
+            button_networks.Name = "button_networks";
+            button_networks.Size = new Size(182, 58);
+            button_networks.TabIndex = 3;
+            button_networks.Text = "Gasnetzwerke / Tanks";
+            button_networks.UseVisualStyleBackColor = false;
+            button_networks.Click += button_networks_Click;
             // 
-            // button3
+            // button_things
             // 
-            button3.BackColor = SystemColors.ActiveCaption;
-            button3.FlatStyle = FlatStyle.Flat;
-            button3.Location = new Point(12, 130);
-            button3.Name = "button3";
-            button3.Size = new Size(176, 58);
-            button3.TabIndex = 3;
-            button3.Text = "Gegenstände";
-            button3.UseVisualStyleBackColor = false;
-            button3.Click += button_rooms_Click;
+            button_things.BackColor = SystemColors.ActiveCaption;
+            button_things.FlatStyle = FlatStyle.Flat;
+            button_things.Location = new Point(12, 130);
+            button_things.Name = "button_things";
+            button_things.Size = new Size(176, 58);
+            button_things.TabIndex = 3;
+            button_things.Text = "Gegenstände";
+            button_things.UseVisualStyleBackColor = false;
+            button_things.Click += button_things_Click;
+            // 
+            // button_player
+            // 
+            button_player.BackColor = SystemColors.ActiveCaption;
+            button_player.FlatStyle = FlatStyle.Flat;
+            button_player.Location = new Point(12, 194);
+            button_player.Name = "button_player";
+            button_player.Size = new Size(176, 58);
+            button_player.TabIndex = 3;
+            button_player.Text = "Spieler";
+            button_player.UseVisualStyleBackColor = false;
+            button_player.Click += button_player_Click;
             // 
             // FormEditSave
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(761, 201);
+            ClientSize = new Size(761, 264);
             Controls.Add(groupBox2);
             Controls.Add(groupBox1);
-            Controls.Add(button3);
-            Controls.Add(button2);
-            Controls.Add(button1);
+            Controls.Add(button_things);
+            Controls.Add(button_networks);
+            Controls.Add(button_rockets);
+            Controls.Add(button_player);
             Controls.Add(button_rooms);
             FormBorderStyle = FormBorderStyle.SizableToolWindow;
             Name = "FormEditSave";
@@ -238,9 +256,10 @@
         private GroupBox groupBox2;
         private TextBox textBox_seed;
         private Label label4;
-        private Button button1;
-        private Button button2;
-        private Button button3;
+        private Button button_rockets;
+        private Button button_networks;
+        private Button button_things;
         private Label label5;
+        private Button button_player;
     }
 }

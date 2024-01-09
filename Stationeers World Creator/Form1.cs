@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.IO.Compression;
 using System.Net;
 using System.Reflection;
 using System.Text.Json;
@@ -14,7 +15,7 @@ namespace Stationeers_World_Creator
         public static Settings settings = new Settings();
         public static List<string> difficultys = new List<string>();
         public static List<WorldCollection> worldCollections = new List<WorldCollection>();
-        
+
         XmlDocument modconfig = new XmlDocument();
         Savegames savegames;
 
@@ -232,7 +233,7 @@ namespace Stationeers_World_Creator
             foreach (Savegame save in savegames.Saves)
             {
                 ListViewItem lvi = new ListViewItem();
-                lvi.Text = save.WorldName;
+                lvi.Text = save.SavegameName;
                 lvi.SubItems.Add(save.GameVersion.ToString());
                 lvi.SubItems.Add(save.DaysPast.ToString());
                 lvi.SubItems.Add(save.SavePath.Replace(MyGames, "[..]\\"));
@@ -269,7 +270,7 @@ namespace Stationeers_World_Creator
             xmlDocument.Load(textBox_stationeers_path.Text + "\\rocketstation_Data\\StreamingAssets\\Data\\difficultySettings.xml");
 
             XmlNodeList nl = xmlDocument.SelectNodes("//DifficultySettings//DifficultySetting");
-            foreach(XmlNode n in nl)
+            foreach (XmlNode n in nl)
             {
                 difficultys.Add(n.Attributes["Id"].Value);
             }
@@ -600,17 +601,69 @@ namespace Stationeers_World_Creator
             savegames.SaveAll();
 
             modconfig.Save(textBox_stationeers_path.Text + "\\modconfig.xml");
+            ListSavegames();
         }
 
         private void listView_savegames_DoubleClick(object sender, EventArgs e)
         {
-            if(listView_savegames.SelectedItems.Count > 0)
+            if (listView_savegames.SelectedItems.Count > 0)
             {
                 FormEditSave form = new FormEditSave(savegames.Saves[listView_savegames.SelectedItems[0].Index]);
                 form.Text = "Savegame bearbeiten für " + savegames.Saves[listView_savegames.SelectedItems[0].Index].WorldName;
                 form.ShowDialog();
                 ListSavegames();
             }
+        }
+
+        private void listView_savegames_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (listView_savegames.SelectedItems.Count > 0)
+            {
+                backupsToolStripMenuItem.DropDownItems.Clear();
+                savegameNameToolStripMenuItem.Text = savegames.Saves[listView_savegames.SelectedItems[0].Index].SavegameName;
+
+                string backupPath = MyStationeersEditor + "Backups\\Saves\\" + savegames.Saves[listView_savegames.SelectedItems[0].Index].SavegameName + "\\";
+
+                if (Directory.Exists(backupPath))
+                {
+                    backupsToolStripMenuItem.Enabled = true;
+                    foreach (string path in Directory.GetFiles(backupPath))
+                    {
+                        FileInfo fileInfo = new FileInfo(path);
+
+                        ToolStripMenuItem tsmi = new ToolStripMenuItem();
+                        tsmi.Text = fileInfo.Name;
+                        tsmi.Click += (object s, EventArgs e) => {
+
+                            try
+                            {
+                                RecursiveDelete(new DirectoryInfo(savegames.Saves[listView_savegames.SelectedItems[0].Index].SavePath));
+                                Directory.CreateDirectory(savegames.Saves[listView_savegames.SelectedItems[0].Index].SavePath);
+                                ZipFile.ExtractToDirectory(path, savegames.Saves[listView_savegames.SelectedItems[0].Index].SavePath);
+                            } 
+                            catch(Exception ex)
+                            {
+                                MessageBox.Show(ex.Message, "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            }
+                        };
+
+                        backupsToolStripMenuItem.DropDownItems.Add(tsmi);
+                    }
+                } 
+                else 
+                    backupsToolStripMenuItem.Enabled = false;
+            }
+        }
+        public static void RecursiveDelete(DirectoryInfo baseDir)
+        {
+            if (!baseDir.Exists)
+                return;
+
+            foreach (var dir in baseDir.EnumerateDirectories())
+            {
+                RecursiveDelete(dir);
+            }
+            baseDir.Delete(true);
         }
     }
 }
