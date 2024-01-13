@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Text.Json;
 using System.Windows.Forms;
 using System.Xml;
+using System.Xml.Linq;
 
 namespace Stationeers_World_Creator
 {
@@ -34,6 +35,7 @@ namespace Stationeers_World_Creator
 
             toolStripStatusLabel1.Text = Assembly.GetExecutingAssembly().GetName().Version.ToString();
             ScanForUpdate();
+            SendStatistics();
         }
 
         private void ScanForUpdate()
@@ -51,10 +53,21 @@ namespace Stationeers_World_Creator
 
                 if (Assembly.GetExecutingAssembly().GetName().Version < newVersion)
                 {
-                    DialogResult dr = MessageBox.Show("Es ist eine neue Version vorhanden (" + newVersion.ToString() + ").\nSoll ich dich zur Downloadseite leiten?", "Update", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk);
+                    DialogResult dr = MessageBox.Show("Es ist eine neue Version vorhanden (" + newVersion.ToString() + ").\nSoll ich die Datei runterladen?", "Update", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk);
                     if (dr == DialogResult.Yes)
                     {
-                        System.Diagnostics.Process.Start("explorer", "https://stationeers.eideard.de/StationeersEditor");
+                        //System.Diagnostics.Process.Start("explorer", "https://stationeers.eideard.de/StationeersEditor");
+                        using(WebClient webClient = new WebClient())
+                        {
+                            try
+                            {
+                                webClient.DownloadFile(resp.data[0].downloadPath, Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Stationeers Editor-" + resp.data[0].currentVersion + ".exe"));
+                            } 
+                            catch(Exception ex)
+                            {
+                                MessageBox.Show("Datei konnte nicht runtergeladen werden:\n" + ex.Message, "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            }
+                        }
                     }
 
                     toolStripStatusLabel1.Text = "Neue Version verfügbar!!!";
@@ -633,15 +646,16 @@ namespace Stationeers_World_Creator
 
                         ToolStripMenuItem tsmi = new ToolStripMenuItem();
                         tsmi.Text = fileInfo.Name;
-                        tsmi.Click += (object s, EventArgs e) => {
+                        tsmi.Click += (object s, EventArgs e) =>
+                        {
 
                             try
                             {
                                 RecursiveDelete(new DirectoryInfo(savegames.Saves[listView_savegames.SelectedItems[0].Index].SavePath));
                                 Directory.CreateDirectory(savegames.Saves[listView_savegames.SelectedItems[0].Index].SavePath);
                                 ZipFile.ExtractToDirectory(path, savegames.Saves[listView_savegames.SelectedItems[0].Index].SavePath);
-                            } 
-                            catch(Exception ex)
+                            }
+                            catch (Exception ex)
                             {
                                 MessageBox.Show(ex.Message, "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             }
@@ -649,8 +663,8 @@ namespace Stationeers_World_Creator
 
                         backupsToolStripMenuItem.DropDownItems.Add(tsmi);
                     }
-                } 
-                else 
+                }
+                else
                     backupsToolStripMenuItem.Enabled = false;
             }
         }
@@ -664,6 +678,76 @@ namespace Stationeers_World_Creator
                 RecursiveDelete(dir);
             }
             baseDir.Delete(true);
+        }
+
+        void SendStatistics()
+        {
+
+            if (settings.AllowToSendStatisticsData == "Unknown")
+            {
+                DialogResult dr = MessageBox.Show("Hallo,\nich freue mich, dass du dieses kleine Projekt gefunden hast und nutzt.\nIch würde gerne wissen wie " +
+                    "frequentiert meine Software genutzt wird und möchte daher ein " +
+                    "paar Daten erheben. Mich würde es freuen, wenn du mich unterstützen würdest und dem zustimmst.\n\n" +
+                    "Aktuell erhobene Daten:\n" +
+                    "- Ein Nutzungscounter (wie oft wird die Software genutzt)\n\n" +
+                    "Du als Person, bleibst vollständig Anonym!",
+                    "Frage", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                if (dr == DialogResult.Yes)
+                {
+                    settings.AllowToSendStatisticsData = "Yes";
+                    if (settings.SystemID.Length != 200)
+                    {
+                        settings.SystemID = Settings.RandomStringMitZahlen(200);
+                    }
+                    SaveSettings();
+                }
+                else
+                {
+                    settings.AllowToSendStatisticsData = "No";
+                    SaveSettings();
+                }
+
+            }
+
+            toolStripStatusLabel_Statistics.Text = "Statistikdaten übermitteln: Inaktiv";
+            toolStripStatusLabel_Statistics.BackColor = Color.Brown;
+
+            if (settings.AllowToSendStatisticsData != "Yes") { return; }
+
+            toolStripStatusLabel_Statistics.Text = "Statistikdaten übermitteln: Aktiv";
+            toolStripStatusLabel_Statistics.BackColor = Color.ForestGreen;
+
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(@"https://api.stationeers.eideard.de/usageinfo/" + settings.SystemID);
+            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+            string content = new StreamReader(response.GetResponseStream()).ReadToEnd();
+
+
+            /*
+            APIResponse resp = JsonSerializer.Deserialize<APIResponse>(content);
+
+
+            if (resp != null)
+            {
+                Version newVersion = new Version(resp.data[0].currentVersion);
+
+                if (Assembly.GetExecutingAssembly().GetName().Version < newVersion)
+                {
+                    DialogResult dr = MessageBox.Show("Es ist eine neue Version vorhanden (" + newVersion.ToString() + ").\nSoll ich dich zur Downloadseite leiten?", "Update", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk);
+                    if (dr == DialogResult.Yes)
+                    {
+                        System.Diagnostics.Process.Start("explorer", "https://stationeers.eideard.de/StationeersEditor");
+                    }
+                }
+            }
+            */
+
+        }
+
+        private void toolStripStatusLabel_Statistics_Click(object sender, EventArgs e)
+        {
+            settings.AllowToSendStatisticsData = "Unknown";
+            SendStatistics();
         }
     }
 }

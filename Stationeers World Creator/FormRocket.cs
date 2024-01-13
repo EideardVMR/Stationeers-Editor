@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Net.Sockets;
@@ -24,16 +25,6 @@ namespace Stationeers_World_Creator
 
         private void FormRocket_Load(object sender, EventArgs e)
         {
-            foreach (string x in Rocket.AvailableStates)
-            {
-                comboBox_state.Items.Add(x);
-            }
-
-            foreach (string x in Rocket.AvailableModes)
-            {
-                comboBox_mode.Items.Add(x);
-            }
-
             foreach (Rocket rocket in savegame.Rockets)
             {
                 ListViewItem lvi = new ListViewItem();
@@ -70,34 +61,20 @@ namespace Stationeers_World_Creator
                 comboBox_position.Items.Add(spaceMapPoint);
             }
 
-            comboBox_state.Text = _rocket.RocketState.ToString();
-            comboBox_mode.Text = _rocket.RocketMode.ToString();
+            label_state.Text = _rocket.RocketState.ToString();
+            label_mode.Text = _rocket.RocketMode.ToString();
 
-            SpaceMapPoint spm = _rocket.getSpaceMap(_rocket.TargetNodeId);
+            SpaceMapPoint spm = _rocket.getSpaceMap(_rocket.CurrentNodeId);
             if (spm != null)
             {
                 comboBox_position.Text = spm.TemplateId;
             }
 
-            numericUpDown_progress.Value = Math.Round((decimal)_rocket.Progress * 100);
+            label_progress.Text = Math.Round((decimal)_rocket.Progress * 100).ToString();
+
+            label_things.Text = _rocket.Things.Count.ToString();
 
             _eventsdisabled = false;
-        }
-
-        private void comboBox_state_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if(_eventsdisabled) { return;  }
-            if(_rocket == null) { return; }
-            _rocket.RocketState = ((ComboBox)sender).Text;
-            PrintRocketData();
-        }
-
-        private void comboBox_mode_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (_eventsdisabled) { return; }
-            if (_rocket == null) { return; }
-            _rocket.RocketMode = ((ComboBox)sender).Text;
-            PrintRocketData();
         }
 
         private void comboBox_position_SelectedIndexChanged(object sender, EventArgs e)
@@ -106,25 +83,50 @@ namespace Stationeers_World_Creator
             if (_rocket == null) { return; }
             SpaceMapPoint spm = _rocket.getSpaceMap(((ComboBox)sender).Text);
             if (spm == null) { return; }
-            _rocket.TargetNodeId = spm.Id;
-            PrintRocketData();
-        }
-
-        private void numericUpDown_progress_ValueChanged(object sender, EventArgs e)
-        {
-            if (_eventsdisabled) { return; }
-            if (_rocket == null) { return; }
-            _rocket.Progress = (double)((NumericUpDown)sender).Value / 100;
+            _rocket.CurrentNodeId = spm.Id;
             PrintRocketData();
         }
 
         private void button_reset_Click(object sender, EventArgs e)
         {
+
             if (_eventsdisabled) { return; }
             if (_rocket == null) { return; }
             _rocket.RocketState = "OnLaunchMount";
             _rocket.RocketMode = "None";
             _rocket.Progress = 0;
+            _rocket.TargetNodeId = 0;
+            _rocket.CurrentNodeId = _rocket.LandingpadID;
+
+            _rocket.RocketTransformPosition = new Point3D(0,0,0);
+            _rocket.ParentedPosition = new Point3D(0, 0, 0);
+            _rocket.TargetPosition = new Point3D(0, 0, 0);
+            _rocket.ParkLocation = new Point2D(0, 0);
+
+            //Debug.WriteLine("------------------------------------------------");
+
+            //Debug.WriteLine("State: " + _rocket.RocketState);
+            //Debug.WriteLine("Mode: " + _rocket.RocketMode);
+            //Debug.WriteLine("Progress: " + _rocket.Progress);
+            //Debug.WriteLine("Target: " + _rocket.TargetNodeId);
+            //Debug.WriteLine("Current Node: " + _rocket.CurrentNodeId);
+
+            foreach (Thing thing in _rocket.Things)
+            {
+                if(thing.WorldPosition.Y > 4000)
+                {
+                    double x = (thing.WorldPosition.X - 1) + _rocket.LandingMount.WorldPosition.X;
+                    double y = thing.WorldPosition.Y - 3993;
+                    double z = (thing.WorldPosition.Z - 1) + _rocket.LandingMount.WorldPosition.Z;
+
+                    //Debug.WriteLine( x.ToString().PadLeft(6) + ";" + y.ToString().PadLeft(6) + ";" + z.ToString().PadLeft(6) + " | " + thing.PrefabName + " | " + thing.Id);
+
+                    thing.WorldPosition = new Point3D(x, y, z);
+                    thing.RegisteredWorldPosition = new Point3D(x, y, z);
+
+                }
+            }
+
             PrintRocketData();
         }
     }

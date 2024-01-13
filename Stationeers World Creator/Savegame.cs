@@ -240,6 +240,20 @@ namespace Stationeers_World_Creator
             }
         }
 
+        public void RemoveThing(Thing thing)
+        {
+            XmlNodeList nl = xml_world.SelectNodes("//Things//ThingSaveData");
+            foreach (XmlNode n in nl)
+            {
+                Thing xthing = new Thing(this, n);
+                if(xthing.Id == thing.Id)
+                {
+                    n.ParentNode.RemoveChild(n);
+                    _things.Remove(thing);
+                }
+            }
+        }
+
         List<Network> _network = null;
         public List<Network> Networks
         {
@@ -350,9 +364,11 @@ namespace Stationeers_World_Creator
                 XmlNodeList nl = xml_world.SelectNodes("//Rockets//RocketSaveData");
                 if (nl == null) return _rockets = new List<Rocket>();
                 _rockets = new List<Rocket>();
+                int i = 0;
                 foreach (XmlNode n in nl)
                 {
-                    _rockets.Add(new Rocket(this, n));
+                    _rockets.Add(new Rocket(this, n, i));
+                    i++;
                 }
 
                 return _rockets;

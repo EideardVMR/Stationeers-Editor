@@ -10,6 +10,7 @@ namespace Stationeers_World_Creator
     public class XVersion
     {
         public string currentVersion { get; set; }
+        public string downloadPath {  get; set; }
     }
 
     public class APIResponse

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -88,12 +89,14 @@ namespace Stationeers_World_Creator
                 {
                     if (savegame.Things[i].PrefabName == listView1.SelectedItems[0].Text)
                     {
-                        savegame.Things.Remove(savegame.Things[i]);
+                        //Debug.WriteLine("Remove: " + savegame.Things[i].PrefabName);
+                        //savegame.Things.Remove(savegame.Things[i]);
+                        savegame.RemoveThing(savegame.Things[i]);
                         i--;
                     }
                 }
 
-                PrintThings();
+                LoadThings();
             }
 
         }

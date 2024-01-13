@@ -13,11 +13,29 @@ namespace Stationeers_World_Creator
         public const double GASCONSTANT = 8.31446261815324;
 
         private static Random random = new Random();
+
         public string stationeers_path {  get; set; }
+
+        public string SystemID { get; set; }
+
+        public string AllowToSendStatisticsData { get; set; }
+
+        public Settings()
+        {
+            AllowToSendStatisticsData = "Unknown";
+        }
 
         public static string RandomString(int length)
         {
             const string chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            return new string(Enumerable.Repeat(chars, length)
+                .Select(s => s[random.Next(s.Length)]).ToArray());
+
+        }
+
+        public static string RandomStringMitZahlen(int length)
+        {
+            const string chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
             return new string(Enumerable.Repeat(chars, length)
                 .Select(s => s[random.Next(s.Length)]).ToArray());
 

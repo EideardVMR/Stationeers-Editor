@@ -53,6 +53,8 @@
             button_save = new Button();
             statusStrip1 = new StatusStrip();
             toolStripStatusLabel1 = new ToolStripStatusLabel();
+            toolStripStatusLabel2 = new ToolStripStatusLabel();
+            toolStripStatusLabel_Statistics = new ToolStripStatusLabel();
             groupBox2 = new GroupBox();
             listView_collections = new ListView();
             columnHeader4 = new ColumnHeader();
@@ -307,7 +309,7 @@
             // 
             // statusStrip1
             // 
-            statusStrip1.Items.AddRange(new ToolStripItem[] { toolStripStatusLabel1 });
+            statusStrip1.Items.AddRange(new ToolStripItem[] { toolStripStatusLabel1, toolStripStatusLabel2, toolStripStatusLabel_Statistics });
             statusStrip1.Location = new Point(0, 847);
             statusStrip1.Name = "statusStrip1";
             statusStrip1.Size = new Size(978, 22);
@@ -320,6 +322,22 @@
             toolStripStatusLabel1.Size = new Size(75, 17);
             toolStripStatusLabel1.Text = "Version: 0.1.0";
             toolStripStatusLabel1.Click += toolStripStatusLabel1_Click;
+            // 
+            // toolStripStatusLabel2
+            // 
+            toolStripStatusLabel2.Name = "toolStripStatusLabel2";
+            toolStripStatusLabel2.Size = new Size(681, 17);
+            toolStripStatusLabel2.Spring = true;
+            // 
+            // toolStripStatusLabel_Statistics
+            // 
+            toolStripStatusLabel_Statistics.BackColor = Color.Brown;
+            toolStripStatusLabel_Statistics.ForeColor = Color.White;
+            toolStripStatusLabel_Statistics.Name = "toolStripStatusLabel_Statistics";
+            toolStripStatusLabel_Statistics.Size = new Size(176, 17);
+            toolStripStatusLabel_Statistics.Text = "Statistikdaten übermitteln: Aktiv";
+            toolStripStatusLabel_Statistics.TextAlign = ContentAlignment.MiddleRight;
+            toolStripStatusLabel_Statistics.Click += toolStripStatusLabel_Statistics_Click;
             // 
             // groupBox2
             // 
@@ -612,5 +630,7 @@
         private ToolStripMenuItem savegameNameToolStripMenuItem;
         private ToolStripSeparator toolStripSeparator3;
         private ToolStripMenuItem backupsToolStripMenuItem;
+        private ToolStripStatusLabel toolStripStatusLabel2;
+        private ToolStripStatusLabel toolStripStatusLabel_Statistics;
     }
 }

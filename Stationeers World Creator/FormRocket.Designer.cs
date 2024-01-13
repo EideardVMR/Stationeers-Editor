@@ -36,17 +36,17 @@
             groupBox1 = new GroupBox();
             label_blocker = new Label();
             button_reset = new Button();
-            numericUpDown_progress = new NumericUpDown();
             comboBox_position = new ComboBox();
-            label5 = new Label();
+            label_progress = new Label();
+            label_things = new Label();
+            label6 = new Label();
             label4 = new Label();
             label3 = new Label();
-            comboBox_mode = new ComboBox();
             label2 = new Label();
-            comboBox_state = new ComboBox();
             label1 = new Label();
+            label_state = new Label();
+            label_mode = new Label();
             groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)numericUpDown_progress).BeginInit();
             SuspendLayout();
             // 
             // listView1
@@ -86,14 +86,15 @@
             groupBox1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
             groupBox1.Controls.Add(label_blocker);
             groupBox1.Controls.Add(button_reset);
-            groupBox1.Controls.Add(numericUpDown_progress);
             groupBox1.Controls.Add(comboBox_position);
-            groupBox1.Controls.Add(label5);
+            groupBox1.Controls.Add(label_progress);
+            groupBox1.Controls.Add(label_things);
+            groupBox1.Controls.Add(label6);
             groupBox1.Controls.Add(label4);
             groupBox1.Controls.Add(label3);
-            groupBox1.Controls.Add(comboBox_mode);
+            groupBox1.Controls.Add(label_mode);
             groupBox1.Controls.Add(label2);
-            groupBox1.Controls.Add(comboBox_state);
+            groupBox1.Controls.Add(label_state);
             groupBox1.Controls.Add(label1);
             groupBox1.Location = new Point(483, 12);
             groupBox1.Name = "groupBox1";
@@ -105,9 +106,9 @@
             // label_blocker
             // 
             label_blocker.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            label_blocker.Location = new Point(6, 19);
+            label_blocker.Location = new Point(6, 197);
             label_blocker.Name = "label_blocker";
-            label_blocker.Size = new Size(293, 374);
+            label_blocker.Size = new Size(293, 110);
             label_blocker.TabIndex = 4;
             label_blocker.Text = "keine Rakete ausgewählt";
             label_blocker.TextAlign = ContentAlignment.MiddleCenter;
@@ -125,36 +126,46 @@
             button_reset.UseVisualStyleBackColor = false;
             button_reset.Click += button_reset_Click;
             // 
-            // numericUpDown_progress
-            // 
-            numericUpDown_progress.Location = new Point(112, 106);
-            numericUpDown_progress.Name = "numericUpDown_progress";
-            numericUpDown_progress.Size = new Size(155, 23);
-            numericUpDown_progress.TabIndex = 2;
-            numericUpDown_progress.ValueChanged += numericUpDown_progress_ValueChanged;
-            // 
             // comboBox_position
             // 
             comboBox_position.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBox_position.FormattingEnabled = true;
-            comboBox_position.Location = new Point(112, 77);
+            comboBox_position.Location = new Point(112, 114);
             comboBox_position.Name = "comboBox_position";
             comboBox_position.Size = new Size(187, 23);
             comboBox_position.TabIndex = 1;
             comboBox_position.SelectedIndexChanged += comboBox_position_SelectedIndexChanged;
             // 
-            // label5
+            // label_progress
             // 
-            label5.Location = new Point(273, 106);
-            label5.Name = "label5";
-            label5.Size = new Size(26, 23);
-            label5.TabIndex = 0;
-            label5.Text = "%";
-            label5.TextAlign = ContentAlignment.MiddleLeft;
+            label_progress.Location = new Point(112, 65);
+            label_progress.Name = "label_progress";
+            label_progress.Size = new Size(187, 23);
+            label_progress.TabIndex = 0;
+            label_progress.Text = "%";
+            label_progress.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // label_things
+            // 
+            label_things.Location = new Point(112, 88);
+            label_things.Name = "label_things";
+            label_things.Size = new Size(100, 23);
+            label_things.TabIndex = 0;
+            label_things.Text = "[Teile]";
+            label_things.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // label6
+            // 
+            label6.Location = new Point(6, 88);
+            label6.Name = "label6";
+            label6.Size = new Size(100, 23);
+            label6.TabIndex = 0;
+            label6.Text = "Teile:";
+            label6.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // label4
             // 
-            label4.Location = new Point(6, 106);
+            label4.Location = new Point(6, 65);
             label4.Name = "label4";
             label4.Size = new Size(100, 23);
             label4.TabIndex = 0;
@@ -163,41 +174,21 @@
             // 
             // label3
             // 
-            label3.Location = new Point(6, 77);
+            label3.Location = new Point(6, 114);
             label3.Name = "label3";
             label3.Size = new Size(100, 23);
             label3.TabIndex = 0;
             label3.Text = "Position";
             label3.TextAlign = ContentAlignment.MiddleLeft;
             // 
-            // comboBox_mode
-            // 
-            comboBox_mode.DropDownStyle = ComboBoxStyle.DropDownList;
-            comboBox_mode.FormattingEnabled = true;
-            comboBox_mode.Location = new Point(112, 48);
-            comboBox_mode.Name = "comboBox_mode";
-            comboBox_mode.Size = new Size(187, 23);
-            comboBox_mode.TabIndex = 1;
-            comboBox_mode.SelectedIndexChanged += comboBox_mode_SelectedIndexChanged;
-            // 
             // label2
             // 
-            label2.Location = new Point(6, 48);
+            label2.Location = new Point(6, 42);
             label2.Name = "label2";
             label2.Size = new Size(100, 23);
             label2.TabIndex = 0;
             label2.Text = "Modus";
             label2.TextAlign = ContentAlignment.MiddleLeft;
-            // 
-            // comboBox_state
-            // 
-            comboBox_state.DropDownStyle = ComboBoxStyle.DropDownList;
-            comboBox_state.FormattingEnabled = true;
-            comboBox_state.Location = new Point(112, 19);
-            comboBox_state.Name = "comboBox_state";
-            comboBox_state.Size = new Size(187, 23);
-            comboBox_state.TabIndex = 1;
-            comboBox_state.SelectedIndexChanged += comboBox_state_SelectedIndexChanged;
             // 
             // label1
             // 
@@ -207,6 +198,24 @@
             label1.TabIndex = 0;
             label1.Text = "Status";
             label1.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // label_state
+            // 
+            label_state.Location = new Point(112, 19);
+            label_state.Name = "label_state";
+            label_state.Size = new Size(100, 23);
+            label_state.TabIndex = 0;
+            label_state.Text = "Status";
+            label_state.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // label_mode
+            // 
+            label_mode.Location = new Point(112, 42);
+            label_mode.Name = "label_mode";
+            label_mode.Size = new Size(100, 23);
+            label_mode.TabIndex = 0;
+            label_mode.Text = "Modus";
+            label_mode.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // FormRocket
             // 
@@ -221,7 +230,6 @@
             Text = "FormRocket";
             Load += FormRocket_Load;
             groupBox1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)numericUpDown_progress).EndInit();
             ResumeLayout(false);
         }
 
@@ -233,16 +241,17 @@
         private ColumnHeader columnHeader2;
         private ColumnHeader columnHeader3;
         private ColumnHeader columnHeader4;
-        private ComboBox comboBox_state;
         private Label label1;
-        private NumericUpDown numericUpDown_progress;
         private ComboBox comboBox_position;
         private Label label4;
         private Label label3;
-        private ComboBox comboBox_mode;
         private Label label2;
         private Button button_reset;
         private Label label_blocker;
-        private Label label5;
+        private Label label_progress;
+        private Label label_things;
+        private Label label6;
+        private Label label_mode;
+        private Label label_state;
     }
 }

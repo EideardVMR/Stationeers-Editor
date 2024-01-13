@@ -90,7 +90,83 @@ namespace Stationeers_World_Creator
                 return _parentReferenceId = int.Parse(n.InnerText);
             }
         }
-        
+
+        int _linkedNodeId = -1;
+        public int LinkedNodeId
+        {
+            get
+            {
+                if (_linkedNodeId != -1) { return _linkedNodeId; }
+
+                XmlNode n = node.SelectSingleNode("./LinkedNodeId");
+                if (n == null) { return _linkedNodeId = -1; }
+                return _linkedNodeId = int.Parse(n.InnerText);
+            }
+        }
+
+        int _rocketNetworkId = -1;
+        public int RocketNetworkId
+        {
+            get
+            {
+                if (_rocketNetworkId != -1) { return _rocketNetworkId; }
+
+                XmlNode n = node.SelectSingleNode("./RocketNetworkId");
+                if (n == null) { return _rocketNetworkId = -1; }
+                return _rocketNetworkId = int.Parse(n.InnerText);
+            }
+        }
+
+        Point3D _registeredWorldPosition = null;
+        public Point3D RegisteredWorldPosition
+        {
+            get
+            {
+                if (_registeredWorldPosition != null) { return _registeredWorldPosition; }
+
+                XmlNode n = node.SelectSingleNode("./RegisteredWorldPosition");
+                if (n == null) { return _registeredWorldPosition = null; }
+                return _registeredWorldPosition = new Point3D(n);
+            }
+            set
+            {
+                XmlNode n = node.SelectSingleNode("./RegisteredWorldPosition/x");
+                if (n == null) { return; }
+                n.InnerText = value.X.ToString().Replace(",", ".");
+                n = node.SelectSingleNode("./RegisteredWorldPosition/y");
+                if (n == null) { return; }
+                n.InnerText = value.Y.ToString().Replace(",", ".");
+                n = node.SelectSingleNode("./RegisteredWorldPosition/z");
+                if (n == null) { return; }
+                n.InnerText = value.Z.ToString().Replace(",", ".");
+            }
+        }
+
+        Point3D _worldPosition = null;
+        public Point3D WorldPosition
+        {
+            get
+            {
+                if (_worldPosition != null) { return _worldPosition; }
+
+                XmlNode n = node.SelectSingleNode("./WorldPosition");
+                if (n == null) { return _worldPosition = null; }
+                return _worldPosition = new Point3D(n);
+            }
+            set
+            {
+                XmlNode n = node.SelectSingleNode("./WorldPosition/x");
+                if (n == null) { return; }
+                n.InnerText = value.X.ToString().Replace(",",".");
+                n = node.SelectSingleNode("./WorldPosition/y");
+                if (n == null) { return; }
+                n.InnerText = value.Y.ToString().Replace(",", ".");
+                n = node.SelectSingleNode("./WorldPosition/z");
+                if (n == null) { return; }
+                n.InnerText = value.Z.ToString().Replace(",", ".");
+            }
+        }
+
         double _oxygenDamage = -1;
         public double OxygenDamage
         {

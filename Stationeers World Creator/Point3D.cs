@@ -22,9 +22,9 @@ namespace Stationeers_World_Creator
 
         public Point3D(XmlNode node)
         {
-            XmlNode nx = node.SelectSingleNode(".//x");
-            XmlNode ny = node.SelectSingleNode(".//y");
-            XmlNode nz = node.SelectSingleNode(".//z");
+            XmlNode nx = node.SelectSingleNode("./x");
+            XmlNode ny = node.SelectSingleNode("./y");
+            XmlNode nz = node.SelectSingleNode("./z");
 
             X = double.Parse(nx.InnerText.Replace(".", ","));
             Y = double.Parse(ny.InnerText.Replace(".", ","));
@@ -48,6 +48,45 @@ namespace Stationeers_World_Creator
         public override string ToString()
         {
             return X.ToString() + "," + Y.ToString() + "," + Z.ToString();
+        }
+
+    }
+    public class Point2D
+    {
+        public double X { get; set; }
+        public double Y { get; set; }
+
+        public Point2D(double x, double y)
+        {
+            X = x;
+            Y = y;
+        }
+
+        public Point2D(XmlNode node)
+        {
+            XmlNode nx = node.SelectSingleNode("./x");
+            XmlNode ny = node.SelectSingleNode("./y");
+
+            X = double.Parse(nx.InnerText.Replace(".", ","));
+            Y = double.Parse(ny.InnerText.Replace(".", ","));
+        }
+
+        public bool Equals(Point2D p2)
+        {
+            return this.X == p2.X && this.Y == p2.Y;
+        }
+
+        public Point2D Multiply(double multiplier)
+        {
+            Point2D p = new Point2D(X, Y);
+            p.X *= multiplier;
+            p.Y *= multiplier;
+            return p;
+        }
+
+        public override string ToString()
+        {
+            return X.ToString() + "," + Y.ToString();
         }
 
     }

@@ -49,9 +49,14 @@ namespace Stationeers_World_Creator
             comboBox_world.Items.Clear();
             foreach (WorldCollection collection in Form1.worldCollections)
             {
+                int i = 0;
                 foreach (World world in collection.Worlds)
                 {
-                    comboBox_world.Items.Add(world.Id);
+                    if (i > 0)
+                    {
+                        comboBox_world.Items.Add(world.Id);
+                    }
+                    i++;
                 }
             }
             comboBox_world.Text = savegame.WorldId;
