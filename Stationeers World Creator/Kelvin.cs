@@ -18,7 +18,7 @@ namespace Stationeers_World_Creator
         public string preWrapMode { 
             get
             {
-                XmlNode n = node.SelectSingleNode(".//preWrapMode");
+                XmlNode n = node.SelectSingleNode("./preWrapMode");
                 if (n != null)
                 {
                     return n.InnerText;
@@ -27,7 +27,7 @@ namespace Stationeers_World_Creator
             }
             set
             {
-                XmlNode n = node.SelectSingleNode(".//preWrapMode");
+                XmlNode n = node.SelectSingleNode("./preWrapMode");
                 if (n != null)
                 {
                     n.InnerText = value;
@@ -44,7 +44,7 @@ namespace Stationeers_World_Creator
         {
             get
             {
-                XmlNode n = node.SelectSingleNode(".//postWrapMode");
+                XmlNode n = node.SelectSingleNode("./postWrapMode");
                 if (n != null)
                 {
                     return n.InnerText;
@@ -53,7 +53,7 @@ namespace Stationeers_World_Creator
             }
             set
             {
-                XmlNode n = node.SelectSingleNode(".//postWrapMode");
+                XmlNode n = node.SelectSingleNode("./postWrapMode");
                 if (n != null)
                 {
                     n.InnerText = value;
@@ -72,7 +72,7 @@ namespace Stationeers_World_Creator
             get { 
                 List<Kelvinframe> frames = new List<Kelvinframe>();
 
-                XmlNodeList nl = node.SelectNodes(".//keys//Keyframe");
+                XmlNodeList nl = node.SelectNodes("./keys/Keyframe");
                 if(nl == null) { return new List<Kelvinframe>(); }
                 foreach(XmlNode n in nl)
                 {
@@ -85,7 +85,7 @@ namespace Stationeers_World_Creator
 
         public void AddFrame(decimal time)
         {
-            XmlNode keys = node.SelectSingleNode(".//keys");
+            XmlNode keys = node.SelectSingleNode("./keys");
             if(keys == null)
             {
                 node.InnerText = String.Empty;
@@ -109,7 +109,7 @@ namespace Stationeers_World_Creator
 
         public void RemoveFrame(Kelvinframe frame) {
 
-            XmlNode n = node.SelectSingleNode(".//keys");
+            XmlNode n = node.SelectSingleNode("./keys");
             if (n != null) {
                 n.RemoveChild(frame.node);
             }

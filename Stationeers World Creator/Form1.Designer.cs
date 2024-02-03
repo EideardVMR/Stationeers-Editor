@@ -83,6 +83,7 @@
             savegameNameToolStripMenuItem = new ToolStripMenuItem();
             toolStripSeparator3 = new ToolStripSeparator();
             backupsToolStripMenuItem = new ToolStripMenuItem();
+            zurücksetzenToolStripMenuItem = new ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             groupBox1.SuspendLayout();
@@ -138,7 +139,7 @@
             textBox_stationeers_path.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             textBox_stationeers_path.Location = new Point(111, 22);
             textBox_stationeers_path.Name = "textBox_stationeers_path";
-            textBox_stationeers_path.Size = new Size(668, 23);
+            textBox_stationeers_path.Size = new Size(559, 23);
             textBox_stationeers_path.TabIndex = 9;
             textBox_stationeers_path.TextChanged += textBox_stationeers_path_TextChanged;
             // 
@@ -185,9 +186,9 @@
             button_start.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             button_start.BackColor = SystemColors.ActiveCaption;
             button_start.FlatStyle = FlatStyle.Flat;
-            button_start.Location = new Point(684, 51);
+            button_start.Location = new Point(676, 22);
             button_start.Name = "button_start";
-            button_start.Size = new Size(95, 23);
+            button_start.Size = new Size(105, 53);
             button_start.TabIndex = 13;
             button_start.Text = "Starten";
             button_start.UseVisualStyleBackColor = false;
@@ -258,7 +259,7 @@
             // 
             contextMenuStrip_welten.Items.AddRange(new ToolStripItem[] { weltToolStripMenuItem, toolStripSeparator1, weltBearbeitenToolStripMenuItem, weltEntfernenToolStripMenuItem, weltKopierenToolStripMenuItem });
             contextMenuStrip_welten.Name = "contextMenuStrip1";
-            contextMenuStrip_welten.Size = new Size(181, 98);
+            contextMenuStrip_welten.Size = new Size(181, 120);
             contextMenuStrip_welten.Opening += contextMenuStrip_welten_Opening;
             // 
             // weltToolStripMenuItem
@@ -326,7 +327,7 @@
             // toolStripStatusLabel2
             // 
             toolStripStatusLabel2.Name = "toolStripStatusLabel2";
-            toolStripStatusLabel2.Size = new Size(681, 17);
+            toolStripStatusLabel2.Size = new Size(712, 17);
             toolStripStatusLabel2.Spring = true;
             // 
             // toolStripStatusLabel_Statistics
@@ -517,9 +518,9 @@
             // 
             // contextMenuStrip1
             // 
-            contextMenuStrip1.Items.AddRange(new ToolStripItem[] { savegameNameToolStripMenuItem, toolStripSeparator3, backupsToolStripMenuItem });
+            contextMenuStrip1.Items.AddRange(new ToolStripItem[] { savegameNameToolStripMenuItem, toolStripSeparator3, backupsToolStripMenuItem, zurücksetzenToolStripMenuItem });
             contextMenuStrip1.Name = "contextMenuStrip1";
-            contextMenuStrip1.Size = new Size(161, 54);
+            contextMenuStrip1.Size = new Size(161, 76);
             // 
             // savegameNameToolStripMenuItem
             // 
@@ -537,6 +538,13 @@
             backupsToolStripMenuItem.Name = "backupsToolStripMenuItem";
             backupsToolStripMenuItem.Size = new Size(160, 22);
             backupsToolStripMenuItem.Text = "Backups";
+            // 
+            // zurücksetzenToolStripMenuItem
+            // 
+            zurücksetzenToolStripMenuItem.Name = "zurücksetzenToolStripMenuItem";
+            zurücksetzenToolStripMenuItem.Size = new Size(160, 22);
+            zurücksetzenToolStripMenuItem.Text = "Zurücksetzen";
+            zurücksetzenToolStripMenuItem.Click += zurücksetzenToolStripMenuItem_Click;
             // 
             // Form1
             // 
@@ -632,5 +640,6 @@
         private ToolStripMenuItem backupsToolStripMenuItem;
         private ToolStripStatusLabel toolStripStatusLabel2;
         private ToolStripStatusLabel toolStripStatusLabel_Statistics;
+        private ToolStripMenuItem zurücksetzenToolStripMenuItem;
     }
 }

@@ -194,7 +194,7 @@ namespace Stationeers_World_Creator
 
                 if(temperatures.Count == 0) {  return 0; }
 
-                return temperatures.Average();
+                return Math.Round(temperatures.Average(), 2);
 
             }
             set
@@ -219,7 +219,7 @@ namespace Stationeers_World_Creator
 
                 if (pressures.Count == 0) { return 0; }
 
-                return pressures.Average();
+                return Math.Round(pressures.Average(), 2);
 
             }
             set

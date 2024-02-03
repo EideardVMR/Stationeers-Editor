@@ -139,6 +139,7 @@ namespace Stationeers_World_Creator
                 CheckForProblems();
             };
 
+            /*
             // Tag/Nacht
             checkBox_freeze_time.Click += (object s, EventArgs e) =>
             {
@@ -154,6 +155,7 @@ namespace Stationeers_World_Creator
                 world_node.TimeScale = checkBox_freeze_time.Checked ? 0 : numericUpDown_timescale.Value;
                 CheckForProblems();
             };
+            */
 
             CheckForProblems();
         }
@@ -233,12 +235,14 @@ namespace Stationeers_World_Creator
             button_weather.Text = "Wetter bearbeiten (" + (world_node.WeatherEvent.HasWeather() ? "Aktiv" : "Inaktiv") + ")";
             this.ResumeLayout(true);
 
+            /*
             // Tag/Nacht
             checkBox_freeze_time.Checked = world_node.TimeScale == 0;
             checkBox_freeze_time.Text = checkBox_freeze_time.Checked ? "Freeze" : "Läuft";
             numericUpDown_timescale.Enabled = !checkBox_freeze_time.Checked;
 
             numericUpDown_timescale.Value = world_node.TimeScale;
+            */
         }
 
         private void button_edit_minables_Click(object sender, EventArgs e)
@@ -286,24 +290,24 @@ namespace Stationeers_World_Creator
 
         private void button_weather_Click(object sender, EventArgs e)
         {
-            if(!world_node.WeatherEvent.HasWeather() && (world_node.Kelvin.Frames.Count == 0 || world_node.Atmospherics.Count == 0))
+            if (!world_node.WeatherEvent.HasWeather() && (world_node.Kelvin.Frames.Count == 0 || world_node.Atmospherics.Count == 0))
             {
                 MessageBox.Show("Für ein Wetterevent wird Eine Atmosphäre mit Temperatur benötigt. Bitte konfigurieren.", "Warnung", MessageBoxButtons.OK, MessageBoxIcon.Hand);
                 return;
             }
 
-            if(!world_node.WeatherEvent.HasWeather() )
+            if (!world_node.WeatherEvent.HasWeather())
             {
                 world_node.CreateWeather();
             }
 
             FormEditWeather form = new FormEditWeather(world_node.WeatherEvent);
             form.Text = "Wetter bearbeiten";
-            if(form.ShowDialog() == DialogResult.Abort)
+            if (form.ShowDialog() == DialogResult.Abort)
             {
                 world_node.RemoveWeather();
             }
-            
+
             button_weather.Text = "Wetter bearbeiten (" + (world_node.WeatherEvent.HasWeather() ? "Aktiv" : "Inaktiv") + ")";
             CheckForProblems();
         }
@@ -379,21 +383,21 @@ namespace Stationeers_World_Creator
 
                 label_temp.Text = "von " + Math.Round(min_temp) + " K bis " + Math.Round(max_temp) + " K\ninkl. Sturm: " + Math.Round(min_temp_storm) + " K bis " + Math.Round(max_temp_storm) + " K";
                 label_press.Text = "von " + Math.Round(pressure_min) + " kPa bis " + Math.Round(pressure_max) + " kPa\ninkl. Sturm: " + Math.Round(pressure_min_storm) + " kPa bis " + Math.Round(pressure_max_storm, 1) + " kPa";
-            } 
+            }
             else
             {
                 label_temp.Text = "Vakuum";
                 label_press.Text = "Vakuum";
             }
 
-            if(mols > 0 && world_node.Kelvin.Frames.Count == 0)
+            if (mols > 0 && world_node.Kelvin.Frames.Count == 0)
             {
                 label_error.Text += "Du hast eine Atmosphäre aber keine Temperatur eingegeben.\n\n";
             }
 
             foreach (Atmosphere atmos in world_node.Atmospherics)
             {
-                if(atmos.Type == "Oxygen" && min_temp_storm < 60)
+                if (atmos.Type == "Oxygen" && min_temp_storm < 60)
                 {
                     label_error.Text += "Du hast eine Temperatur welche ggf. dafür sorgt, dass sich Oxygen in Eis verwandelt (<60K). Dies kann zu Performanceproblemen führen.\n\n";
                     hasOxygen = true;
@@ -426,7 +430,7 @@ namespace Stationeers_World_Creator
                 }
             }
 
-            if((hasOxygen || hasNitrous) && hasVolatiles) 
+            if ((hasOxygen || hasNitrous) && hasVolatiles)
             {
                 label_error.Text += "Du hast eine gefähliche Gasmischung ausgewählt. Dies kann zu einem Atmosphärenbrand führen der nie wieder gelöscht werden kann.\n\n";
             }

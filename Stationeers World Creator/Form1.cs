@@ -11,8 +11,8 @@ namespace Stationeers_World_Creator
 {
     public partial class Form1 : Form
     {
-        public static string MyGames = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\My Games\\Stationeers\\";
-        public static string MyStationeersEditor = MyGames + "Stationeers Editor\\";
+        //public static string MyGames = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\My Games\\Stationeers\\";
+        //public static string MyStationeersEditor = MyGames + "Stationeers Editor\\";
         public static Settings settings = new Settings();
         public static List<string> difficultys = new List<string>();
         public static List<WorldCollection> worldCollections = new List<WorldCollection>();
@@ -22,19 +22,34 @@ namespace Stationeers_World_Creator
 
         public Form1()
         {
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             InitializeComponent();
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            Directory.CreateDirectory(MyStationeersEditor);
 
             LoadSettings();
+
+            WorldCollection collection = new WorldCollection(true, settings.stationeers_path);
+            if (
+                collection.LoadCollection() &&
+                Directory.Exists(settings.stationeers_mygames_path) &&
+                Directory.Exists(settings.stationeers_mods_path) &&
+                Directory.Exists(settings.stationeers_saves_path)
+            )
+            {
+                button_start_Click(sender, e);  
+            }
+
+            //FormsPfade form = new FormsPfade();
+            //if(form.ShowDialog() != DialogResult.OK) { this.Close(); return; }
 
             textBox_stationeers_path.Text = settings.stationeers_path;
 
             toolStripStatusLabel1.Text = Assembly.GetExecutingAssembly().GetName().Version.ToString();
             ScanForUpdate();
+
             SendStatistics();
         }
 
@@ -57,13 +72,13 @@ namespace Stationeers_World_Creator
                     if (dr == DialogResult.Yes)
                     {
                         //System.Diagnostics.Process.Start("explorer", "https://stationeers.eideard.de/StationeersEditor");
-                        using(WebClient webClient = new WebClient())
+                        using (WebClient webClient = new WebClient())
                         {
                             try
                             {
                                 webClient.DownloadFile(resp.data[0].downloadPath, Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Stationeers Editor-" + resp.data[0].currentVersion + ".exe"));
-                            } 
-                            catch(Exception ex)
+                            }
+                            catch (Exception ex)
                             {
                                 MessageBox.Show("Datei konnte nicht runtergeladen werden:\n" + ex.Message, "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             }
@@ -74,65 +89,6 @@ namespace Stationeers_World_Creator
                 }
             }
         }
-
-        #region Online Requests
-        /*
-        private void LoadWorldList()
-        {
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(@"https://api.stationeers.eideard.de/worlds/");
-            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-            string content = new StreamReader(response.GetResponseStream()).ReadToEnd();
-
-            APIResponse resp = JsonSerializer.Deserialize<APIResponse>(content);
-
-
-            if (resp != null)
-            {
-                public_worlds = resp.data;
-
-                listBox1.Items.Clear();
-                foreach (Worlds respItem in resp.data)
-                {
-                    listBox1.Items.Add(respItem.NewID + " von " + respItem.Creator);
-                }
-            }
-
-        }
-
-        private void LoadSingleWorld(string id)
-        {
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(@"https://api.stationeers.eideard.de/worlds/?WorldID=" + id);
-            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-            string content = new StreamReader(response.GetResponseStream()).ReadToEnd();
-
-            APIResponse resp = JsonSerializer.Deserialize<APIResponse>(content);
-
-            if (resp.state != "OK")
-            {
-                DialogResult dr = MessageBox.Show("Daten konnten leider nicht abgerufen werden.", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            else if (resp.count == 0)
-            {
-                DialogResult dr = MessageBox.Show("Für diese ID konnten keine Daten gefunden werden.", "Warnung", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
-            else
-            {
-                if (resp != null)
-                {
-                    selected_public_world = resp.data[0];
-
-                    textBox_id.Text = selected_public_world.WorldID.ToString();
-                    label_worldID.Text = selected_public_world.NewID.ToString();
-                    label_worldCreator.Text = selected_public_world.Creator.ToString();
-                    if (XO.IsLoadValid())
-                    {
-                        button_add.Enabled = true;
-                    }
-                }
-            }
-        }
-        */
-        #endregion
 
 
         //############################################################################################################################################################
@@ -146,15 +102,34 @@ namespace Stationeers_World_Creator
             listView_worlds.Groups.Clear();
             listView_worlds.Items.Clear();
 
-            if (!File.Exists(textBox_stationeers_path.Text + "\\modconfig.xml"))
+            if (!File.Exists(settings.stationeers_path + "\\modconfig.xml"))
             {
-                MessageBox.Show("An diesem Pfad konnten nicht die passenden Ressourcen gefunden werden.", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-                return false;
+                if(!File.Exists(settings.stationeers_path + "\\rocketstation.exe"))
+                {
+                    MessageBox.Show("An diesem Pfad konnten nicht die passenden Ressourcen (modconfig.xml oder rocketstation.exe) gefunden werden.", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                    return false;
+                }
+
+                try
+                {
+                    using (StreamWriter sw = File.CreateText(settings.stationeers_path + "\\modconfig.xml"))
+                    {
+
+                        sw.Write("<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<ModConfig xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n  <Mods>\r\n    <ModData>\r\n      <Id>1</Id>\r\n      <IsEnabled>true</IsEnabled>\r\n    </ModData>\r\n  </Mods>\r\n</ModConfig>");
+
+                    }
+                } 
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Ressourcendatei (modconfig.xml) wurde nicht gefunden und konnte nicht erstellt werden.", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                    return false;
+                }
+
             }
 
-            modconfig.Load(textBox_stationeers_path.Text + "\\modconfig.xml");
+            modconfig.Load(settings.stationeers_path + "\\modconfig.xml");
 
-            WorldCollection collection = new WorldCollection(true, textBox_stationeers_path.Text);
+            WorldCollection collection = new WorldCollection(true, settings.stationeers_path);
             if (collection.LoadCollection())
             {
                 worldCollections.Add(collection);
@@ -169,7 +144,7 @@ namespace Stationeers_World_Creator
             }
             else
             {
-                MessageBox.Show("An diesem Pfad konnten nicht die passenden Ressourcen gefunden werden.", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("An diesem Pfad konnten nicht die passenden Ressourcen (worldsettings.xml) gefunden werden.", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 textBox_stationeers_path.Enabled = true;
                 button_start.Enabled = true;
                 button_save.Enabled = false;
@@ -183,8 +158,7 @@ namespace Stationeers_World_Creator
                 return false;
             }
 
-            Directory.CreateDirectory(MyGames + "mods");
-            string[] mods = Directory.GetDirectories(MyGames + "mods");
+            string[] mods = Directory.GetDirectories(settings.stationeers_mods_path);
             foreach (string mod in mods)
             {
                 collection = new WorldCollection(false, mod);
@@ -217,6 +191,7 @@ namespace Stationeers_World_Creator
 
             listView_collections.Enabled = true;
         }
+
         private void ListWorlds()
         {
             listView_worlds.Groups.Clear();
@@ -240,6 +215,7 @@ namespace Stationeers_World_Creator
 
             listView_worlds.Enabled = true;
         }
+
         private void ListSavegames()
         {
             listView_savegames.Items.Clear();
@@ -249,7 +225,7 @@ namespace Stationeers_World_Creator
                 lvi.Text = save.SavegameName;
                 lvi.SubItems.Add(save.GameVersion.ToString());
                 lvi.SubItems.Add(save.DaysPast.ToString());
-                lvi.SubItems.Add(save.SavePath.Replace(MyGames, "[..]\\"));
+                lvi.SubItems.Add(save.SavePath.Replace(settings.stationeers_mygames_path, "[..]\\"));
                 lvi.SubItems.Add(save.IsChanged ? "Ja" : "Nein");
 
                 listView_savegames.Items.Add(lvi);
@@ -258,9 +234,11 @@ namespace Stationeers_World_Creator
 
         void LoadSettings()
         {
-            if (File.Exists(MyStationeersEditor + "settings.json"))
+            Directory.CreateDirectory(settings.stationeers_editor_path);
+
+            if (File.Exists(settings.stationeers_editor_path + "settings.json"))
             {
-                string json = File.ReadAllText(MyStationeersEditor + "settings.json");
+                string json = File.ReadAllText(settings.stationeers_editor_path + "settings.json");
                 settings = JsonSerializer.Deserialize<Settings>(json);
             }
 
@@ -273,20 +251,70 @@ namespace Stationeers_World_Creator
         void SaveSettings()
         {
             string tmp = JsonSerializer.Serialize(settings, new JsonSerializerOptions { WriteIndented = true });
-            File.WriteAllText(MyStationeersEditor + "settings.json", tmp);
+            File.WriteAllText(settings.stationeers_editor_path + "settings.json", tmp);
         }
 
         void LoadDifficultys()
         {
             difficultys.Clear();
             XmlDocument xmlDocument = new XmlDocument();
-            xmlDocument.Load(textBox_stationeers_path.Text + "\\rocketstation_Data\\StreamingAssets\\Data\\difficultySettings.xml");
+            xmlDocument.Load(settings.stationeers_path + "\\rocketstation_Data\\StreamingAssets\\Data\\difficultySettings.xml");
 
             XmlNodeList nl = xmlDocument.SelectNodes("//DifficultySettings//DifficultySetting");
             foreach (XmlNode n in nl)
             {
                 difficultys.Add(n.Attributes["Id"].Value);
             }
+
+        }
+
+        void SendStatistics()
+        {
+
+            if (settings.AllowToSendStatisticsData == "Unknown")
+            {
+                DialogResult dr = MessageBox.Show("Hallo,\nich freue mich, dass du dieses kleine Projekt gefunden hast und nutzt.\nIch würde gerne wissen wie " +
+                    "frequentiert meine Software genutzt wird und möchte daher ein " +
+                    "paar Daten erheben. Mich würde es freuen, wenn du mich unterstützen würdest und dem zustimmst.\n\n" +
+                    "Aktuell erhobene Daten:\n" +
+                    "- Ein Nutzungscounter (wie oft wird die Software genutzt)\n\n" +
+                    "Du als Person, bleibst vollständig Anonym!",
+                    "Frage", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                if (dr == DialogResult.Yes)
+                {
+                    settings.AllowToSendStatisticsData = "Yes";
+                    if (settings.SystemID.Length != 200)
+                    {
+                        settings.SystemID = Settings.RandomStringMitZahlen(200);
+                    }
+                    SaveSettings();
+                }
+                else
+                {
+                    settings.AllowToSendStatisticsData = "No";
+                    SaveSettings();
+                }
+
+            }
+
+            toolStripStatusLabel_Statistics.Text = "Statistikdaten übermitteln: Inaktiv";
+            toolStripStatusLabel_Statistics.BackColor = Color.Brown;
+
+            if (settings.AllowToSendStatisticsData != "Yes") { return; }
+
+            toolStripStatusLabel_Statistics.Text = "Statistikdaten übermitteln: Aktiv";
+            toolStripStatusLabel_Statistics.BackColor = Color.ForestGreen;
+
+            if (settings.SystemID.Length != 200)
+            {
+                settings.SystemID = Settings.RandomStringMitZahlen(200);
+                SaveSettings();
+            }
+
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(@"https://api.stationeers.eideard.de/usageinfo/" + settings.SystemID);
+            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+            string content = new StreamReader(response.GetResponseStream()).ReadToEnd();
 
         }
 
@@ -504,6 +532,10 @@ namespace Stationeers_World_Creator
                                 ListWorlds();
                                 break;
 
+                            } 
+                            else
+                            {
+                                MessageBox.Show("Welt kann nicht bearbeitet werden, Bitte erstelle eine Kopie der Welt in einer neuen Kollektion. Mit rechter Maustaste in der Liste der Kollektionen kannst du eine Kollektion erstellen bzw. rechte Maustaste in den Welten kannst du eine Kopie einer Standardwelt in der neuen Kollektion erstellen.", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             }
                         }
                     }
@@ -552,12 +584,49 @@ namespace Stationeers_World_Creator
         private void textBox_stationeers_path_TextChanged(object sender, EventArgs e)
         {
             settings.stationeers_path = textBox_stationeers_path.Text;
-            SaveSettings();
         }
         private void button_start_Click(object sender, EventArgs e)
         {
             if (textBox_stationeers_path.Enabled == true)
             {
+
+                if (settings.stationeers_mods_path == null || settings.stationeers_mods_path == "")
+                {
+                    settings.stationeers_mods_path = settings.stationeers_mygames_path + "mods\\";
+                }
+
+                if (settings.stationeers_saves_path == null || settings.stationeers_saves_path == "")
+                {
+                    settings.stationeers_saves_path = settings.stationeers_mygames_path + "saves\\";
+                }
+
+                if (Directory.Exists(settings.stationeers_mods_path))
+                {
+                    try
+                    {
+                        Directory.CreateDirectory(settings.stationeers_mods_path);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Der Ordner " + settings.stationeers_mods_path + " konnte nicht erstellt werden. Fehler: " + ex.Message, "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                }
+
+                if (Directory.Exists(settings.stationeers_saves_path))
+                {
+                    try
+                    {
+                        Directory.CreateDirectory(settings.stationeers_saves_path);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Der Ordner " + settings.stationeers_saves_path + " konnte nicht erstellt werden. Fehler: " + ex.Message, "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                }
+
+                SaveSettings();
 
                 if (LoadCollections())
                 {
@@ -566,7 +635,7 @@ namespace Stationeers_World_Creator
                     button_start.Text = "Stop";
                     button_save.Enabled = true;
                     tabControl1.Enabled = true;
-                    savegames = new Savegames(MyGames + "saves\\");
+                    savegames = new Savegames(settings.stationeers_saves_path);
                     savegames.LoadSavegames();
                     ListSavegames();
                     LoadDifficultys();
@@ -613,7 +682,7 @@ namespace Stationeers_World_Creator
 
             savegames.SaveAll();
 
-            modconfig.Save(textBox_stationeers_path.Text + "\\modconfig.xml");
+            modconfig.Save(settings.stationeers_path + "\\modconfig.xml");
             ListSavegames();
         }
 
@@ -632,10 +701,12 @@ namespace Stationeers_World_Creator
         {
             if (listView_savegames.SelectedItems.Count > 0)
             {
-                backupsToolStripMenuItem.DropDownItems.Clear();
-                savegameNameToolStripMenuItem.Text = savegames.Saves[listView_savegames.SelectedItems[0].Index].SavegameName;
+                Savegame savegame = savegames.Saves[listView_savegames.SelectedItems[0].Index];
 
-                string backupPath = MyStationeersEditor + "Backups\\Saves\\" + savegames.Saves[listView_savegames.SelectedItems[0].Index].SavegameName + "\\";
+                backupsToolStripMenuItem.DropDownItems.Clear();
+                savegameNameToolStripMenuItem.Text = savegame.SavegameName;
+
+                string backupPath = settings.stationeers_editor_path + "Backups\\Saves\\" + savegame.SavegameName + "\\";
 
                 if (Directory.Exists(backupPath))
                 {
@@ -651,9 +722,9 @@ namespace Stationeers_World_Creator
 
                             try
                             {
-                                RecursiveDelete(new DirectoryInfo(savegames.Saves[listView_savegames.SelectedItems[0].Index].SavePath));
-                                Directory.CreateDirectory(savegames.Saves[listView_savegames.SelectedItems[0].Index].SavePath);
-                                ZipFile.ExtractToDirectory(path, savegames.Saves[listView_savegames.SelectedItems[0].Index].SavePath);
+                                RecursiveDelete(new DirectoryInfo(savegame.SavePath));
+                                Directory.CreateDirectory(savegame.SavePath);
+                                ZipFile.ExtractToDirectory(path, savegame.SavePath);
                             }
                             catch (Exception ex)
                             {
@@ -665,9 +736,21 @@ namespace Stationeers_World_Creator
                     }
                 }
                 else
+                {
                     backupsToolStripMenuItem.Enabled = false;
+                }
+
+                if (savegame.IsChanged)
+                {
+                    zurücksetzenToolStripMenuItem.Enabled = true;
+                }
+                else
+                {
+                    zurücksetzenToolStripMenuItem.Enabled = false;
+                }
             }
         }
+
         public static void RecursiveDelete(DirectoryInfo baseDir)
         {
             if (!baseDir.Exists)
@@ -680,74 +763,21 @@ namespace Stationeers_World_Creator
             baseDir.Delete(true);
         }
 
-        void SendStatistics()
-        {
-
-            if (settings.AllowToSendStatisticsData == "Unknown")
-            {
-                DialogResult dr = MessageBox.Show("Hallo,\nich freue mich, dass du dieses kleine Projekt gefunden hast und nutzt.\nIch würde gerne wissen wie " +
-                    "frequentiert meine Software genutzt wird und möchte daher ein " +
-                    "paar Daten erheben. Mich würde es freuen, wenn du mich unterstützen würdest und dem zustimmst.\n\n" +
-                    "Aktuell erhobene Daten:\n" +
-                    "- Ein Nutzungscounter (wie oft wird die Software genutzt)\n\n" +
-                    "Du als Person, bleibst vollständig Anonym!",
-                    "Frage", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-                if (dr == DialogResult.Yes)
-                {
-                    settings.AllowToSendStatisticsData = "Yes";
-                    if (settings.SystemID.Length != 200)
-                    {
-                        settings.SystemID = Settings.RandomStringMitZahlen(200);
-                    }
-                    SaveSettings();
-                }
-                else
-                {
-                    settings.AllowToSendStatisticsData = "No";
-                    SaveSettings();
-                }
-
-            }
-
-            toolStripStatusLabel_Statistics.Text = "Statistikdaten übermitteln: Inaktiv";
-            toolStripStatusLabel_Statistics.BackColor = Color.Brown;
-
-            if (settings.AllowToSendStatisticsData != "Yes") { return; }
-
-            toolStripStatusLabel_Statistics.Text = "Statistikdaten übermitteln: Aktiv";
-            toolStripStatusLabel_Statistics.BackColor = Color.ForestGreen;
-
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(@"https://api.stationeers.eideard.de/usageinfo/" + settings.SystemID);
-            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-            string content = new StreamReader(response.GetResponseStream()).ReadToEnd();
-
-
-            /*
-            APIResponse resp = JsonSerializer.Deserialize<APIResponse>(content);
-
-
-            if (resp != null)
-            {
-                Version newVersion = new Version(resp.data[0].currentVersion);
-
-                if (Assembly.GetExecutingAssembly().GetName().Version < newVersion)
-                {
-                    DialogResult dr = MessageBox.Show("Es ist eine neue Version vorhanden (" + newVersion.ToString() + ").\nSoll ich dich zur Downloadseite leiten?", "Update", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk);
-                    if (dr == DialogResult.Yes)
-                    {
-                        System.Diagnostics.Process.Start("explorer", "https://stationeers.eideard.de/StationeersEditor");
-                    }
-                }
-            }
-            */
-
-        }
-
         private void toolStripStatusLabel_Statistics_Click(object sender, EventArgs e)
         {
             settings.AllowToSendStatisticsData = "Unknown";
             SendStatistics();
+        }
+
+        private void zurücksetzenToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+            if (listView_savegames.SelectedItems.Count > 0)
+            {
+                Savegame savegame = savegames.Saves[listView_savegames.SelectedItems[0].Index];
+                savegame.Reload();
+                ListSavegames();
+            }
         }
     }
 }

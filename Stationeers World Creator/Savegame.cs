@@ -30,6 +30,31 @@ namespace Stationeers_World_Creator
             return 0;
         }
 
+        public void Reload()
+        {
+            xml_world_meta = null;
+            xml_world = null;
+            _version = null;
+            _dateTime = -1;
+            _daysPast = -1;
+            _savegamename = null;
+            _worldId = null;
+            _worldname = null;
+            _rooms = null;
+            _atmospheres = null;
+            _things = null;
+            _network = null;
+            _tanks = null;
+            _player = null;
+            _rockets = null;
+            _difficulty = null;
+            _research = null;
+            _seed = -1;
+            _seedChanged = false;
+            _changed = false;
+            LoadMeta();
+        }
+
         #region world_meta.xml
         XmlDocument xml_world_meta = null;
         public bool LoadMeta()
@@ -323,6 +348,8 @@ namespace Stationeers_World_Creator
                 tankHashes.Add("StructureMediumRocketGasFuelTank");
                 tankHashes.Add("StructureMediumRocketLiquidFuelTank");
                 tankHashes.Add("StructureCapsuleTankLiquid");
+                tankHashes.Add("StructureMediumConvectionRadiator");
+                tankHashes.Add("StructureMediumConvectionRadiatorLiquid"); 
                 foreach (Thing thing in Things)
                 {
                     if (tankHashes.Contains(thing.PrefabName))
@@ -479,7 +506,7 @@ namespace Stationeers_World_Creator
 
         public void Save()
         {
-            string path = Form1.MyStationeersEditor + "Backups\\Saves\\" + SavegameName + "\\";
+            string path = Form1.settings.stationeers_editor_path + "Backups\\Saves\\" + SavegameName + "\\";
 
             Directory.CreateDirectory(path);
             ZipFile.CreateFromDirectory(PathToSavegame, path + DateTime.Now.ToString("yyyy-MM-dd_HH.mm.ss") + ".zip");

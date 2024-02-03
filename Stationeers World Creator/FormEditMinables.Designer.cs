@@ -34,10 +34,12 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            AutoScroll = true;
             AutoSize = true;
             AutoSizeMode = AutoSizeMode.GrowAndShrink;
-            ClientSize = new Size(684, 470);
+            ClientSize = new Size(325, 225);
             FormBorderStyle = FormBorderStyle.FixedToolWindow;
+            MaximumSize = new Size(1000, 1000);
             Name = "FormEditMinables";
             StartPosition = FormStartPosition.CenterParent;
             Text = "FormEditMinables";

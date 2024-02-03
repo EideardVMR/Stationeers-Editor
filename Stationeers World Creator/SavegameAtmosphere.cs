@@ -56,7 +56,7 @@ namespace Stationeers_World_Creator
 
                 double tmp = Math.Round(Energy / preEnergy, 2);
 
-                return tmp;
+                return Math.Round(tmp, 2);
             }
             set
             {

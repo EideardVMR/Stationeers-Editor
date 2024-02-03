@@ -20,14 +20,14 @@ namespace Stationeers_World_Creator
         {
             get
             {
-                XmlNode n = node.SelectSingleNode(".//time");
+                XmlNode n = node.SelectSingleNode("./time");
                 if(n == null) { return 0; }
                 if(n.InnerText == String.Empty) { return 0; }
                 return decimal.Parse(n.InnerText.Replace(".",","));
             }
             set
             {
-                XmlNode n = node.SelectSingleNode(".//time");
+                XmlNode n = node.SelectSingleNode("./time");
                 if(n== null)
                 {
                     n = node.OwnerDocument.CreateElement("time");
@@ -45,13 +45,13 @@ namespace Stationeers_World_Creator
         {
             get
             {
-                XmlNode n = node.SelectSingleNode(".//value");
+                XmlNode n = node.SelectSingleNode("./value");
                 if (n == null) { return 0; }
                 return decimal.Parse(n.InnerText.Replace(".", ","));
             }
             set
             {
-                XmlNode n = node.SelectSingleNode(".//value");
+                XmlNode n = node.SelectSingleNode("./value");
                 if (n == null)
                 {
                     n = node.OwnerDocument.CreateElement("value");
@@ -69,13 +69,13 @@ namespace Stationeers_World_Creator
         {
             get
             {
-                XmlNode n = node.SelectSingleNode(".//inTangent");
+                XmlNode n = node.SelectSingleNode("./inTangent");
                 if (n == null) { return 0; }
                 return decimal.Parse(n.InnerText.Replace(".", ","));
             }
             set
             {
-                XmlNode n = node.SelectSingleNode(".//inTangent");
+                XmlNode n = node.SelectSingleNode("./inTangent");
                 if (n == null)
                 {
                     n = node.OwnerDocument.CreateElement("inTangent");
@@ -93,13 +93,13 @@ namespace Stationeers_World_Creator
         {
             get
             {
-                XmlNode n = node.SelectSingleNode(".//outTangent");
+                XmlNode n = node.SelectSingleNode("./outTangent");
                 if (n == null) { return 0; }
                 return decimal.Parse(n.InnerText.Replace(".", ","));
             }
             set
             {
-                XmlNode n = node.SelectSingleNode(".//outTangent");
+                XmlNode n = node.SelectSingleNode("./outTangent");
                 if (n == null)
                 {
                     n = node.OwnerDocument.CreateElement("outTangent");
@@ -117,13 +117,13 @@ namespace Stationeers_World_Creator
         {
             get
             {
-                XmlNode n = node.SelectSingleNode(".//inWeight");
+                XmlNode n = node.SelectSingleNode("./inWeight");
                 if (n == null) { return 0; }
                 return decimal.Parse(n.InnerText.Replace(".", ","));
             }
             set
             {
-                XmlNode n = node.SelectSingleNode(".//inWeight");
+                XmlNode n = node.SelectSingleNode("./inWeight");
                 if (n == null)
                 {
                     n = node.OwnerDocument.CreateElement("inWeight");
@@ -141,13 +141,13 @@ namespace Stationeers_World_Creator
         {
             get
             {
-                XmlNode n = node.SelectSingleNode(".//outWeight");
+                XmlNode n = node.SelectSingleNode("./outWeight");
                 if (n == null) { return 0; }
                 return decimal.Parse(n.InnerText.Replace(".", ","));
             }
             set
             {
-                XmlNode n = node.SelectSingleNode(".//outWeight");
+                XmlNode n = node.SelectSingleNode("./outWeight");
                 if (n == null)
                 {
                     n = node.OwnerDocument.CreateElement("outWeight");
@@ -165,13 +165,13 @@ namespace Stationeers_World_Creator
         {
             get
             {
-                XmlNode n = node.SelectSingleNode(".//weightedMode");
+                XmlNode n = node.SelectSingleNode("./weightedMode");
                 if (n == null) { return "None"; }
                 return n.InnerText;
             }
             set
             {
-                XmlNode n = node.SelectSingleNode(".//weightedMode");
+                XmlNode n = node.SelectSingleNode("./weightedMode");
                 if (n == null)
                 {
                     n = node.OwnerDocument.CreateElement("weightedMode");

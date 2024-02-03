@@ -50,6 +50,7 @@ namespace Stationeers_World_Creator
                             decimal time = ((NumericUpDown)ctl).Value;
 
                             time = time * 24;
+                            time += 12;
 
                             decimal h = Math.Floor(time);
                             decimal m = time - h;
@@ -175,7 +176,7 @@ namespace Stationeers_World_Creator
                 label_orename.Value = frame.time;
                 label_orename.ValueChanged += (object s, EventArgs e) =>
                 {
-                    frame.time = (int)((NumericUpDown)s).Value;
+                    frame.time = (decimal)((NumericUpDown)s).Value;
                     Recalc(((NumericUpDown)s).Name);
                 };
                 this.Controls.Add(label_orename);

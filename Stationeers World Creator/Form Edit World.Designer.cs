@@ -69,6 +69,7 @@
             label_temp = new Label();
             label_press = new Label();
             label_error = new Label();
+            label14 = new Label();
             ((System.ComponentModel.ISupportInitialize)numericUpDown_bedrock).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDown_lava).BeginInit();
             groupBox1.SuspendLayout();
@@ -247,6 +248,7 @@
             groupBox3.Controls.Add(numericUpDown_gravity);
             groupBox3.Controls.Add(numericUpDown_bedrock);
             groupBox3.Controls.Add(label_creative);
+            groupBox3.Controls.Add(label14);
             groupBox3.Controls.Add(label10);
             groupBox3.Controls.Add(checkBox_gamemode);
             groupBox3.Controls.Add(label3);
@@ -355,16 +357,18 @@
             checkBox_freeze_time.TabIndex = 8;
             checkBox_freeze_time.Text = "Aus";
             checkBox_freeze_time.UseVisualStyleBackColor = true;
+            checkBox_freeze_time.Visible = false;
             // 
             // numericUpDown_timescale
             // 
             numericUpDown_timescale.DecimalPlaces = 6;
             numericUpDown_timescale.Increment = new decimal(new int[] { 1, 0, 0, 262144 });
             numericUpDown_timescale.Location = new Point(217, 162);
-            numericUpDown_timescale.Maximum = new decimal(new int[] { 10, 0, 0, 0 });
+            numericUpDown_timescale.Maximum = new decimal(new int[] { 100000, 0, 0, 0 });
             numericUpDown_timescale.Name = "numericUpDown_timescale";
             numericUpDown_timescale.Size = new Size(127, 23);
             numericUpDown_timescale.TabIndex = 7;
+            numericUpDown_timescale.Visible = false;
             // 
             // button_edit_minables
             // 
@@ -486,6 +490,15 @@
             label_error.Size = new Size(596, 57);
             label_error.TabIndex = 19;
             // 
+            // label14
+            // 
+            label14.Location = new Point(143, 162);
+            label14.Name = "label14";
+            label14.Size = new Size(201, 23);
+            label14.TabIndex = 5;
+            label14.Text = "Seit 0.2.4767.21868 inaktiv";
+            label14.TextAlign = ContentAlignment.MiddleLeft;
+            // 
             // Form_Edit_World
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -569,5 +582,6 @@
         private CheckBox checkBox_gamemode;
         private ComboBox comboBox_terrain;
         private Label label13;
+        private Label label14;
     }
 }

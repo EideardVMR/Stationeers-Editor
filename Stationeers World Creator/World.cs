@@ -416,6 +416,7 @@ namespace Stationeers_World_Creator
             }
         }
 
+        /*
         public decimal TimeScale
         {
             get
@@ -432,6 +433,7 @@ namespace Stationeers_World_Creator
                 n.Attributes["TimeScale"].Value = value.ToString().Replace(",", ".");
             }
         }
+        */
 
         public List<Atmosphere> Atmospherics
         {

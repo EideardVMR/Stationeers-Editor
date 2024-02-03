@@ -52,7 +52,7 @@ namespace Stationeers_World_Creator
                 Regex regex = new Regex("[^a-zA-Z]"); // Alle Zeichen außer Buchstaben entfernen
                 tmp = regex.Replace(tmp, "");
 
-                if (Directory.Exists(Form1.MyGames + "mods\\" + tmp))
+                if (Directory.Exists(Form1.settings.stationeers_mods_path + tmp))
                 {
                     label1.ForeColor = Color.Red;
                     label1.Text = "Name der Kollektion - existiert bereits";

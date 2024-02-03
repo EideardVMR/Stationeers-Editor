@@ -16,6 +16,24 @@ namespace Stationeers_World_Creator
 
         public string stationeers_path {  get; set; }
 
+        public string stationeers_mygames_path {
+            get
+            {
+                return Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\My Games\\Stationeers\\";
+            }
+        }
+
+        public string stationeers_editor_path { 
+            get
+            {
+                return stationeers_mygames_path + "Stationeers Editor\\";
+            }
+        }
+
+        public string stationeers_saves_path { get; set; }
+
+        public string stationeers_mods_path { get; set; }
+
         public string SystemID { get; set; }
 
         public string AllowToSendStatisticsData { get; set; }

@@ -46,10 +46,10 @@ namespace Stationeers_World_Creator
             }
             comboBox_difficulty.Text = savegame.Difficulty;
 
+            int i = 0;
             comboBox_world.Items.Clear();
             foreach (WorldCollection collection in Form1.worldCollections)
             {
-                int i = 0;
                 foreach (World world in collection.Worlds)
                 {
                     if (i > 0)

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -15,8 +16,10 @@ namespace Stationeers_World_Creator
     {
         World world = null;
         bool deepminable = false;
+
         public FormEditMinables(World world, bool deepminable = false)
         {
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.world = world;
             this.deepminable = deepminable;
             InitializeComponent();
@@ -72,6 +75,31 @@ namespace Stationeers_World_Creator
                 } else { world.AddMinable(comboBox_minable_list.SelectedItem.ToString()); }
                 
                 PrintMinables();
+            };
+
+            Button button_add_minable_all = new Button();
+            button_add_minable_all.Name = "button_add_minable_all";
+            button_add_minable_all.FlatStyle = FlatStyle.Flat;
+            button_add_minable_all.UseVisualStyleBackColor = true;
+
+            button_add_minable_all.Size = new Size(152, 23);
+            button_add_minable_all.TabIndex = 14;
+            button_add_minable_all.Text = "Alle Hinzufügen";
+            button_add_minable_all.Click += (object s, EventArgs e) =>
+            {
+
+                while (comboBox_minable_list.Items.Count > 0)
+                {
+
+                    if (deepminable)
+                    { world.AddDeepMinable(comboBox_minable_list.Items[0].ToString());
+                    } else { world.AddMinable(comboBox_minable_list.Items[0].ToString()); }
+
+                    comboBox_minable_list.Items.RemoveAt(0);
+                }
+
+                PrintMinables();
+
             };
             // Erst am Ende hinzufügen zu Groupbox.
 
@@ -258,17 +286,24 @@ namespace Stationeers_World_Creator
 
                 startY += 26;
             }
-            comboBox_minable_list.Text = comboBox_minable_list.Items[0].ToString();
+            if (comboBox_minable_list.Items.Count > 0)
+            {
+                comboBox_minable_list.Text = comboBox_minable_list.Items[0].ToString();
+            }
+
+            button_add_minable_all.Location = new Point(195 + 152 + 4, startY);
 
             button_add_minable.Location = new Point(195, startY);
             comboBox_minable_list.Location = new Point(19, startY);
             this.Controls.Add(comboBox_minable_list);
             this.Controls.Add(button_add_minable);
+            this.Controls.Add(button_add_minable_all);
 
             if (comboBox_minable_list.Items.Count == 0)
             {
                 comboBox_minable_list.Enabled = false;
                 button_add_minable.Enabled = false;
+                button_add_minable_all.Enabled = false;
             }
 
             Button btn_save = new Button();

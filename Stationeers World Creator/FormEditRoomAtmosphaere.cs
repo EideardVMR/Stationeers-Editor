@@ -145,7 +145,7 @@ namespace Stationeers_World_Creator
 
             button_check.Click += (object o, EventArgs e) =>
             {
-                if(room.GasMole == 0)
+                if (room.GasMole == 0)
                 {
                     numericUpDown_gas_mol.Value = 1;
                 }
@@ -268,7 +268,7 @@ namespace Stationeers_World_Creator
             if (room.Temperature == 0) { numericUpDown_temperature.Minimum = 0; }
             numericUpDown_temperature.Value = (decimal)room.Temperature;
 
-            if(room.Pressure == 0) { numericUpDown_pressure.Minimum = 0; }
+            if (room.Pressure == 0) { numericUpDown_pressure.Minimum = 0; }
             numericUpDown_pressure.Value = (decimal)room.Pressure;
 
             label_temp.Text = "K (" + Math.Round(room.TemperatureCelsius, 2).ToString() + "°C)";
