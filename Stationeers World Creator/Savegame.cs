@@ -253,7 +253,7 @@ namespace Stationeers_World_Creator
             {
                 if(_things != null) { return _things; }
 
-                XmlNodeList nl = xml_world.SelectNodes("//Things//ThingSaveData");
+                XmlNodeList nl = xml_world.SelectNodes("//AllThings//ThingSaveData");
                 if(nl == null) return _things = new List<Thing>();
                 _things = new List<Thing>();
                 foreach (XmlNode n in nl)
