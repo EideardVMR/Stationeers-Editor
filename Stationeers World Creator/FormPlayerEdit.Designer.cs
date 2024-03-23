@@ -39,28 +39,36 @@
             columnHeader10 = new ColumnHeader();
             groupBox1 = new GroupBox();
             label8 = new Label();
+            numericUpDown_foodquality = new NumericUpDown();
+            label17 = new Label();
+            label18 = new Label();
+            numericUpDown_hygiene = new NumericUpDown();
+            label15 = new Label();
+            label16 = new Label();
             button_restore = new Button();
             comboBox1 = new ComboBox();
             numericUpDown_toxic = new NumericUpDown();
             numericUpDown_lung = new NumericUpDown();
+            label14 = new Label();
             label7 = new Label();
+            label13 = new Label();
             numericUpDown_hydration = new NumericUpDown();
             label6 = new Label();
+            label12 = new Label();
             numericUpDown_starvation = new NumericUpDown();
             label5 = new Label();
+            label11 = new Label();
             numericUpDown_trinken = new NumericUpDown();
             label4 = new Label();
+            label10 = new Label();
             numericUpDown_essen = new NumericUpDown();
             label3 = new Label();
+            label9 = new Label();
             label2 = new Label();
             label1 = new Label();
-            label9 = new Label();
-            label10 = new Label();
-            label11 = new Label();
-            label12 = new Label();
-            label13 = new Label();
-            label14 = new Label();
             groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)numericUpDown_foodquality).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)numericUpDown_hygiene).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDown_toxic).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDown_lung).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDown_hydration).BeginInit();
@@ -119,6 +127,12 @@
             // 
             groupBox1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
             groupBox1.Controls.Add(label8);
+            groupBox1.Controls.Add(numericUpDown_foodquality);
+            groupBox1.Controls.Add(label17);
+            groupBox1.Controls.Add(label18);
+            groupBox1.Controls.Add(numericUpDown_hygiene);
+            groupBox1.Controls.Add(label15);
+            groupBox1.Controls.Add(label16);
             groupBox1.Controls.Add(button_restore);
             groupBox1.Controls.Add(comboBox1);
             groupBox1.Controls.Add(numericUpDown_toxic);
@@ -156,6 +170,58 @@
             label8.TabIndex = 4;
             label8.Text = "Keinen Spieler ausgewählt";
             label8.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // numericUpDown_foodquality
+            // 
+            numericUpDown_foodquality.Location = new Point(154, 254);
+            numericUpDown_foodquality.Name = "numericUpDown_foodquality";
+            numericUpDown_foodquality.Size = new Size(113, 23);
+            numericUpDown_foodquality.TabIndex = 10;
+            numericUpDown_foodquality.ValueChanged += numericUpDown_foodquality_ValueChanged;
+            // 
+            // label17
+            // 
+            label17.Location = new Point(273, 254);
+            label17.Name = "label17";
+            label17.Size = new Size(21, 23);
+            label17.TabIndex = 8;
+            label17.Text = "%";
+            label17.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // label18
+            // 
+            label18.Location = new Point(6, 254);
+            label18.Name = "label18";
+            label18.Size = new Size(142, 23);
+            label18.TabIndex = 9;
+            label18.Text = "Essensqualität";
+            label18.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // numericUpDown_hygiene
+            // 
+            numericUpDown_hygiene.Location = new Point(154, 225);
+            numericUpDown_hygiene.Name = "numericUpDown_hygiene";
+            numericUpDown_hygiene.Size = new Size(113, 23);
+            numericUpDown_hygiene.TabIndex = 7;
+            numericUpDown_hygiene.ValueChanged += numericUpDown_hygiene_ValueChanged;
+            // 
+            // label15
+            // 
+            label15.Location = new Point(273, 225);
+            label15.Name = "label15";
+            label15.Size = new Size(21, 23);
+            label15.TabIndex = 5;
+            label15.Text = "%";
+            label15.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // label16
+            // 
+            label16.Location = new Point(6, 225);
+            label16.Name = "label16";
+            label16.Size = new Size(142, 23);
+            label16.TabIndex = 6;
+            label16.Text = "Hygiene";
+            label16.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // button_restore
             // 
@@ -196,6 +262,15 @@
             numericUpDown_lung.TabIndex = 1;
             numericUpDown_lung.ValueChanged += numericUpDown_lung_ValueChanged;
             // 
+            // label14
+            // 
+            label14.Location = new Point(273, 196);
+            label14.Name = "label14";
+            label14.Size = new Size(21, 23);
+            label14.TabIndex = 0;
+            label14.Text = "%";
+            label14.TextAlign = ContentAlignment.MiddleLeft;
+            // 
             // label7
             // 
             label7.Location = new Point(6, 196);
@@ -204,6 +279,15 @@
             label7.TabIndex = 0;
             label7.Text = "Vergiftung";
             label7.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // label13
+            // 
+            label13.Location = new Point(273, 167);
+            label13.Name = "label13";
+            label13.Size = new Size(21, 23);
+            label13.TabIndex = 0;
+            label13.Text = "%";
+            label13.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // numericUpDown_hydration
             // 
@@ -222,6 +306,15 @@
             label6.Text = "Lungenschaden";
             label6.TextAlign = ContentAlignment.MiddleLeft;
             // 
+            // label12
+            // 
+            label12.Location = new Point(273, 138);
+            label12.Name = "label12";
+            label12.Size = new Size(21, 23);
+            label12.TabIndex = 0;
+            label12.Text = "%";
+            label12.TextAlign = ContentAlignment.MiddleLeft;
+            // 
             // numericUpDown_starvation
             // 
             numericUpDown_starvation.Location = new Point(154, 109);
@@ -238,6 +331,15 @@
             label5.TabIndex = 0;
             label5.Text = "Verdursten";
             label5.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // label11
+            // 
+            label11.Location = new Point(273, 109);
+            label11.Name = "label11";
+            label11.Size = new Size(21, 23);
+            label11.TabIndex = 0;
+            label11.Text = "%";
+            label11.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // numericUpDown_trinken
             // 
@@ -256,6 +358,15 @@
             label4.Text = "Verhungern";
             label4.TextAlign = ContentAlignment.MiddleLeft;
             // 
+            // label10
+            // 
+            label10.Location = new Point(273, 80);
+            label10.Name = "label10";
+            label10.Size = new Size(21, 23);
+            label10.TabIndex = 0;
+            label10.Text = "%";
+            label10.TextAlign = ContentAlignment.MiddleLeft;
+            // 
             // numericUpDown_essen
             // 
             numericUpDown_essen.Location = new Point(154, 51);
@@ -272,6 +383,15 @@
             label3.TabIndex = 0;
             label3.Text = "Trinken";
             label3.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // label9
+            // 
+            label9.Location = new Point(273, 51);
+            label9.Name = "label9";
+            label9.Size = new Size(21, 23);
+            label9.TabIndex = 0;
+            label9.Text = "%";
+            label9.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // label2
             // 
@@ -291,60 +411,6 @@
             label1.Text = "Essen";
             label1.TextAlign = ContentAlignment.MiddleLeft;
             // 
-            // label9
-            // 
-            label9.Location = new Point(273, 51);
-            label9.Name = "label9";
-            label9.Size = new Size(21, 23);
-            label9.TabIndex = 0;
-            label9.Text = "%";
-            label9.TextAlign = ContentAlignment.MiddleLeft;
-            // 
-            // label10
-            // 
-            label10.Location = new Point(273, 80);
-            label10.Name = "label10";
-            label10.Size = new Size(21, 23);
-            label10.TabIndex = 0;
-            label10.Text = "%";
-            label10.TextAlign = ContentAlignment.MiddleLeft;
-            // 
-            // label11
-            // 
-            label11.Location = new Point(273, 109);
-            label11.Name = "label11";
-            label11.Size = new Size(21, 23);
-            label11.TabIndex = 0;
-            label11.Text = "%";
-            label11.TextAlign = ContentAlignment.MiddleLeft;
-            // 
-            // label12
-            // 
-            label12.Location = new Point(273, 138);
-            label12.Name = "label12";
-            label12.Size = new Size(21, 23);
-            label12.TabIndex = 0;
-            label12.Text = "%";
-            label12.TextAlign = ContentAlignment.MiddleLeft;
-            // 
-            // label13
-            // 
-            label13.Location = new Point(273, 167);
-            label13.Name = "label13";
-            label13.Size = new Size(21, 23);
-            label13.TabIndex = 0;
-            label13.Text = "%";
-            label13.TextAlign = ContentAlignment.MiddleLeft;
-            // 
-            // label14
-            // 
-            label14.Location = new Point(273, 196);
-            label14.Name = "label14";
-            label14.Size = new Size(21, 23);
-            label14.TabIndex = 0;
-            label14.Text = "%";
-            label14.TextAlign = ContentAlignment.MiddleLeft;
-            // 
             // FormPlayerEdit
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -358,6 +424,8 @@
             Text = "FormPlayerEdit";
             Load += FormPlayerEdit_Load;
             groupBox1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)numericUpDown_foodquality).EndInit();
+            ((System.ComponentModel.ISupportInitialize)numericUpDown_hygiene).EndInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDown_toxic).EndInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDown_lung).EndInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDown_hydration).EndInit();
@@ -401,5 +469,11 @@
         private Label label11;
         private Label label10;
         private Label label9;
+        private NumericUpDown numericUpDown_foodquality;
+        private Label label17;
+        private Label label18;
+        private NumericUpDown numericUpDown_hygiene;
+        private Label label15;
+        private Label label16;
     }
 }

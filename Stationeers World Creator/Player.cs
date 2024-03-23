@@ -113,5 +113,29 @@ namespace Stationeers_World_Creator
             }
         }
 
+        public double Hygiene
+        {
+            get
+            {
+                return _human.Hygiene;
+            }
+            set
+            {
+                _human.Hygiene = value;
+            }
+        }
+
+        public double FoodQuality
+        {
+            get
+            {
+                return _human.FoodQuality;
+            }
+            set
+            {
+                _human.FoodQuality = value;
+            }
+        }
+
     }
 }

@@ -55,6 +55,8 @@ namespace Stationeers_World_Creator
             numericUpDown_hydration.Value = (decimal)Math.Round(_player.HydrationDamage * 100, 0);
             numericUpDown_lung.Value = (decimal)Math.Round(_player.BurnDamage * 100, 0);
             numericUpDown_toxic.Value = (decimal)Math.Round(_player.ToxicDamage * 100, 0);
+            numericUpDown_hygiene.Value = (decimal)Math.Round(_player.Hygiene * 100, 0);
+            numericUpDown_foodquality.Value = (decimal)Math.Round(_player.FoodQuality * 100, 0);
 
             _disableEvents = false;
         }
@@ -114,10 +116,26 @@ namespace Stationeers_World_Creator
             PrintPlayer();
         }
 
+        private void numericUpDown_hygiene_ValueChanged(object sender, EventArgs e)
+        {
+            if (_disableEvents) { return; }
+            if (_player == null) { return; }
+            _player.Hygiene = (double)((NumericUpDown)sender).Value / 100;
+            PrintPlayer();
+        }
+
+        private void numericUpDown_foodquality_ValueChanged(object sender, EventArgs e)
+        {
+            if (_disableEvents) { return; }
+            if (_player == null) { return; }
+            _player.FoodQuality = (double)((NumericUpDown)sender).Value / 100;
+            PrintPlayer();
+        }
+
         private void button_restore_Click(object sender, EventArgs e)
         {
             if (_disableEvents) { return; }
-            if(_player == null) { return; }
+            if (_player == null) { return; }
             _player.State = "Alive";
             _player.Nutrition = 1;
             _player.Hydration = 1;
@@ -126,12 +144,14 @@ namespace Stationeers_World_Creator
             _player.BurnDamage = 0;
             _player.ToxicDamage = 0;
             _player.OxygenDamage = 0;
+            _player.Hygiene = 1;
+            _player.FoodQuality = 1;
             PrintPlayer();
         }
 
         private void listView1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if(listView1.SelectedIndices.Count > 0)
+            if (listView1.SelectedIndices.Count > 0)
             {
                 _player = savegame.Player[listView1.SelectedItems[0].Index];
                 PrintPlayer();

@@ -381,5 +381,46 @@ namespace Stationeers_World_Creator
             }
         }
 
+
+        double _hygiene = -1;
+        public double Hygiene
+        {
+            get
+            {
+                if (_hygiene != -1) { return _hygiene; }
+
+                XmlNode n = node.SelectSingleNode("./Hygiene");
+                if (n == null) { return _hygiene = -1; }
+                return _hygiene = double.Parse(n.InnerText.Replace(".", ","));
+            }
+            set
+            {
+                XmlNode n = node.SelectSingleNode("./Hygiene");
+                if (n == null) { return; }
+                n.InnerText = value.ToString().Replace(",", ".");
+                _hygiene = value;
+            }
+        }
+
+        double _foodQuality = -1;
+        public double FoodQuality
+        {
+            get
+            {
+                if (_foodQuality != -1) { return _foodQuality; }
+
+                XmlNode n = node.SelectSingleNode("./FoodQuality");
+                if (n == null) { return _foodQuality = -1; }
+                return _foodQuality = double.Parse(n.InnerText.Replace(".", ","));
+            }
+            set
+            {
+                XmlNode n = node.SelectSingleNode("./FoodQuality");
+                if (n == null) { return; }
+                n.InnerText = value.ToString().Replace(",", ".");
+                _foodQuality = value;
+            }
+        }
+
     }
 }
