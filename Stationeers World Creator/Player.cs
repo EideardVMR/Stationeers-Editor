@@ -137,5 +137,17 @@ namespace Stationeers_World_Creator
             }
         }
 
+        public double Mood
+        {
+            get
+            {
+                return _human.Mood;
+            }
+            set
+            {
+                _human.Mood = value;
+            }
+        }
+
     }
 }

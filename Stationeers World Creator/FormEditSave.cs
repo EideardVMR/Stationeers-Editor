@@ -23,7 +23,7 @@ namespace Stationeers_World_Creator
         private void FormEditSave_Load(object sender, EventArgs e)
         {
 
-            if (savegame.GameVersion < new Version("0.2.4767.21868"))
+            if (savegame.GameVersion < new Version("0.2.4902.22241"))
             {
                 DialogResult dr = MessageBox.Show("Diese Spielstandversion (" + savegame.GameVersion + ") ist älter als die vom Stationeers Editor unterstützte Version. Wenn du fortfahren möchtest, kann es zu Fehlern kommen, es könnte den Spielstand zerstören (mach ein Backup) oder die Software kann abstürzen.\n\nMöchtest du fortfahren?", "Warnung", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                 if (dr == DialogResult.No)

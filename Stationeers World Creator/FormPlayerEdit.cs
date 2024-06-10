@@ -57,6 +57,7 @@ namespace Stationeers_World_Creator
             numericUpDown_toxic.Value = (decimal)Math.Round(_player.ToxicDamage * 100, 0);
             numericUpDown_hygiene.Value = (decimal)Math.Round(_player.Hygiene * 100, 0);
             numericUpDown_foodquality.Value = (decimal)Math.Round(_player.FoodQuality * 100, 0);
+            numericUpDown_mood.Value = (decimal)Math.Round(_player.Mood * 100, 0);
 
             _disableEvents = false;
         }
@@ -129,6 +130,14 @@ namespace Stationeers_World_Creator
             if (_disableEvents) { return; }
             if (_player == null) { return; }
             _player.FoodQuality = (double)((NumericUpDown)sender).Value / 100;
+            PrintPlayer();
+        }
+
+        private void numericUpDown_mood_ValueChanged(object sender, EventArgs e)
+        {
+            if (_disableEvents) { return; }
+            if (_player == null) { return; }
+            _player.Mood = (double)((NumericUpDown)sender).Value / 100;
             PrintPlayer();
         }
 

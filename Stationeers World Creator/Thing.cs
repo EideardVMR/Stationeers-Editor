@@ -422,5 +422,25 @@ namespace Stationeers_World_Creator
             }
         }
 
+        double _mood = -1;
+        public double Mood
+        {
+            get
+            {
+                if (_mood != -1) { return _mood; }
+
+                XmlNode n = node.SelectSingleNode("./Mood");
+                if (n == null) { return _mood = -1; }
+                return _mood = double.Parse(n.InnerText.Replace(".", ","));
+            }
+            set
+            {
+                XmlNode n = node.SelectSingleNode("./Mood");
+                if (n == null) { return; }
+                n.InnerText = value.ToString().Replace(",", ".");
+                _mood = value;
+            }
+        }
+
     }
 }

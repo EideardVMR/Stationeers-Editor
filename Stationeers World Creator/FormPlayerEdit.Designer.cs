@@ -39,6 +39,9 @@
             columnHeader10 = new ColumnHeader();
             groupBox1 = new GroupBox();
             label8 = new Label();
+            label19 = new Label();
+            numericUpDown_mood = new NumericUpDown();
+            label20 = new Label();
             numericUpDown_foodquality = new NumericUpDown();
             label17 = new Label();
             label18 = new Label();
@@ -67,6 +70,7 @@
             label2 = new Label();
             label1 = new Label();
             groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)numericUpDown_mood).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDown_foodquality).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDown_hygiene).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDown_toxic).BeginInit();
@@ -127,6 +131,9 @@
             // 
             groupBox1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
             groupBox1.Controls.Add(label8);
+            groupBox1.Controls.Add(label19);
+            groupBox1.Controls.Add(numericUpDown_mood);
+            groupBox1.Controls.Add(label20);
             groupBox1.Controls.Add(numericUpDown_foodquality);
             groupBox1.Controls.Add(label17);
             groupBox1.Controls.Add(label18);
@@ -164,12 +171,38 @@
             // label8
             // 
             label8.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            label8.Location = new Point(6, 22);
+            label8.Location = new Point(6, 19);
             label8.Name = "label8";
-            label8.Size = new Size(288, 398);
+            label8.Size = new Size(288, 401);
             label8.TabIndex = 4;
             label8.Text = "Keinen Spieler ausgewählt";
             label8.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // label19
+            // 
+            label19.Location = new Point(6, 283);
+            label19.Name = "label19";
+            label19.Size = new Size(142, 23);
+            label19.TabIndex = 11;
+            label19.Text = "Wohlbefinden";
+            label19.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // numericUpDown_mood
+            // 
+            numericUpDown_mood.Location = new Point(154, 283);
+            numericUpDown_mood.Name = "numericUpDown_mood";
+            numericUpDown_mood.Size = new Size(113, 23);
+            numericUpDown_mood.TabIndex = 10;
+            numericUpDown_mood.ValueChanged += numericUpDown_mood_ValueChanged;
+            // 
+            // label20
+            // 
+            label20.Location = new Point(273, 283);
+            label20.Name = "label20";
+            label20.Size = new Size(21, 23);
+            label20.TabIndex = 8;
+            label20.Text = "%";
+            label20.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // numericUpDown_foodquality
             // 
@@ -344,6 +377,7 @@
             // numericUpDown_trinken
             // 
             numericUpDown_trinken.Location = new Point(154, 80);
+            numericUpDown_trinken.Maximum = new decimal(new int[] { 175, 0, 0, 0 });
             numericUpDown_trinken.Name = "numericUpDown_trinken";
             numericUpDown_trinken.Size = new Size(113, 23);
             numericUpDown_trinken.TabIndex = 1;
@@ -424,6 +458,7 @@
             Text = "FormPlayerEdit";
             Load += FormPlayerEdit_Load;
             groupBox1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)numericUpDown_mood).EndInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDown_foodquality).EndInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDown_hygiene).EndInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDown_toxic).EndInit();
@@ -475,5 +510,8 @@
         private NumericUpDown numericUpDown_hygiene;
         private Label label15;
         private Label label16;
+        private Label label19;
+        private NumericUpDown numericUpDown_mood;
+        private Label label20;
     }
 }
